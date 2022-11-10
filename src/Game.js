@@ -1,10 +1,12 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
+const validation = require('./libs/validation');
 const Lotto = require('./Lotto');
 
 class Game {
   constructor() {
     this.lottoCount = null;
     this.lottoList = [];
+    this.winningNumberList = null;
   }
 
   setLottoCount(money) {
@@ -43,6 +45,17 @@ class Game {
     this.lottoList.forEach((lotto) => {
       lotto.printNumbers();
     });
+  }
+
+  setWinningNumbers(numbers) {
+    numbers = numbers.split(',').map((item) => Number(item));
+    this.validateWinningNumbers(numbers);
+
+    this.winningNumberList = numbers;
+  }
+
+  validateWinningNumbers(numbers) {
+    validation.checkNumberList(numbers);
   }
 }
 
