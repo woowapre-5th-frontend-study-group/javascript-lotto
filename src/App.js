@@ -33,7 +33,13 @@ class App {
   requestBonusNumber() {
     Console.readLine('\n보너스 번호를 입력해 주세요.\n', (bonusNumber) => {
       this.game.setBonusNumber(bonusNumber);
+
+      this.printWinningStats();
     });
+  }
+
+  printWinningStats() {
+    Console.print('\n당첨 통계\n---');
   }
 }
 
