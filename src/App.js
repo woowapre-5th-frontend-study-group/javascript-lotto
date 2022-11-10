@@ -268,6 +268,60 @@ class App {
     }
     /* #endregion */
 
+    /* #region  5. 당첨 내역 출력 */
+    printWinningResult() {
+        const winningResult = this.getWinningResult();
+        const outputMessage =
+            `3개 일치 (5,000원) - ${winningResult['3개'] || 0}개\n` +
+            `4개 일치 (50,000원) - ${winningResult['4개'] || 0}개\n` +
+            `5개 일치 (1,500,000원) - ${winningResult['5개'] || 0}개\n` +
+            `5개 일치, 보너스 볼 일치 (30,000,000원) - ${winningResult['bonus'] || 0}개\n` +
+            `6개 일치 (2,000,000,000원) - ${winningResult['6개'] || 0}개`;
+
+        Console.print(outputMessage);
+        this.printRateOfReturn();
+    }
+
+    getWinningResult() {
+        const matchResults = this.compareNumbers();
+        const winningResults = {};
+
+        matchResults.forEach((matchCount, index) => {
+            if (matchCount !== 5) {
+                winningResults[`${matchCount}개`] = (winningResults[`${matchCount}개`] || 0) + 1;
+                return false;
+            }
+
+            const userLotteryList = this.getUserLotteryList();
+            const matchLottery = userLotteryList[index];
+            const bonusNumber = this.getBonusNumber();
+
+            const hasBonusNumber = matchLottery.includes(bonusNumber);
+            if (hasBonusNumber) {
+                winningResults['bonus'] = (winningResults['bonus'] || 0) + 1;
+            } else {
+                winningResults['5개'] = (winningResults['5개'] || 0) + 1;
+            }
+        });
+
+        return winningResults;
+    }
+
+    compareNumbers() {
+        const winningNumber = this.getWinningNumber();
+        const userLotteryList = this.getUserLotteryList();
+
+        const matchCountList = userLotteryList.map((lotteryNumber) => {
+            const matchCount = lotteryNumber.filter((number) =>
+                winningNumber.includes(number)
+            ).length;
+            return matchCount;
+        });
+
+        return matchCountList;
+    }
+    /* #endregion */
+
     /* #endregion */
 }
 
