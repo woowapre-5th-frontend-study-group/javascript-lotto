@@ -95,7 +95,9 @@ class Game {
       return acc + cur * winningCount;
     }, 0);
 
-    const lottoRate = (finalPrize / (this.lottoCount * 1000)).toFixed(1);
+    const purchaseMoney = this.lottoCount * 1000;
+    const lottoRate = ((finalPrize / purchaseMoney) * 100).toFixed(1);
+
     Console.print(`총 수익률은 ${lottoRate}%입니다.`);
   }
 
