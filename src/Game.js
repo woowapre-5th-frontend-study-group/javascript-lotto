@@ -1,4 +1,4 @@
-const App = require('./App');
+const { Console } = require('@woowacourse/mission-utils');
 
 class Game {
   constructor() {
@@ -7,6 +7,7 @@ class Game {
 
   setLotteCount(money) {
     this.validateMoney(money);
+    this.lotteCount = money / 1000;
   }
 
   validateMoney(money) {
@@ -21,6 +22,10 @@ class Game {
     if (money % 1000 !== 0) {
       throw new Error('[ERROR] 1000원 단위로 로또를 구입해야 합니다.');
     }
+  }
+
+  printLotteCount() {
+    Console.print(`\n${this.lotteCount}개를 구매했습니다.`);
   }
 }
 
