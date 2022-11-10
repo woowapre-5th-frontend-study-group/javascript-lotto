@@ -8,10 +8,10 @@ const validation = {
         '[ERROR] 로또 번호는 중복되지 않은 숫자로 이루어져야 합니다.'
       );
 
-    if (!checkNumbersType(numbers))
+    if (!isNumberType(numbers))
       throw new Error('[ERROR] 로또 번호는 숫자이어야 합니다.');
 
-    if (!checkNumbersRange(numbers))
+    if (!isCorrectRange(numbers))
       throw new Error('[ERROR] 로또 번호의 범위는 1~45이어야 합니다.');
   },
 
@@ -29,12 +29,12 @@ const validation = {
   },
 };
 
-function checkNumbersRange(numbers) {
-  return numbers.every((number) => number <= 45 && number >= 1);
+function isNumberType(numbers) {
+  return numbers.every((number) => !isNaN(number));
 }
 
-function checkNumbersType(numbers) {
-  return numbers.every((number) => !isNaN(number));
+function isCorrectRange(numbers) {
+  return numbers.every((number) => number <= 45 && number >= 1);
 }
 
 module.exports = validation;
