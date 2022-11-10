@@ -40,6 +40,8 @@ class App {
 
   printWinningStats() {
     Console.print('\n당첨 통계\n---');
+
+    this.game.printWinningHistory();
   }
 }
 

@@ -6,6 +6,7 @@ class Game {
   constructor() {
     this.lottoCount = null;
     this.lottoList = [];
+    this.lottoResultList = [];
     this.winningNumberList = null;
     this.bonusNumber = null;
   }
@@ -68,6 +69,36 @@ class Game {
 
   validateBonusNumber(number) {
     validation.checkBonusNumber(number, this.winningNumberList);
+  }
+
+  printWinningHistory() {
+    this.getLottoResult();
+    const winningHistoryList = [
+      '3개 일치 (5,000원)',
+      '4개 일치 (50,000원)',
+      '5개 일치 (1,500,000원)',
+      '5개 일치, 보너스 볼 일치 (30,000,000원)',
+      '6개 일치 (2,000,000,000원)',
+    ];
+    winningHistoryList.forEach((winninHistory, idx) => {
+      const winningCount = this.lottoResultList.filter(
+        (result) => result === 5 - idx
+      ).length;
+
+      Console.print(`${winninHistory} - ${winningCount}개`);
+    });
+  }
+
+  getLottoResult() {
+    let lottoResultList = [];
+
+    this.lottoList.forEach((lotto) => {
+      lottoResultList.push(
+        lotto.getResult(this.winningNumberList, this.bonusNumber)
+      );
+    });
+
+    this.lottoResultList = lottoResultList.filter((result) => result);
   }
 }
 
