@@ -5,9 +5,11 @@ class App {
         this._userCache = null;
         this._winningNumber = null;
         this._userLotteryList = null;
+        this._bonusNumber = null;
 
         this.inputUserCache = this.inputUserCache.bind(this);
         this.inputWinningNumber = this.inputWinningNumber.bind(this);
+        this.inputBonusNumber = this.inputBonusNumber.bind(this);
     }
 
     getUserCache() {
@@ -34,12 +36,19 @@ class App {
         this._userLotteryList = userLottryList;
     }
 
+    getBonusNumber() {
+        return this._bonusNumber;
+    }
+
+    setBonusNumber(bonusNumber) {
+        this._bonusNumber = bonusNumber;
+    }
+
     play() {
         this.questionInputCache();
     }
 
     /* #region  1. 로또 구입 금액 입력 */
-
     questionInputCache() {
         Console.readLine('구입금액을 입력해 주세요.\n', this.inputUserCache);
     }
@@ -158,9 +167,8 @@ class App {
             return;
         }
 
-        const userWinningNumber = this.convertToNumber(winningNumber);
         this.setWinningNumber(userWinningNumber);
-        // this.questionWinningNumber();
+        this.questionBonusNumber();
     }
 
     invalidateWinningNumber(winningNumber) {
@@ -211,6 +219,55 @@ class App {
     isNotLength(numbers, length) {
         return numbers.split(',').length !== length;
     }
+    /* #region  4. 보너스 번호 입력 */
+    questionBonusNumber() {
+        Console.readLine('\n보너스 번호를 입력해 주세요.\n', this.inputBonusNumber);
+    }
+
+    inputBonusNumber(bonusNumber) {
+        const { isInvalidatedBonusNumber, errorObject } = this.invalidateBonusNumber(bonusNumber);
+        if (isInvalidatedBonusNumber) {
+            this.returnException(errorObject);
+            return;
+        }
+
+        const userBonusNumber = this.convertToNumber(bonusNumber);
+        this.setBonusNumber(userBonusNumber);
+        this.printWinningResult();
+    }
+
+    invalidateBonusNumber(bonusNumber) {
+        const checkValidation = {
+            isNotNumber: this.isNotNumber(bonusNumber),
+            isInNotRangeFromOneToFortyFive: this.isNotInRange(bonusNumber, [1, 45]),
+            isInWinningNumber: this.isInWinningNumber(bonusNumber),
+        };
+
+        const errorType = {
+            isNotNumber: new Error('[ERROR] 번호 이외의 문자를 입력하였습니다.'),
+            isInNotRangeFromOneToFortyFive: new Error(
+                '[ERROR] 1부터 45 사이가 아닌 번호를 입력하였습니다.'
+            ),
+            isInWinningNumber: new Error('[ERROR] 입력한 당첨 번호들 이외의 번호를 입력해주세요.'),
+            null: '',
+        };
+
+        const [matchError] = Object.entries(checkValidation).filter(([_, value]) => value);
+        const [errorName, _] = matchError || [null, null];
+        const validateResult = {
+            isInvalidatedBonusNumber: !!errorName,
+            errorObject: errorType[errorName],
+        };
+
+        return validateResult;
+    }
+
+    isInWinningNumber(bonusNumber) {
+        const winningNumber = this.getWinningNumber();
+        return winningNumber.includes(+bonusNumber);
+    }
+    /* #endregion */
+
     /* #endregion */
 }
 
