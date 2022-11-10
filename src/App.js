@@ -44,6 +44,12 @@ class App {
     this.game.printWinningHistory();
 
     this.game.printLottoRate();
+
+    this.end();
+  }
+
+  end() {
+    Console.close();
   }
 }
 
