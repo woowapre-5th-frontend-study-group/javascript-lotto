@@ -73,6 +73,50 @@ class App {
     convertToNumber(source) {
         return +source;
     }
+    /* #region  2. 구입한 로또 수량 및 번호 출력 */
+    buyLotteryAndPrint() {
+        this.buyLotteryTickets();
+        this.printLotteryList();
+        this.questionWinningNumber();
+    }
+
+    generateLotteryNumbers() {
+        let randomNumbers = [];
+        while (randomNumbers.length < 6) {
+            const number = Random.pickNumberInRange(1, 45);
+            if (!randomNumbers.includes(number)) {
+                randomNumbers.push(number);
+            }
+        }
+
+        return randomNumbers;
+    }
+
+    buyLotteryTickets() {
+        const userCache = this.getUserCache();
+        const lotteryCount = userCache / 1000;
+
+        let lotteryArray = [];
+        for (let i = 0; i < lotteryCount; i++) {
+            const lotteryNumbers = this.generateLotteryNumbers();
+            const sortedLotteryNumbers = lotteryNumbers.sort((a, b) => a - b);
+            lotteryArray.push(sortedLotteryNumbers);
+        }
+
+        this.setUserLotteryList(lotteryArray);
+    }
+
+    printLotteryList() {
+        const userLotteryList = this.getUserLotteryList();
+        const lotteryCount = userLotteryList.length;
+
+        Console.print(`${lotteryCount}개를 구매했습니다.`);
+        userLotteryList.forEach((lotteryArray) => {
+            Console.print(lotteryArray);
+        });
+    }
+    /* #endregion */
+
 }
 
 
