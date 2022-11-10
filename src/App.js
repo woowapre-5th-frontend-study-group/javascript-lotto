@@ -322,6 +322,25 @@ class App {
     }
     /* #endregion */
 
+    /* #region  6. 수익률 출력 */
+    printRateOfReturn() {
+        const rateOfReturn = this.calculateRateOfReturn();
+        Console.print(`총 수익률은 ${rateOfReturn}%입니다.`);
+        Console.close();
+    }
+
+    calculateRateOfReturn() {
+        const userCache = this.getUserCache();
+        const winningResult = this.getWinningResult();
+        const winningPrize =
+            (winningResult['3개'] || 0) * 5000 +
+            (winningResult['4개'] || 0) * 50000 +
+            (winningResult['5개'] || 0) * 1500000 +
+            (winningResult['bonus'] || 0) * 30000000 +
+            (winningResult['6개'] || 0) * 2000000000;
+
+        return (winningPrize / userCache) * 100;
+    }
     /* #endregion */
 }
 
