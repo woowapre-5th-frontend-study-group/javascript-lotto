@@ -17,7 +17,13 @@ class App {
       this.game.printLottoCount();
 
       this.game.printLottoList();
+
+      this.requestWinningNumbers();
     });
+  }
+
+  requestWinningNumbers() {
+    Console.readLine('\n당첨 번호를 입력해 주세요.\n', (winningNumbers) => {});
   }
 }
 
