@@ -148,7 +148,7 @@ class App {
         const userLotteryList = this.getUserLotteryList();
         const lotteryCount = userLotteryList.length;
 
-        Console.print(`${lotteryCount}개를 구매했습니다.`);
+        Console.print(`\n${lotteryCount}개를 구매했습니다.`);
         userLotteryList.forEach((lotteryArray) => {
             Console.print(lotteryArray);
         });
@@ -157,7 +157,7 @@ class App {
 
     /* #region  3. 당첨 번호 입력 */
     questionWinningNumber() {
-        Console.readLine('당첨 번호를 입력해 주세요.\n', this.inputWinningNumber);
+        Console.readLine('\n당첨 번호를 입력해 주세요.\n', this.inputWinningNumber);
     }
 
     inputWinningNumber(winningNumber) {
@@ -167,6 +167,8 @@ class App {
             return;
         }
 
+        const userWinningNumber = this.convertToNumberArray(winningNumber);
+        console.log(userWinningNumber);
         this.setWinningNumber(userWinningNumber);
         this.questionBonusNumber();
     }
@@ -219,6 +221,12 @@ class App {
     isNotLength(numbers, length) {
         return numbers.split(',').length !== length;
     }
+
+    convertToNumberArray(numbers) {
+        return numbers.split(',').map((number) => +number);
+    }
+    /* #endregion */
+
     /* #region  4. 보너스 번호 입력 */
     questionBonusNumber() {
         Console.readLine('\n보너스 번호를 입력해 주세요.\n', this.inputBonusNumber);
