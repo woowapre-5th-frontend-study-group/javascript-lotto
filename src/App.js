@@ -25,6 +25,14 @@ class App {
   requestWinningNumbers() {
     Console.readLine('\n당첨 번호를 입력해 주세요.\n', (winningNumbers) => {
       this.game.setWinningNumbers(winningNumbers);
+
+      this.requestBonusNumber();
+    });
+  }
+
+  requestBonusNumber() {
+    Console.readLine('\n보너스 번호를 입력해 주세요.\n', (bonusNumber) => {
+      this.game.setBonusNumber(bonusNumber);
     });
   }
 }

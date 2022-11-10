@@ -7,6 +7,7 @@ class Game {
     this.lottoCount = null;
     this.lottoList = [];
     this.winningNumberList = null;
+    this.bonusNumber = null;
   }
 
   setLottoCount(money) {
@@ -56,6 +57,17 @@ class Game {
 
   validateWinningNumbers(numbers) {
     validation.checkNumberList(numbers);
+  }
+
+  setBonusNumber(number) {
+    number = Number(number);
+    this.validateBonusNumber(number);
+
+    this.bonusNumber = number;
+  }
+
+  validateBonusNumber(number) {
+    validation.checkBonusNumber(number, this.winningNumberList);
   }
 }
 
