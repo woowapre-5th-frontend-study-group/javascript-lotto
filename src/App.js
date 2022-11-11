@@ -162,25 +162,7 @@ class App {
 
     getWinningResult() {
         const matchResults = this.compareNumbers();
-        const winningResults = {};
-
-        matchResults.forEach((matchCount, index) => {
-            if (matchCount !== 5) {
-                winningResults[`${matchCount}개`] = (winningResults[`${matchCount}개`] || 0) + 1;
-                return false;
-            }
-
-            const userLotteryList = this.getUserLotteryList();
-            const matchLottery = userLotteryList[index];
-            const bonusNumber = this.getBonusNumber();
-
-            const hasBonusNumber = matchLottery.includes(bonusNumber);
-            if (hasBonusNumber) {
-                winningResults['bonus'] = (winningResults['bonus'] || 0) + 1;
-            } else {
-                winningResults['5개'] = (winningResults['5개'] || 0) + 1;
-            }
-        });
+        const winningResults = this.countWinningResult(matchResults);
 
         return winningResults;
     }
@@ -194,6 +176,29 @@ class App {
         });
 
         return matchCountList;
+    }
+
+    countWinningResult(matchResults) {
+        const userLotteryList = this.getUserLotteryList();
+        const bonusNumber = this.getBonusNumber();
+        let winningResults = {};
+
+        matchResults.forEach((matchCount, index) => {
+            if (matchCount !== 5) {
+                winningResults[`${matchCount}개`] = (winningResults[`${matchCount}개`] || 0) + 1;
+                return false;
+            }
+
+            const matchLottery = userLotteryList[index];
+            const hasBonusNumber = matchLottery.includes(bonusNumber);
+            if (hasBonusNumber) {
+                winningResults['bonus'] = (winningResults['bonus'] || 0) + 1;
+            } else {
+                winningResults['5개'] = (winningResults['5개'] || 0) + 1;
+            }
+        });
+
+        return winningResults;
     }
     /* #endregion */
 
