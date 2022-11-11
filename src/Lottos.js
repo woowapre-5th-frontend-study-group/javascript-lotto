@@ -1,26 +1,13 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
+const validation = require('./libs/validation');
 const Lotto = require('./Lotto');
 
 class Lottos {
   constructor(money) {
-    this.validateMoney(money);
+    validation.checkMoney(money);
     this.count = money / 1000;
     this.list = [];
     this.publish();
-  }
-
-  validateMoney(money) {
-    if (isNaN(money)) {
-      throw new Error('[ERROR] 숫자만 입력할 수 있습니다.');
-    }
-
-    if (money < 1000) {
-      throw new Error('[ERROR] 최소 구입금액은 1000원입니다.');
-    }
-
-    if (money % 1000 !== 0) {
-      throw new Error('[ERROR] 1000원 단위로 로또를 구입해야 합니다.');
-    }
   }
 
   publish() {

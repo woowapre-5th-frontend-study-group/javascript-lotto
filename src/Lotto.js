@@ -5,12 +5,8 @@ class Lotto {
   #numbers;
 
   constructor(numbers) {
-    this.validate(numbers);
-    this.#numbers = numbers;
-  }
-
-  validate(numbers) {
     validation.checkNumberList(numbers);
+    this.#numbers = numbers;
   }
 
   printNumbers() {
