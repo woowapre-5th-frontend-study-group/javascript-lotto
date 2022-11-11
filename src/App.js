@@ -337,7 +337,7 @@ class App {
             (winningResult['bonus'] || 0) * 30000000 +
             (winningResult['6개'] || 0) * 2000000000;
 
-        return (winningPrize / userCache) * 100;
+        return ((winningPrize / userCache) * 100).toFixed(1);
     }
     /* #endregion */
 }
