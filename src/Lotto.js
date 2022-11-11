@@ -32,12 +32,6 @@ class Lotto {
         return matchCount;
     }
 
-    returnException(errorObject) {
-        Console.print(errorObject.message);
-        Console.close();
-        throw errorObject;
-    }
-
     printLotto() {
         Console.print(`[${this.#numbers.join(', ')}]`);
     }
