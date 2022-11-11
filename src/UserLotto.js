@@ -7,7 +7,7 @@ class UserLotto {
   constructor(purchaseAmout) {
     // purchaseAmout; 유효성 검사
     this.count = Number(purchaseAmout) / 1000;
-    this.numbers;
+    this.getNumbers();
   }
 
   getNumbers() {
@@ -18,4 +18,4 @@ class UserLotto {
   }
 }
 
-module.exports = User;
+module.exports = UserLotto;
