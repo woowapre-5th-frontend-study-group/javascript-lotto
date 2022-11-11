@@ -1,6 +1,8 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
 const { VALIDATE_TYPE } = require('./Validation');
 
+const Utils = require('./Utils');
+
 const Lotto = require('./Lotto');
 const HandleException = require('./HandleException');
 
@@ -63,13 +65,9 @@ class App {
         const handleException = new HandleException();
         handleException.tryValidate(inputCache, VALIDATE_TYPE.CACHE);
 
-        const userCache = this.convertToNumber(inputCache);
+        const userCache = Utils.convertToNumber(inputCache);
         this.setUserCache(userCache);
         this.buyLotteryAndPrint();
-    }
-
-    convertToNumber(source) {
-        return +source;
     }
     /* #endregion */
 
@@ -116,13 +114,9 @@ class App {
         const handleException = new HandleException();
         handleException.tryValidate(winningNumber, VALIDATE_TYPE.LOTTO);
 
-        const userWinningNumber = this.convertToNumberArray(winningNumber);
+        const userWinningNumber = Utils.convertToNumberArray(winningNumber);
         this.setWinningNumber(userWinningNumber);
         this.questionBonusNumber();
-    }
-
-    convertToNumberArray(numbers) {
-        return numbers.split(',').map((number) => +number);
     }
     /* #endregion */
 
@@ -137,14 +131,15 @@ class App {
             isInWinningNumber: this.isInWinningNumber(bonusNumber),
         });
 
-        const userBonusNumber = this.convertToNumber(bonusNumber);
+        const userBonusNumber = Utils.convertToNumber(bonusNumber);
         this.setBonusNumber(userBonusNumber);
         this.printWinningResult();
     }
 
     isInWinningNumber(bonusNumber) {
         const winningNumber = this.getWinningNumber();
-        return winningNumber.includes(+bonusNumber);
+        const userBonusNumber = Utils.convertToNumber(bonusNumber);
+        return winningNumber.includes(userBonusNumber);
     }
     /* #endregion */
 
