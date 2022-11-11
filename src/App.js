@@ -1,4 +1,8 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
+const { VALIDATE_TYPE } = require('./Validation');
+
+const Lotto = require('./Lotto');
+const HandleException = require('./HandleException');
 
 class App {
     constructor() {
@@ -12,6 +16,7 @@ class App {
         this.inputBonusNumber = this.inputBonusNumber.bind(this);
     }
 
+    /* #region Class Member getter/setter */
     getUserCache() {
         return this._userCache;
     }
@@ -43,6 +48,7 @@ class App {
     setBonusNumber(bonusNumber) {
         this._bonusNumber = bonusNumber;
     }
+    /* #endregion */
 
     play() {
         this.questionInputCache();
@@ -54,56 +60,12 @@ class App {
     }
 
     inputUserCache(inputCache) {
-        const { isInvalidatedCache, errorObject } = this.invalidateCache(inputCache);
-        if (isInvalidatedCache) {
-            this.returnException(errorObject);
-            return;
-        }
+        const handleException = new HandleException();
+        handleException.tryValidate(inputCache, VALIDATE_TYPE.CACHE);
 
         const userCache = this.convertToNumber(inputCache);
         this.setUserCache(userCache);
         this.buyLotteryAndPrint();
-    }
-
-    invalidateCache(inputCache) {
-        const checkValidation = {
-            isNotNumber: this.isNotNumber(inputCache),
-            isUnderThousand: this.isUnder(inputCache, 1000),
-            couldNotBeDevidedByThousand: this.couldNotBeDevidedBy(inputCache, 1000),
-        };
-
-        const errorType = {
-            isNotNumber: new Error('[ERROR] 숫자 이외의 문자를 입력하였습니다.'),
-            isUnderThousand: new Error('[ERROR] 금액이 부족하여 로또를 구매할 수 없습니다.'),
-            couldNotBeDevidedByThousand: new Error('[ERROR] 1,000원 단위의 금액이 아닙니다.'),
-            null: '',
-        };
-
-        const [matchError] = Object.entries(checkValidation).filter(([_, value]) => value);
-        const [errorName, _] = matchError || [null, null];
-        const validateResult = {
-            isInvalidatedCache: !!errorName,
-            errorObject: errorType[errorName],
-        };
-
-        return validateResult;
-    }
-
-    isNotNumber(source) {
-        return isNaN(+source);
-    }
-
-    couldNotBeDevidedBy(number, operand) {
-        return !!(+number % operand);
-    }
-
-    isUnder(number, threshold) {
-        return +number < threshold;
-    }
-
-    returnException(errorObject) {
-        Console.print(errorObject.message);
-        throw errorObject;
     }
 
     convertToNumber(source) {
@@ -126,7 +88,9 @@ class App {
         for (let i = 0; i < lotteryCount; i++) {
             const lotteryNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
             const sortedLotteryNumbers = lotteryNumbers.sort((a, b) => a - b);
-            lotteryArray.push(sortedLotteryNumbers);
+            const newLotto = new Lotto(sortedLotteryNumbers);
+
+            lotteryArray.push(newLotto);
         }
 
         this.setUserLotteryList(lotteryArray);
@@ -137,8 +101,8 @@ class App {
         const lotteryCount = userLotteryList.length;
 
         Console.print(`\n${lotteryCount}개를 구매했습니다.`);
-        userLotteryList.forEach((lotteryArray) => {
-            Console.print(`[${lotteryArray.join(', ')}]`);
+        userLotteryList.forEach((userLottery) => {
+            userLottery.printLotto();
         });
     }
     /* #endregion */
@@ -149,64 +113,12 @@ class App {
     }
 
     inputWinningNumber(winningNumber) {
-        const { isInvalidatedCache, errorObject } = this.invalidateWinningNumber(winningNumber);
-        if (isInvalidatedCache) {
-            this.returnException(errorObject);
-            return;
-        }
+        const handleException = new HandleException();
+        handleException.tryValidate(winningNumber, VALIDATE_TYPE.LOTTO);
 
         const userWinningNumber = this.convertToNumberArray(winningNumber);
         this.setWinningNumber(userWinningNumber);
         this.questionBonusNumber();
-    }
-
-    invalidateWinningNumber(winningNumber) {
-        const checkValidation = {
-            isNotSixLength: this.isNotLength(winningNumber, 6),
-            includeNeitherNumberNorComma: this.includeNeitherNumberNorComma(winningNumber),
-            isInNotRangeFromOneToFortyFive: this.isNotInRange(winningNumber, [1, 45]),
-            hasDuplication: this.hasDuplication(winningNumber),
-        };
-
-        const errorType = {
-            isNotSixLength: new Error('[ERROR] 6개의 번호를 입력해주세요.'),
-            includeNeitherNumberNorComma: new Error(
-                '[ERROR] 번호와 쉼표(,) 이외의 문자를 입력하였습니다.'
-            ),
-            isInNotRangeFromOneToFortyFive: new Error(
-                '[ERROR] 1부터 45 사이가 아닌 번호를 입력하였습니다.'
-            ),
-            hasDuplication: new Error('[ERROR] 번호가 중복되었습니다.'),
-            null: '',
-        };
-
-        const [matchError] = Object.entries(checkValidation).filter(([_, value]) => value);
-        const [errorName, _] = matchError || [null, null];
-        const validateResult = {
-            isInvalidatedCache: !!errorName,
-            errorObject: errorType[errorName],
-        };
-
-        return validateResult;
-    }
-
-    includeNeitherNumberNorComma(numbers) {
-        return [...numbers].some((number) => isNaN(+number) && number !== ',');
-    }
-
-    isNotInRange(numbers, [from, to]) {
-        const numberArray = numbers.split(',');
-        return numberArray.some((number) => isNaN(+number) || +number < from || +number > to);
-    }
-
-    hasDuplication(numbers) {
-        const newSetSize = new Set(numbers.split(',')).size;
-        const numbersSize = numbers.split(',').length;
-        return newSetSize !== numbersSize;
-    }
-
-    isNotLength(numbers, length) {
-        return numbers.split(',').length !== length;
     }
 
     convertToNumberArray(numbers) {
@@ -220,41 +132,14 @@ class App {
     }
 
     inputBonusNumber(bonusNumber) {
-        const { isInvalidatedBonusNumber, errorObject } = this.invalidateBonusNumber(bonusNumber);
-        if (isInvalidatedBonusNumber) {
-            this.returnException(errorObject);
-            return;
-        }
+        const handleException = new HandleException();
+        handleException.tryValidate(bonusNumber, VALIDATE_TYPE.BONUS, {
+            isInWinningNumber: this.isInWinningNumber(bonusNumber),
+        });
 
         const userBonusNumber = this.convertToNumber(bonusNumber);
         this.setBonusNumber(userBonusNumber);
         this.printWinningResult();
-    }
-
-    invalidateBonusNumber(bonusNumber) {
-        const checkValidation = {
-            isNotNumber: this.isNotNumber(bonusNumber),
-            isInNotRangeFromOneToFortyFive: this.isNotInRange(bonusNumber, [1, 45]),
-            isInWinningNumber: this.isInWinningNumber(bonusNumber),
-        };
-
-        const errorType = {
-            isNotNumber: new Error('[ERROR] 번호 이외의 문자를 입력하였습니다.'),
-            isInNotRangeFromOneToFortyFive: new Error(
-                '[ERROR] 1부터 45 사이가 아닌 번호를 입력하였습니다.'
-            ),
-            isInWinningNumber: new Error('[ERROR] 입력한 당첨 번호들 이외의 번호를 입력해주세요.'),
-            null: '',
-        };
-
-        const [matchError] = Object.entries(checkValidation).filter(([_, value]) => value);
-        const [errorName, _] = matchError || [null, null];
-        const validateResult = {
-            isInvalidatedBonusNumber: !!errorName,
-            errorObject: errorType[errorName],
-        };
-
-        return validateResult;
     }
 
     isInWinningNumber(bonusNumber) {
@@ -310,10 +195,7 @@ class App {
         const userLotteryList = this.getUserLotteryList();
 
         const matchCountList = userLotteryList.map((lotteryNumber) => {
-            const matchCount = lotteryNumber.filter((number) =>
-                winningNumber.includes(number)
-            ).length;
-            return matchCount;
+            return lotteryNumber.compareLotto(winningNumber);
         });
 
         return matchCountList;
