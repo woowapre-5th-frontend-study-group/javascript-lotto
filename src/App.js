@@ -118,25 +118,13 @@ class App {
         this.questionWinningNumber();
     }
 
-    generateLotteryNumbers() {
-        let randomNumbers = [];
-        while (randomNumbers.length < 6) {
-            const number = Random.pickNumberInRange(1, 45);
-            if (!randomNumbers.includes(number)) {
-                randomNumbers.push(number);
-            }
-        }
-
-        return randomNumbers;
-    }
-
     buyLotteryTickets() {
         const userCache = this.getUserCache();
         const lotteryCount = userCache / 1000;
 
         let lotteryArray = [];
         for (let i = 0; i < lotteryCount; i++) {
-            const lotteryNumbers = this.generateLotteryNumbers();
+            const lotteryNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
             const sortedLotteryNumbers = lotteryNumbers.sort((a, b) => a - b);
             lotteryArray.push(sortedLotteryNumbers);
         }
@@ -150,7 +138,7 @@ class App {
 
         Console.print(`\n${lotteryCount}개를 구매했습니다.`);
         userLotteryList.forEach((lotteryArray) => {
-            Console.print(lotteryArray);
+            Console.print(`[${lotteryArray.join(', ')}]`);
         });
     }
     /* #endregion */
@@ -168,7 +156,6 @@ class App {
         }
 
         const userWinningNumber = this.convertToNumberArray(winningNumber);
-        console.log(userWinningNumber);
         this.setWinningNumber(userWinningNumber);
         this.questionBonusNumber();
     }
@@ -278,6 +265,9 @@ class App {
 
     /* #region  5. 당첨 내역 출력 */
     printWinningResult() {
+        Console.print('\n당첨 통계');
+        Console.print('---');
+
         const winningResult = this.getWinningResult();
         const outputMessage =
             `3개 일치 (5,000원) - ${winningResult['3개'] || 0}개\n` +
