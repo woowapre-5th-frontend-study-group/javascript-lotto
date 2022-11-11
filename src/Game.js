@@ -7,7 +7,6 @@ class Game {
     this.lottoCount = null;
     this.lottoList = [];
     this.lottoResultList = [];
-    this.bonusNumber = null;
   }
 
   setLottoCount(money) {
@@ -46,17 +45,6 @@ class Game {
     this.lottoList.forEach((lotto) => {
       lotto.printNumbers();
     });
-  }
-
-  setBonusNumber(number) {
-    number = Number(number);
-    this.validateBonusNumber(number);
-
-    this.bonusNumber = number;
-  }
-
-  validateBonusNumber(number) {
-    validation.checkBonusNumber(number, this.winningNumberList);
   }
 
   printWinningHistory() {
