@@ -1,19 +1,12 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
-const validation = require('./libs/validation');
 const Lotto = require('./Lotto');
 
-class Game {
-  constructor() {
-    this.lottoCount = null;
-    this.lottoList = [];
-    this.lottoResultList = [];
-  }
-
-  setLottoCount(money) {
+class Lottos {
+  constructor(money) {
     this.validateMoney(money);
-    this.lottoCount = money / 1000;
-
-    this.publishLotto(this.lottoCount);
+    this.count = money / 1000;
+    this.list = [];
+    this.publish();
   }
 
   validateMoney(money) {
@@ -30,25 +23,34 @@ class Game {
     }
   }
 
-  printLottoCount() {
-    Console.print(`\n${this.lottoCount}개를 구매했습니다.`);
-  }
-
-  publishLotto(lottoCount) {
-    for (let num = 0; num < lottoCount; num++) {
+  publish() {
+    for (let num = 0; num < this.count; num++) {
       const newLotto = new Lotto(Random.pickUniqueNumbersInRange(1, 45, 6));
-      this.lottoList.push(newLotto);
+      this.list.push(newLotto);
     }
   }
 
-  printLottoList() {
-    this.lottoList.forEach((lotto) => {
+  printCount() {
+    Console.print(`\n${this.count}개를 구매했습니다.`);
+  }
+
+  printList() {
+    this.list.forEach((lotto) => {
       lotto.printNumbers();
     });
   }
 
-  printWinningHistory() {
-    this.getLottoResult();
+  getResult(winningNumbers, bonusNumber) {
+    let lottoResultList = [];
+
+    this.list.forEach((lotto) => {
+      lottoResultList.push(lotto.getResult(winningNumbers, bonusNumber));
+    });
+
+    return lottoResultList.filter((result) => result);
+  }
+
+  printWinningHistory(lottoReultArray) {
     const winningHistoryList = [
       '3개 일치 (5,000원)',
       '4개 일치 (50,000원)',
@@ -57,41 +59,29 @@ class Game {
       '6개 일치 (2,000,000,000원)',
     ];
     winningHistoryList.forEach((winninHistory, idx) => {
-      const winningCount = this.getWinningCount(idx);
+      const winningCount = this.getWinningCount(lottoReultArray, idx);
 
       Console.print(`${winninHistory} - ${winningCount}개`);
     });
   }
 
-  printLottoRate() {
+  printRate(lottoReultArray) {
     const lottePrize = [5000, 50000, 1500000, 30000000, 2000000000];
     const finalPrize = lottePrize.reduce((acc, cur, idx) => {
-      const winningCount = this.getWinningCount(idx);
+      const winningCount = this.getWinningCount(lottoReultArray, idx);
 
       return acc + cur * winningCount;
     }, 0);
 
-    const purchaseMoney = this.lottoCount * 1000;
+    const purchaseMoney = this.count * 1000;
     const lottoRate = ((finalPrize / purchaseMoney) * 100).toFixed(1);
 
     Console.print(`총 수익률은 ${lottoRate}%입니다.`);
   }
 
-  getWinningCount(idx) {
-    return this.lottoResultList.filter((result) => result === 5 - idx).length;
-  }
-
-  getLottoResult() {
-    let lottoResultList = [];
-
-    this.lottoList.forEach((lotto) => {
-      lottoResultList.push(
-        lotto.getResult(this.winningNumberList, this.bonusNumber)
-      );
-    });
-
-    this.lottoResultList = lottoResultList.filter((result) => result);
+  getWinningCount(lottoReultArray, idx) {
+    return lottoReultArray.filter((result) => result === 5 - idx).length;
   }
 }
 
-module.exports = Game;
+module.exports = Lottos;

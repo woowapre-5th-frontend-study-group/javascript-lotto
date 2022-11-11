@@ -109,6 +109,9 @@
 ### 5️⃣ 리팩토링
 
 - [ ] refactor: 클래스 분리하기
+  - 기존 Game 클래스를 Lottos 클래스, WinningNumbers 클래스, BonusNumber 클래스로 분리한다.
+  - Lottos 클래스는 입력한 금액에 따라 발행된 로또들을 관리한다.
+  - WinningNumbers 클래스는 당첨 번호, BonusNumber 클래스는 보너스 번호를 관리한다.
 - [ ] refactor: 함수(메서드) 이동하기
 - [ ] refactor: 변수명, 함수명 수정하기
 - [ ] 매직 넘버 상수화하기
