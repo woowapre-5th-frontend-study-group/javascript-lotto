@@ -1,4 +1,5 @@
 const { Random } = require("@woowacourse/mission-utils");
+const { sortAscendingNumbers } = require("./utils");
 
 class UserLotto {
   count;
@@ -12,7 +13,7 @@ class UserLotto {
   getNumbers() {
     for (let count = 1; count <= this.count; count++) {
       const autoSelectLottoNumber = Random.pickUniqueNumbersInRange(1, 45, 6);
-      this.numbers.push(autoSelectLottoNumber);
+      this.numbers.push(sortAscendingNumbers(autoSelectLottoNumber));
     }
   }
 }
