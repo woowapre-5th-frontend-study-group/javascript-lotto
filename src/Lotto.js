@@ -1,5 +1,4 @@
 const { Console } = require('@woowacourse/mission-utils');
-const validation = require('./libs/validation');
 
 class Lotto {
   #numbers;

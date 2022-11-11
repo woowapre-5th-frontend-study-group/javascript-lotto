@@ -11,12 +11,16 @@ class Lottos {
 
   publish() {
     for (let num = 0; num < this.count; num++) {
-      const newNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
-      validation.checkNumberList(newNumbers);
-
-      const newLotto = new Lotto(newNumbers);
+      const newLotto = this.createNewLotto();
       this.list.push(newLotto);
     }
+  }
+
+  createNewLotto() {
+    const newNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
+    validation.checkNumberList(newNumbers);
+
+    return new Lotto(newNumbers);
   }
 
   printCount() {
