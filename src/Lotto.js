@@ -5,7 +5,6 @@ class Lotto {
   #numbers;
 
   constructor(numbers) {
-    validation.checkNumberList(numbers);
     this.#numbers = numbers;
   }
 

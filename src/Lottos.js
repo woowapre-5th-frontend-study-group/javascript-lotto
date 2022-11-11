@@ -4,7 +4,6 @@ const Lotto = require('./Lotto');
 
 class Lottos {
   constructor(money) {
-    validation.checkMoney(money);
     this.count = money / 1000;
     this.list = [];
     this.publish();
@@ -12,7 +11,10 @@ class Lottos {
 
   publish() {
     for (let num = 0; num < this.count; num++) {
-      const newLotto = new Lotto(Random.pickUniqueNumbersInRange(1, 45, 6));
+      const newNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
+      validation.checkNumberList(newNumbers);
+
+      const newLotto = new Lotto(newNumbers);
       this.list.push(newLotto);
     }
   }
