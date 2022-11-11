@@ -7,9 +7,19 @@ class Lotto {
   }
 
   validate(numbers) {
-    if (numbers.length !== 6) {
-      throw new Error("[ERROR] 로또 번호는 6개여야 합니다.");
+    if (this.isNumbersLengthSix(numbers) && this.isUniqueNumbers(numbers)) {
+      return;
     }
+    throw new Error("[ERROR] 로또 번호는 6개여야 합니다.");
+  }
+
+  isNumbersLengthSix(numbers) {
+    return numbers.length === 6;
+  }
+
+  isUniqueNumbers(numbers) {
+    const deduplicationNumbers = new Set(numbers);
+    return deduplicationNumbers.size === 6;
   }
 
   // TODO: 추가 기능 구현
