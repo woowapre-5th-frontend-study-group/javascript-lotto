@@ -1,10 +1,20 @@
 const { Console } = require('@woowacourse/mission-utils');
+const checkValue = require('./libs/checkValue');
+const exitWithError = require('./libs/exitWithError');
+const { LOTTO_NUMBER } = require('./libs/const');
 
 class Lotto {
   #numbers;
 
   constructor(numbers) {
+    this.validate(numbers);
     this.#numbers = numbers;
+  }
+
+  validate(numbers) {
+    const { errorMsg } = checkValue.numberList(numbers, LOTTO_NUMBER);
+
+    if (errorMsg) exitWithError(errorMsg);
   }
 
   printNumbers() {

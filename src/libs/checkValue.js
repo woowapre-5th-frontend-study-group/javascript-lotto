@@ -12,12 +12,12 @@ const checkValue = {
   },
 
   numberList(numbers, name) {
+    if (!isNumberType(numbers)) return { errorMsg: createErrorMsg.type(name) };
+
     if (numbers.length !== 6 || [...new Set(numbers)].length !== 6)
       return {
         errorMsg: createErrorMsg.length(name),
       };
-
-    if (!isNumberType(numbers)) return { errorMsg: createErrorMsg.type(name) };
 
     if (!isCorrectRange(numbers))
       return {
@@ -28,12 +28,12 @@ const checkValue = {
   },
 
   bonusNumber(number, winningNumbers) {
+    if (isNaN(number)) return { errorMsg: createErrorMsg.type(BONUS_NUMBER) };
+
     if (winningNumbers.includes(number))
       return {
         errorMsg: ERROR_MESSAGE.INCLUDE_WINNING_NUMBER,
       };
-
-    if (isNaN(number)) return { errorMsg: createErrorMsg.type(BONUS_NUMBER) };
 
     if (number > 45 || number < 1)
       return {

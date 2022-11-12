@@ -1,13 +1,23 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
-const checkValue = require('./libs/checkValue');
-const { LOTTO_NUMBER } = require('./libs/const');
 const Lotto = require('./Lotto');
+const checkValue = require('./libs/checkValue');
+const exitWithError = require('./libs/exitWithError');
 
 class Lottos {
   constructor(money) {
+    this.validate(money);
     this.count = money / 1000;
     this.list = [];
     this.publish();
+  }
+
+  validate(money) {
+    const { errorMsg } = checkValue.money(money);
+
+    if (errorMsg) {
+      exitWithError(errorMsg);
+      return;
+    }
   }
 
   publish() {
@@ -19,8 +29,6 @@ class Lottos {
 
   createNewLotto() {
     const newNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
-    const { errorMsg } = checkValue.numberList(newNumbers, LOTTO_NUMBER);
-    if (errorMsg) exitWithError(errorMsg);
 
     return new Lotto(newNumbers);
   }
