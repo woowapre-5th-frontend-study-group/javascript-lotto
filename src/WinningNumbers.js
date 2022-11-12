@@ -9,7 +9,7 @@ class WinningNumbers {
   }
 
   validate(numbers) {
-    const { errorMsg } = checkValue.numberList(numbers, WINNING_NUMBER);
+    const { errorMsg } = checkValue.numbers(numbers, WINNING_NUMBER);
 
     if (errorMsg) exitWithError(errorMsg);
   }

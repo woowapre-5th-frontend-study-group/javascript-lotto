@@ -12,7 +12,7 @@ class Lotto {
   }
 
   validate(numbers) {
-    const { errorMsg } = checkValue.numberList(numbers, LOTTO_NUMBER);
+    const { errorMsg } = checkValue.numbers(numbers, LOTTO_NUMBER);
 
     if (errorMsg) exitWithError(errorMsg);
   }
@@ -27,11 +27,11 @@ class Lotto {
     this.#numbers.sort((a, b) => a - b);
   }
 
-  getResult(winningNumberList, bonusNumber) {
+  getResult(winningNumbers, bonusNumber) {
     let winninCount = 0;
 
     this.#numbers.forEach((number) => {
-      if (winningNumberList.includes(number)) winninCount += 1;
+      if (winningNumbers.includes(number)) winninCount += 1;
     });
 
     if (winninCount < 3) return null;

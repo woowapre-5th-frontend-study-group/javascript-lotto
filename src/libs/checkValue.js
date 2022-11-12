@@ -11,7 +11,7 @@ const checkValue = {
     return { errorMsg: undefined };
   },
 
-  numberList(numbers, name) {
+  numbers(numbers, name) {
     if (!isNumberType(numbers)) return { errorMsg: createErrorMsg.type(name) };
 
     if (numbers.length !== 6 || [...new Set(numbers)].length !== 6)
