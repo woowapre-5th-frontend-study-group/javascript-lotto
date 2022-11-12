@@ -1,5 +1,6 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
 const checkValue = require('./libs/checkValue');
+const { LOTTO_NUMBER } = require('./libs/const');
 const Lotto = require('./Lotto');
 
 class Lottos {
@@ -18,7 +19,7 @@ class Lottos {
 
   createNewLotto() {
     const newNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
-    const { errorMsg } = checkValue.numberList(newNumbers, '로또 번호');
+    const { errorMsg } = checkValue.numberList(newNumbers, LOTTO_NUMBER);
     if (errorMsg) exitWithError(errorMsg);
 
     return new Lotto(newNumbers);

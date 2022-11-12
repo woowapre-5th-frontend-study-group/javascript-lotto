@@ -4,6 +4,7 @@ const BonusNumber = require('./BonusNumber');
 const { Console } = require('@woowacourse/mission-utils');
 const checkValue = require('./libs/checkValue');
 const exitWithError = require('./libs/exitWithError');
+const { WINNING_NUMBER } = require('./libs/const');
 
 class App {
   constructor() {
@@ -34,7 +35,10 @@ class App {
     Console.readLine('\n당첨 번호를 입력해 주세요.\n', (winningNumbers) => {
       winningNumbers = winningNumbers.split(',').map((item) => Number(item));
 
-      const { errorMsg } = checkValue.numberList(winningNumbers, '당첨 번호');
+      const { errorMsg } = checkValue.numberList(
+        winningNumbers,
+        WINNING_NUMBER
+      );
       if (errorMsg) exitWithError(errorMsg);
 
       this.winningNumbers = new WinningNumbers(winningNumbers);

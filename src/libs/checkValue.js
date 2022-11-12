@@ -1,8 +1,8 @@
-const { ERROR_MESSAGE } = require('./const');
+const { ERROR_MESSAGE, MONEY, BONUS_NUMBER } = require('./const');
 
 const checkValue = {
   money(money) {
-    if (isNaN(money)) return { errorMsg: createErrorMsg.type('구입금액') };
+    if (isNaN(money)) return { errorMsg: createErrorMsg.type(MONEY) };
 
     if (money < 1000) return { errorMsg: ERROR_MESSAGE.MIN_MONEY };
 
@@ -33,11 +33,11 @@ const checkValue = {
         errorMsg: ERROR_MESSAGE.INCLUDE_WINNING_NUMBER,
       };
 
-    if (isNaN(number)) return { errorMsg: createErrorMsg.type('보너스 번호') };
+    if (isNaN(number)) return { errorMsg: createErrorMsg.type(BONUS_NUMBER) };
 
     if (number > 45 || number < 1)
       return {
-        errorMsg: createErrorMsg.range('보너스 번호'),
+        errorMsg: createErrorMsg.range(BONUS_NUMBER),
       };
 
     return { errorMsg: undefined };

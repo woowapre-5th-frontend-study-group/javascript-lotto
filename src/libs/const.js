@@ -5,6 +5,15 @@ const ERROR_MESSAGE = {
     '[ERROR] 보너스 번호: 이미 당첨 번호에 포함되어 있습니다.',
 };
 
+const MONEY = '구입금액';
+const LOTTO_NUMBER = '로또 번호';
+const WINNING_NUMBER = '당첨 번호';
+const BONUS_NUMBER = '보너스 번호';
+
 module.exports = {
   ERROR_MESSAGE,
+  MONEY,
+  LOTTO_NUMBER,
+  WINNING_NUMBER,
+  BONUS_NUMBER,
 };
