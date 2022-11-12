@@ -27,20 +27,20 @@ class Lotto {
     this.#numbers.sort((a, b) => a - b);
   }
 
-  getResult(winningNumbers, bonusNumber) {
-    let winninCount = 0;
+  getRank(winningNumbers, bonusNumber) {
+    let count = 0;
 
     this.#numbers.forEach((number) => {
-      if (winningNumbers.includes(number)) winninCount += 1;
+      if (winningNumbers.includes(number)) count += 1;
     });
 
-    if (winninCount < 3) return null;
+    if (count < 3) return null;
 
-    if (winninCount === 6) return 1;
+    if (count === 6) return 1;
 
-    if (winninCount === 5 && this.#numbers.includes(bonusNumber)) return 2;
+    if (count === 5 && this.#numbers.includes(bonusNumber)) return 2;
 
-    return 8 - winninCount;
+    return 8 - count;
   }
 }
 

@@ -124,6 +124,9 @@
 - refactor: 변수명, 함수명 수정하기
   - validation 객체를 checkValue로 수정한다. 값을 체크한 뒤 errorMsg를 반환한다.
   - numberList를 numbers로 수정한다.
+  - -Array로 표현된 변수명, 함수명을 -s로 수정한다.
+  - printWinningHistory를 printWinningDetails로 수정한다.
+  - Lotto 클래스의 getResult를 getRank로 수정한다. 또한 해당 함수 내에서 선언한 winninCount를 count로 수정한다.
 - refactor: 매직 넘버 상수화하기
   - 의미를 가지는 매직 넘버를 상수화한다.
   - const.js 파일을 만들어 상수화된 변수를 관리한다.

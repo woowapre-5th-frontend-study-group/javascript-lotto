@@ -52,13 +52,13 @@ class App {
   printWinningStats() {
     Console.print(MESSAGE.WINNING_STATS);
 
-    const lottoReultArray = this.lottos.getResult(
+    const lottoResults = this.lottos.getResult(
       this.winningNumbers.value,
       this.bonusNumber.value
     );
 
-    this.lottos.printWinningHistory(lottoReultArray);
-    this.lottos.printRate(lottoReultArray);
+    this.lottos.printWinningDetails(lottoResults);
+    this.lottos.printRate(lottoResults);
 
     this.end();
   }

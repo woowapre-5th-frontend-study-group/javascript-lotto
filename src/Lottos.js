@@ -44,34 +44,34 @@ class Lottos {
   }
 
   getResult(winningNumbers, bonusNumber) {
-    let lottoResultList = [];
+    let lottoResults = [];
 
     this.list.forEach((lotto) => {
-      lottoResultList.push(lotto.getResult(winningNumbers, bonusNumber));
+      lottoResults.push(lotto.getRank(winningNumbers, bonusNumber));
     });
 
-    return lottoResultList.filter((result) => result);
+    return lottoResults.filter((result) => result);
   }
 
-  printWinningHistory(lottoReultArray) {
-    const winningHistoryList = [
+  printWinningDetails(lottoResults) {
+    const winningDetails = [
       '3개 일치 (5,000원)',
       '4개 일치 (50,000원)',
       '5개 일치 (1,500,000원)',
       '5개 일치, 보너스 볼 일치 (30,000,000원)',
       '6개 일치 (2,000,000,000원)',
     ];
-    winningHistoryList.forEach((winninHistory, idx) => {
-      const winningCount = this.getWinningCount(lottoReultArray, idx);
+    winningDetails.forEach((winninHistory, idx) => {
+      const winningCount = this.getWinningCount(lottoResults, idx);
 
       Console.print(`${winninHistory} - ${winningCount}개`);
     });
   }
 
-  printRate(lottoReultArray) {
-    const lottePrize = [5000, 50000, 1500000, 30000000, 2000000000];
-    const finalPrize = lottePrize.reduce((acc, cur, idx) => {
-      const winningCount = this.getWinningCount(lottoReultArray, idx);
+  printRate(lottoResults) {
+    const lottePrizes = [5000, 50000, 1500000, 30000000, 2000000000];
+    const finalPrize = lottePrizes.reduce((acc, cur, idx) => {
+      const winningCount = this.getWinningCount(lottoResults, idx);
 
       return acc + cur * winningCount;
     }, 0);
@@ -82,8 +82,8 @@ class Lottos {
     Console.print(`총 수익률은 ${lottoRate}%입니다.`);
   }
 
-  getWinningCount(lottoReultArray, idx) {
-    return lottoReultArray.filter((result) => result === 5 - idx).length;
+  getWinningCount(lottoResults, idx) {
+    return lottoResults.filter((result) => result === 5 - idx).length;
   }
 }
 
