@@ -1,5 +1,5 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
-const validation = require('./libs/validation');
+const checkValue = require('./libs/checkValue');
 const Lotto = require('./Lotto');
 
 class Lottos {
@@ -18,7 +18,7 @@ class Lottos {
 
   createNewLotto() {
     const newNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
-    const { errorMsg } = validation.checkNumberList(newNumbers);
+    const { errorMsg } = checkValue.numberList(newNumbers);
     if (errorMsg) exitWithError(errorMsg);
 
     return new Lotto(newNumbers);

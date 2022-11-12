@@ -1,5 +1,5 @@
-const validation = {
-  checkMoney(money) {
+const checkValue = {
+  money(money) {
     if (isNaN(money)) return { errorMsg: '[ERROR] 숫자만 입력할 수 있습니다.' };
 
     if (money < 1000)
@@ -13,7 +13,7 @@ const validation = {
     return { errorMsg: undefined };
   },
 
-  checkNumberList(numbers) {
+  numberList(numbers) {
     if (numbers.length !== 6)
       return { errorMsg: '[ERROR] 로또 번호는 6개여야 합니다.' };
 
@@ -33,7 +33,7 @@ const validation = {
     return { errorMsg: undefined };
   },
 
-  checkBonusNumber(number, winningNumbers) {
+  bonusNumber(number, winningNumbers) {
     if (winningNumbers.includes(number))
       return {
         errorMsg: '[ERROR] 보너스 번호가 이미 당첨 번호에 포함되어 있습니다.',
@@ -59,4 +59,4 @@ function isCorrectRange(numbers) {
   return numbers.every((number) => number <= 45 && number >= 1);
 }
 
-module.exports = validation;
+module.exports = checkValue;

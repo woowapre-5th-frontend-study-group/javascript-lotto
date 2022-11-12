@@ -1,9 +1,9 @@
-const { Console } = require('@woowacourse/mission-utils');
-const BonusNumber = require('./BonusNumber');
-const exitWithError = require('./libs/exitWithError');
-const validation = require('./libs/validation');
 const Lottos = require('./Lottos');
 const WinningNumbers = require('./WinningNumbers');
+const BonusNumber = require('./BonusNumber');
+const { Console } = require('@woowacourse/mission-utils');
+const checkValue = require('./libs/checkValue');
+const exitWithError = require('./libs/exitWithError');
 
 class App {
   constructor() {
@@ -18,7 +18,7 @@ class App {
 
   requestMoney() {
     Console.readLine('구입금액을 입력해 주세요.\n', (money) => {
-      const { errorMsg } = validation.checkMoney(money);
+      const { errorMsg } = checkValue.money(money);
       if (errorMsg) exitWithError(errorMsg);
 
       this.lottos = new Lottos(money);
@@ -34,7 +34,7 @@ class App {
     Console.readLine('\n당첨 번호를 입력해 주세요.\n', (winningNumbers) => {
       winningNumbers = winningNumbers.split(',').map((item) => Number(item));
 
-      const { errorMsg } = validation.checkNumberList(winningNumbers);
+      const { errorMsg } = checkValue.numberList(winningNumbers);
       if (errorMsg) exitWithError(errorMsg);
 
       this.winningNumbers = new WinningNumbers(winningNumbers);
@@ -47,7 +47,7 @@ class App {
     Console.readLine('\n보너스 번호를 입력해 주세요.\n', (bonusNumber) => {
       bonusNumber = Number(bonusNumber);
 
-      const { errorMsg } = validation.checkBonusNumber(
+      const { errorMsg } = checkValue.bonusNumber(
         bonusNumber,
         this.winningNumbers.value
       );
