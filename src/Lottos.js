@@ -18,7 +18,7 @@ class Lottos {
 
   createNewLotto() {
     const newNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
-    const { errorMsg } = checkValue.numberList(newNumbers);
+    const { errorMsg } = checkValue.numberList(newNumbers, '로또 번호');
     if (errorMsg) exitWithError(errorMsg);
 
     return new Lotto(newNumbers);

@@ -1,33 +1,27 @@
+const { ERROR_MESSAGE } = require('./const');
+
 const checkValue = {
   money(money) {
-    if (isNaN(money)) return { errorMsg: '[ERROR] 숫자만 입력할 수 있습니다.' };
+    if (isNaN(money)) return { errorMsg: createErrorMsg.type('구입금액') };
 
-    if (money < 1000)
-      return { errorMsg: '[ERROR] 최소 구입금액은 1000원입니다.' };
+    if (money < 1000) return { errorMsg: ERROR_MESSAGE.MIN_MONEY };
 
-    if (money % 1000 !== 0)
-      return {
-        errorMsg: '[ERROR] 1000원 단위로 로또를 구입해야 합니다.',
-      };
+    if (money % 1000) return { errorMsg: ERROR_MESSAGE.UNIT_MONEY };
 
     return { errorMsg: undefined };
   },
 
-  numberList(numbers) {
-    if (numbers.length !== 6)
-      return { errorMsg: '[ERROR] 로또 번호는 6개여야 합니다.' };
-
-    if ([...new Set(numbers)].length !== 6)
+  numberList(numbers, name) {
+    if (numbers.length !== 6 || [...new Set(numbers)].length !== 6)
       return {
-        errorMsg: '[ERROR] 로또 번호는 중복되지 않은 숫자로 이루어져야 합니다.',
+        errorMsg: createErrorMsg.length(name),
       };
 
-    if (!isNumberType(numbers))
-      return { errorMsg: '[ERROR] 로또 번호는 숫자이어야 합니다.' };
+    if (!isNumberType(numbers)) return { errorMsg: createErrorMsg.type(name) };
 
     if (!isCorrectRange(numbers))
       return {
-        errorMsg: '[ERROR] 로또 번호의 범위는 1~45이어야 합니다.',
+        errorMsg: createErrorMsg.range(name),
       };
 
     return { errorMsg: undefined };
@@ -36,27 +30,40 @@ const checkValue = {
   bonusNumber(number, winningNumbers) {
     if (winningNumbers.includes(number))
       return {
-        errorMsg: '[ERROR] 보너스 번호가 이미 당첨 번호에 포함되어 있습니다.',
+        errorMsg: ERROR_MESSAGE.INCLUDE_WINNING_NUMBER,
       };
 
-    if (isNaN(number))
-      return { errorMsg: '[ERROR] 보너스 번호는 숫자이어야 합니다.' };
+    if (isNaN(number)) return { errorMsg: createErrorMsg.type('보너스 번호') };
 
     if (number > 45 || number < 1)
       return {
-        errorMsg: '[ERROR] 보너스 번호의 범위는 1~45이어야 합니다.',
+        errorMsg: createErrorMsg.range('보너스 번호'),
       };
 
     return { errorMsg: undefined };
   },
 };
 
-function isNumberType(numbers) {
+const isNumberType = (numbers) => {
   return numbers.every((number) => !isNaN(number));
-}
+};
 
-function isCorrectRange(numbers) {
+const isCorrectRange = (numbers) => {
   return numbers.every((number) => number <= 45 && number >= 1);
-}
+};
+
+const createErrorMsg = {
+  range: (name) => {
+    return `[ERROR] ${name}: 1~45 사이의 값만 입력할 수 있습니다.`;
+  },
+
+  type: (name) => {
+    return `[ERROR] ${name}: 숫자만 입력할 수 있습니다.`;
+  },
+
+  length: (name) => {
+    return `'[ERROR] ${name}: 중복되지 않은 6개의 숫자로 이루어져야 합니다.'`;
+  },
+};
 
 module.exports = checkValue;
