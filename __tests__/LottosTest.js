@@ -1,5 +1,24 @@
 const { describe, expect, test } = require('@jest/globals');
+const MissionUtils = require('@woowacourse/mission-utils');
+const App = require('../src/App');
+const Lotto = require('../src/Lotto');
 const Lottos = require('../src/Lottos');
+
+const mockRandoms = (numbers) => {
+  MissionUtils.Random.pickUniqueNumbersInRange = jest.fn();
+  numbers.reduce((acc, number) => {
+    return acc.mockReturnValueOnce(number);
+  }, MissionUtils.Random.pickUniqueNumbersInRange);
+};
+
+const mockQuestions = (answers) => {
+  MissionUtils.Console.readLine = jest.fn();
+  answers.reduce((acc, input) => {
+    return acc.mockImplementationOnce((question, callback) => {
+      callback(input);
+    });
+  }, MissionUtils.Console.readLine);
+};
 
 describe('Lottos 클래스 생성 테스트', () => {
   test.each([['8000j'], ['5000x'], ['구입합니다.']])(
@@ -52,5 +71,88 @@ describe('발행된 로또개수 테스트', () => {
     const lottos = new Lottos(money);
 
     expect(lottos.list.length).toEqual(count);
+  });
+});
+
+describe('로또결과 테스트', () => {
+  test('실행 테스트 - 5등이 2개인 경우', () => {
+    const lottos = [
+      [21, 23, 29, 34, 42, 45],
+      [2, 3, 15, 18, 29, 43],
+      [12, 16, 27, 29, 37, 44],
+      [4, 13, 15, 19, 38, 39],
+      [6, 7, 16, 17, 32, 40],
+      [2, 5, 6, 18, 24, 41],
+      [1, 16, 20, 36, 37, 43],
+      [3, 12, 16, 19, 26, 42],
+      [1, 4, 15, 18, 28, 32],
+      [5, 10, 12, 21, 28, 34],
+    ];
+
+    const winningNumbers = [1, 5, 16, 20, 18, 28];
+    const bonusNumber = 34;
+
+    const getResult = () => {
+      let lottoResults = [];
+
+      lottos.forEach((numbers) => {
+        const lotto = new Lotto(numbers);
+        lottoResults.push(lotto.getRank(winningNumbers, bonusNumber));
+      });
+
+      return lottoResults.filter((result) => result);
+    };
+
+    expect(getResult()).toEqual([5, 5]);
+  });
+
+  test('실행 테스트 - 1등, 2등, 4등인 경우', () => {
+    const lottos = [
+      [1, 6, 10, 32, 33, 43],
+      [1, 2, 4, 8, 23, 24],
+      [1, 2, 4, 8, 23, 42],
+      [5, 11, 14, 18, 21, 28],
+      [1, 2, 4, 8, 21, 28],
+    ];
+
+    const winningNumbers = [1, 2, 4, 8, 23, 24];
+    const bonusNumber = 42;
+
+    const getResult = () => {
+      let lottoResults = [];
+
+      lottos.forEach((numbers) => {
+        const lotto = new Lotto(numbers);
+        lottoResults.push(lotto.getRank(winningNumbers, bonusNumber));
+      });
+
+      return lottoResults.filter((result) => result);
+    };
+
+    expect(getResult()).toEqual([1, 2, 4]);
+  });
+
+  test('실행 테스트 - 낙첨인 경우', () => {
+    const lottos = [
+      [4, 7, 14, 20, 36, 45],
+      [2, 6, 8, 9, 20, 26],
+      [5, 6, 19, 23, 27, 40],
+    ];
+
+    const winningNumbers = [1, 2, 4, 8, 23, 24];
+    const bonusNumber = 42;
+
+    const getResult = () => {
+      let lottoResults = [];
+
+      lottos.forEach((numbers) => {
+        const lotto = new Lotto(numbers);
+        lottoResults.push(lotto.getRank(winningNumbers, bonusNumber));
+      });
+
+      return lottoResults.filter((result) => result);
+    };
+
+    expect(getResult()).toEqual([]);
   });
 });
