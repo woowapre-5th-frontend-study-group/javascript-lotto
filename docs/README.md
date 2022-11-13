@@ -144,6 +144,7 @@
 ### 6️⃣ 테스트
 
 - [ ] test: Lotto 클래스 테스트 작성
+  - 로또 클래스를 생성하는 테스트를 예외상황을 기준으로 작성한다.
 - [ ] test: Lottos 클래스 테스트 작성
 - [ ] test: WinningNumbers 클래스 테스트 작성
 - [ ] test: BonusNumber 클래스 테스트 작성
