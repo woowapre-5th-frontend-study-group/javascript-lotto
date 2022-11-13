@@ -1,24 +1,7 @@
 const { describe, expect, test } = require('@jest/globals');
 const MissionUtils = require('@woowacourse/mission-utils');
-const App = require('../src/App');
 const Lotto = require('../src/Lotto');
 const Lottos = require('../src/Lottos');
-
-const mockRandoms = (numbers) => {
-  MissionUtils.Random.pickUniqueNumbersInRange = jest.fn();
-  numbers.reduce((acc, number) => {
-    return acc.mockReturnValueOnce(number);
-  }, MissionUtils.Random.pickUniqueNumbersInRange);
-};
-
-const mockQuestions = (answers) => {
-  MissionUtils.Console.readLine = jest.fn();
-  answers.reduce((acc, input) => {
-    return acc.mockImplementationOnce((question, callback) => {
-      callback(input);
-    });
-  }, MissionUtils.Console.readLine);
-};
 
 describe('Lottos 클래스 생성 테스트', () => {
   test.each([['8000j'], ['5000x'], ['구입합니다.']])(
@@ -142,7 +125,7 @@ describe('로또결과 테스트', () => {
     const winningNumbers = [1, 2, 4, 8, 23, 24];
     const bonusNumber = 42;
 
-    const getResult = () => {
+    const getResult = (winningNumbers, bonusNumber) => {
       let lottoResults = [];
 
       lottos.forEach((numbers) => {
@@ -153,6 +136,25 @@ describe('로또결과 테스트', () => {
       return lottoResults.filter((result) => result);
     };
 
-    expect(getResult()).toEqual([]);
+    expect(getResult(winningNumbers, bonusNumber)).toEqual([]);
   });
+});
+
+describe('등수 별 당첨 개수 테스트', () => {
+  test.each([
+    [1, [1, 2, 4, 2, 2, 5], 0],
+    [1, [1, 2, 4, 2, 2, 5], 1],
+    [0, [1, 2, 4, 2, 2, 5], 2],
+    [3, [1, 2, 4, 2, 2, 5], 3],
+    [1, [1, 2, 4, 2, 2, 5], 4],
+  ])(
+    '등수 별 당첨 개수 테스트, (5 - %#)등: %d개',
+    (winningCount, lottosResults, idx) => {
+      const getWinningCount = (lottoResults, idx) => {
+        return lottoResults.filter((result) => result === 5 - idx).length;
+      };
+
+      expect(getWinningCount(lottosResults, idx)).toEqual(winningCount);
+    }
+  );
 });
