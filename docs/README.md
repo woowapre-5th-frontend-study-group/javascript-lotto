@@ -110,7 +110,7 @@
 
 ---
 
-### 5️⃣ 리팩토링
+### 5️⃣ 리팩터링
 
 - refactor: 클래스 분리하기
   - 기존 Game 클래스를 Lottos 클래스, WinningNumbers 클래스, BonusNumber 클래스로 분리한다.
@@ -142,3 +142,9 @@
 ---
 
 ### 6️⃣ 테스트
+
+- [ ] test: Lotto 클래스 테스트 작성
+- [ ] test: Lottos 클래스 테스트 작성
+- [ ] test: WinningNumbers 클래스 테스트 작성
+- [ ] test: BonusNumber 클래스 테스트 작성
+- [ ] test: 유효성 검사 함수 테스트 작성
