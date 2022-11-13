@@ -52,7 +52,7 @@ function isUnder(number, threshold) {
     return +number < threshold;
 }
 
-mdouleexports = {
+module.exports = {
     convertToNumber,
     convertToNumberArray,
     includeNeitherNumberNorComma,
