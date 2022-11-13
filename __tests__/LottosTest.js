@@ -41,3 +41,16 @@ describe('Lottos 클래스 생성 테스트', () => {
     }
   );
 });
+
+describe('발행된 로또개수 테스트', () => {
+  test.each([
+    ['5000', 5],
+    ['12000', 12],
+    ['30000', 30],
+    ['200000', 200],
+  ])('구입금액: %s, 로또개수: %d', (money, count) => {
+    const lottos = new Lottos(money);
+
+    expect(lottos.list.length).toEqual(count);
+  });
+});
