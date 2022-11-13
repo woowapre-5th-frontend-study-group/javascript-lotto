@@ -1,21 +1,25 @@
+const Utils = require('./Utils');
+
 const { Console, Random } = require('@woowacourse/mission-utils');
 const { VALIDATE_TYPE } = require('./Validation');
-
-const Utils = require('./Utils');
 
 const Lotto = require('./Lotto');
 const HandleException = require('./HandleException');
 
+const QUESTION_MESSAGE = {
+    [VALIDATE_TYPE.CACHE]: '구입금액을 입력해 주세요.\n',
+    [VALIDATE_TYPE.LOTTO]: '\n당첨 번호를 입력해 주세요.\n',
+    [VALIDATE_TYPE.BONUS]: '\n보너스 번호를 입력해 주세요.\n',
+};
+
 class App {
     constructor() {
         this._userCache = null;
-        this._winningNumber = null;
+        this._userLotto = null;
+        this._userBonus = null;
         this._userLotteryList = null;
-        this._bonusNumber = null;
 
-        this.inputUserCache = this.inputUserCache.bind(this);
-        this.inputWinningNumber = this.inputWinningNumber.bind(this);
-        this.inputBonusNumber = this.inputBonusNumber.bind(this);
+        this._callbackHandler = null;
     }
 
     /* #region Class Member getter/setter */
@@ -24,15 +28,25 @@ class App {
     }
 
     setUserCache(userCache) {
+        if (typeof userCache !== 'number') {
+            this._userCache = Utils.convertToNumber(userCache);
+            return;
+        }
+
         this._userCache = userCache;
     }
 
-    getWinningNumber() {
-        return this._winningNumber;
+    getUserLotto() {
+        return this._userLotto;
     }
 
-    setWinningNumber(winningNumber) {
-        this._winningNumber = winningNumber;
+    setUserLotto(userLotto) {
+        if (typeof userLotto === 'string') {
+            this._userLotto = Utils.convertToNumberArray(userLotto);
+            return;
+        }
+
+        this._userLotto = userLotto;
     }
 
     getUserLotteryList() {
@@ -43,41 +57,100 @@ class App {
         this._userLotteryList = userLottryList;
     }
 
-    getBonusNumber() {
-        return this._bonusNumber;
+    getUserBonus() {
+        return this._userBonus;
     }
 
-    setBonusNumber(bonusNumber) {
-        this._bonusNumber = bonusNumber;
+    setUserBonus(userBonus) {
+        if (typeof userBonus !== 'number') {
+            this._userBonus = Utils.convertToNumber(userBonus);
+            return;
+        }
+
+        this._userBonus = userBonus;
+    }
+
+    setCallbackHandler(...callbackList) {
+        this._callbackHandler = this.makeCallbackHandler(...callbackList);
+    }
+
+    getCallbackHandler() {
+        return this._callbackHandler;
+    }
+
+    *makeCallbackHandler(...callbackList) {
+        for (let index = 0; index < callbackList.length; index++) {
+            yield callbackList[index];
+        }
     }
     /* #endregion */
 
     play() {
-        this.questionInputCache();
+        const CALLBACK_LIST = [
+            {
+                callbackName: VALIDATE_TYPE.CACHE,
+                extraCallback: () => {
+                    this.buyLotteryTickets();
+                    this.printLotteryList();
+                },
+            },
+            {
+                callbackName: VALIDATE_TYPE.LOTTO,
+                extraCallback: null,
+                extraOptions: {
+                    // isInWinningNumber: this.isInWinningNumber(bonusNumber),
+                    isInWinningNumber: false,
+                },
+            },
+            {
+                callbackName: VALIDATE_TYPE.BONUS,
+                extraCallback: () => {
+                    this.printWinningResult();
+                    this.printRateOfReturn();
+                },
+            },
+        ];
+
+        this.loopCallback(...CALLBACK_LIST);
     }
 
+    loopCallback(...callbackList) {
+        const hasNoCallbackHandler = this.getCallbackHandler() === null;
+        if (hasNoCallbackHandler) {
+            this.setCallbackHandler(...callbackList);
+        }
+
+        const callbackHandler = this.getCallbackHandler();
+
+        let callbackResult = callbackHandler.next();
+        if (callbackResult.done) {
+            Console.close();
+            return;
+        }
+
+        let { callbackName: questionType, extraCallback, extraOptions } = callbackResult.value;
+
+        Console.readLine(QUESTION_MESSAGE[questionType], (inputedValue) => {
+            const handleException = new HandleException();
+            handleException.tryValidate(inputedValue, questionType, extraOptions || null);
+
+            this[`setUser${questionType}`](inputedValue);
+
+            if (extraCallback) {
+                extraCallback = extraCallback.bind(this);
+                extraCallback();
+            }
+
+            this.loopCallback(...callbackList);
+        });
+    }
+
+    /* #region Extra callback functions */
     /* #region  1. 로또 구입 금액 입력 */
-    questionInputCache() {
-        Console.readLine('구입금액을 입력해 주세요.\n', this.inputUserCache);
-    }
-
-    inputUserCache(inputCache) {
-        const handleException = new HandleException();
-        handleException.tryValidate(inputCache, VALIDATE_TYPE.CACHE);
-
-        const userCache = Utils.convertToNumber(inputCache);
-        this.setUserCache(userCache);
-        this.buyLotteryAndPrint();
-    }
+    // No Needed extra callback function
     /* #endregion */
 
     /* #region  2. 구입한 로또 수량 및 번호 출력 */
-    buyLotteryAndPrint() {
-        this.buyLotteryTickets();
-        this.printLotteryList();
-        this.questionWinningNumber();
-    }
-
     buyLotteryTickets() {
         const userCache = this.getUserCache();
         const lotteryCount = userCache / 1000;
@@ -106,36 +179,10 @@ class App {
     /* #endregion */
 
     /* #region  3. 당첨 번호 입력 */
-    questionWinningNumber() {
-        Console.readLine('\n당첨 번호를 입력해 주세요.\n', this.inputWinningNumber);
-    }
-
-    inputWinningNumber(winningNumber) {
-        const handleException = new HandleException();
-        handleException.tryValidate(winningNumber, VALIDATE_TYPE.LOTTO);
-
-        const userWinningNumber = Utils.convertToNumberArray(winningNumber);
-        this.setWinningNumber(userWinningNumber);
-        this.questionBonusNumber();
-    }
+    // No Needed extra callback function
     /* #endregion */
 
     /* #region  4. 보너스 번호 입력 */
-    questionBonusNumber() {
-        Console.readLine('\n보너스 번호를 입력해 주세요.\n', this.inputBonusNumber);
-    }
-
-    inputBonusNumber(bonusNumber) {
-        const handleException = new HandleException();
-        handleException.tryValidate(bonusNumber, VALIDATE_TYPE.BONUS, {
-            isInWinningNumber: this.isInWinningNumber(bonusNumber),
-        });
-
-        const userBonusNumber = Utils.convertToNumber(bonusNumber);
-        this.setBonusNumber(userBonusNumber);
-        this.printWinningResult();
-    }
-
     isInWinningNumber(bonusNumber) {
         const winningNumber = this.getWinningNumber();
         const userBonusNumber = Utils.convertToNumber(bonusNumber);
@@ -157,7 +204,6 @@ class App {
             `6개 일치 (2,000,000,000원) - ${winningResult['6개'] || 0}개`;
 
         Console.print(outputMessage);
-        this.printRateOfReturn();
     }
 
     getWinningResult() {
@@ -168,11 +214,11 @@ class App {
     }
 
     compareNumbers() {
-        const winningNumber = this.getWinningNumber();
+        const userLotto = this.getUserLotto();
         const userLotteryList = this.getUserLotteryList();
 
         const matchCountList = userLotteryList.map((lotteryNumber) => {
-            return lotteryNumber.compareLotto(winningNumber);
+            return lotteryNumber.compareLotto(userLotto);
         });
 
         return matchCountList;
@@ -180,7 +226,7 @@ class App {
 
     countWinningResult(matchResults) {
         const userLotteryList = this.getUserLotteryList();
-        const bonusNumber = this.getBonusNumber();
+        const userBonus = this.getUserBonus();
         let winningResults = {};
 
         matchResults.forEach((matchCount, index) => {
@@ -190,8 +236,8 @@ class App {
             }
 
             const matchLottery = userLotteryList[index];
-            const hasBonusNumber = matchLottery.includes(bonusNumber);
-            if (hasBonusNumber) {
+            const hasUserBonus = matchLottery.includes(userBonus);
+            if (hasUserBonus) {
                 winningResults['bonus'] = (winningResults['bonus'] || 0) + 1;
             } else {
                 winningResults['5개'] = (winningResults['5개'] || 0) + 1;
@@ -206,7 +252,6 @@ class App {
     printRateOfReturn() {
         const rateOfReturn = this.calculateRateOfReturn();
         Console.print(`총 수익률은 ${rateOfReturn}%입니다.`);
-        Console.close();
     }
 
     calculateRateOfReturn() {
@@ -222,7 +267,9 @@ class App {
         return ((winningPrize / userCache) * 100).toFixed(1);
     }
     /* #endregion */
+    /* #endregion */
 }
 
+new App().play();
 
 module.exports = App;
