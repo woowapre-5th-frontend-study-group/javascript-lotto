@@ -16,9 +16,9 @@ const errorType = {
 
 class Validation {
     static VALIDATE_TYPE = {
-        CACHE: 'cache',
-        LOTTO: 'lotto',
-        BONUS: 'bonus',
+        CACHE: 'Cache',
+        LOTTO: 'Lotto',
+        BONUS: 'Bonus',
     };
 
     invalidateValue(inputValue, validateType, options = null) {
