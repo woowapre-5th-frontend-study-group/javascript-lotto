@@ -70,9 +70,15 @@ class App {
     Console.print("당첨통계");
     Console.print("---");
     winningRanking.forEach((element) => {
-      Console.print(
-        `${element.winningNumberMatch}개 일치 (${element.prizeMoney}원) - ${element.count}개`
-      );
+      if (element.isBonusNumberMatch) {
+        Console.print(
+          `${element.winningNumberMatch}개 일치, 보너스 볼 일치 (${element.prizeMoney}원) - ${element.count}개`
+        );
+      } else {
+        Console.print(
+          `${element.winningNumberMatch}개 일치 (${element.prizeMoney}원) - ${element.count}개`
+        );
+      }
     });
   }
 
