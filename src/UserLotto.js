@@ -1,4 +1,4 @@
-const { Random } = require("@woowacourse/mission-utils");
+const { Random, Console } = require("@woowacourse/mission-utils");
 const { PRINT_MESSAGE } = require("./lib/constants");
 
 class UserLotto {
@@ -24,6 +24,13 @@ class UserLotto {
       const autoSelectLottoNumber = Random.pickUniqueNumbersInRange(1, 45, 6);
       this.totalNumbers.push(autoSelectLottoNumber);
     }
+  }
+
+  printLottoCountNumbersMessage() {
+    Console.print(PRINT_MESSAGE.PURCHASE_COUNT(this.count));
+    this.totalNumbers.forEach((numbers) => {
+      Console.print(PRINT_MESSAGE.LOTTO_NUMBERS(numbers));
+    });
   }
 }
 

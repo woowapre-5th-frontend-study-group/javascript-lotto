@@ -1,50 +1,38 @@
 const { Console } = require("@woowacourse/mission-utils");
+const UserLotto = require("./UserLotto");
+const Computer = require("./Computer");
 const {
   winningRanking,
   ENTER_MESSAGE,
   PRINT_MESSAGE,
 } = require("./lib/constants");
-const Lotto = require("./Lotto");
-const NumbersMatch = require("./NumbersMatch");
-const UserLotto = require("./UserLotto");
-const { addMoneyComma, getProfitRate } = require("./lib/utils");
+const { getProfitRate } = require("./lib/utils");
 
 class App {
   userLotto;
-  winningNumbers;
-  bonnusNumber;
-  userLottoNumbesMatch;
+  computer;
   profitRate;
 
   play() {
     Console.readLine(ENTER_MESSAGE.PURCHASE_AMOUT, (purchaseAmout) => {
-      const userLotto = new UserLotto(purchaseAmout);
-      this.userLotto = userLotto;
-      this.printLottoCountNumbersMessage();
+      this.userLotto = new UserLotto(purchaseAmout);
+      this.userLotto.printLottoCountNumbersMessage();
       this.getWinningNumbers();
-    });
-  }
-
-  printLottoCountNumbersMessage() {
-    Console.print(PRINT_MESSAGE.PURCHASE_COUNT(this.userLotto.count));
-    this.userLotto.totalNumbers.forEach((numbers) => {
-      Console.print(PRINT_MESSAGE.LOTTO_NUMBERS(numbers));
     });
   }
 
   getWinningNumbers() {
     Console.readLine(ENTER_MESSAGE.WINNING_NUMBERS, (winningNumbers) => {
-      new Lotto(winningNumbers.split(","));
-      this.winningNumbers = winningNumbers.split(",");
+      this.computer = new Computer(winningNumbers);
       this.getBonusNumber();
     });
   }
 
   getBonusNumber() {
     Console.readLine(ENTER_MESSAGE.BONUS_NUMBER, (bonusNumber) => {
-      this.bonnusNumber = bonusNumber;
+      this.computer.bonnusNumber = bonusNumber;
       this.getUserNumbersMatch();
-      this.printWinningStatistics();
+      this.computer.printWinningStatistics();
       this.getTotalRevenue();
       this.printProfitRate();
       Console.close();
@@ -52,42 +40,8 @@ class App {
   }
 
   getUserNumbersMatch() {
-    const numbersMatch = new NumbersMatch(
-      this.winningNumbers,
-      this.bonnusNumber,
-      this.userLotto.totalNumbers
-    );
-    this.userLottoNumbesMatch = numbersMatch.userLottoNumbesMatch;
-    this.userLottoNumbesMatch.forEach((match) => {
-      const index = winningRanking.findIndex(
-        (win) =>
-          win.winningNumberMatch === match.winningNumberMatch &&
-          win.isBonusNumberMatch === match.isBonusNumberMatch
-      );
-      winningRanking[index].count++;
-    });
-  }
-
-  printWinningStatistics() {
-    Console.print("당첨통계");
-    Console.print("---");
-    winningRanking.forEach((element) => {
-      if (element.isBonusNumberMatch) {
-        Console.print(
-          `${
-            element.winningNumberMatch
-          }개 일치, 보너스 볼 일치 (${addMoneyComma(element.prizeMoney)}원) - ${
-            element.count
-          }개`
-        );
-      } else {
-        Console.print(
-          `${element.winningNumberMatch}개 일치 (${addMoneyComma(
-            element.prizeMoney
-          )}원) - ${element.count}개`
-        );
-      }
-    });
+    this.computer.getMatchs(this.userLotto.totalNumbers);
+    this.computer.getCount();
   }
 
   getTotalRevenue() {
