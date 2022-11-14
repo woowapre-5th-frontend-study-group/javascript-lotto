@@ -1,5 +1,5 @@
 const { Random } = require("@woowacourse/mission-utils");
-const { PRINT_MESSAGE } = require("./constants");
+const { PRINT_MESSAGE } = require("./lib/constants");
 
 class UserLotto {
   count;

@@ -1,10 +1,14 @@
 const { Console } = require("@woowacourse/mission-utils");
-const { winningRanking, ENTER_MESSAGE, PRINT_MESSAGE } = require("./constants");
+const {
+  winningRanking,
+  ENTER_MESSAGE,
+  PRINT_MESSAGE,
+} = require("./lib/constants");
 const Lotto = require("./Lotto");
 const NumbersMatch = require("./NumbersMatch");
 const ProfitRate = require("./ProfitRate");
 const UserLotto = require("./UserLotto");
-const { addMoneyComma } = require("./utils");
+const { addMoneyComma } = require("./lib/utils");
 
 class App {
   purchaseAmout;

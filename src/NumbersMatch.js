@@ -1,4 +1,4 @@
-const { getIntersection } = require("./utils");
+const { getIntersection } = require("./lib/utils");
 
 class NumbersMatch {
   userLottoNumbesMatch = [];
