@@ -23,3 +23,5 @@ class NumbersMatch {
     });
   }
 }
+
+module.exports = NumbersMatch;

@@ -3,7 +3,7 @@ const sortAscendingNumbers = (numbers) => {
 };
 
 const getIntersection = (arr1, arr2) => {
-  return arr1.filter((x) => arr2.includes(x));
+  return arr1.filter((x) => arr2.includes(Number(x)));
 };
 
 module.exports = { sortAscendingNumbers, getIntersection };
