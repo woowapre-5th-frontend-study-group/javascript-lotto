@@ -144,14 +144,15 @@
 ### 6️⃣ 테스트
 
 - [x] test: Lotto 클래스 테스트 작성
-  - Lotto 클래스를 생성하는 테스트를 예외사황을 기준으로 작성한다.
+  - Lotto 클래스를 생성하는 테스트를 예외를 기준으로 작성한다.
   - Lotto 클래스의 getRank 메서드 테스트를 1~5등, 낙첨으로 나누어서 작성한다.
 - [x] test: Lottos 클래스 테스트 작성
-  - Lottos 클래스를 생성하는 테스트를 예외사항을 기준으로 작성한다.
+  - Lottos 클래스를 생성하는 테스트를 예외를 기준으로 작성한다.
   - Lottos 클래스에서 발행된 로또개수를 테스트한다. - Lottos 인스턴스의 list 필드의 length
   - Lottos 클래스에서 로또의 결과를 테스트한다. - getResult() 테스트
   - Lottos 클래스에서 등수 별 당첨 개수를 테스트한다. - getWinningCount() 테스트
 - [x] test: WinningNumbers 클래스 테스트 작성
-  - WinningNumbers 클래스를 생성하는 테스트를 예외사항을 기준으로 작성한다.
-- [ ] test: BonusNumber 클래스 테스트 작성
+  - WinningNumbers 클래스를 생성하는 테스트를 예외를 기준으로 작성한다.
+- [x] test: BonusNumber 클래스 테스트 작성
+  - BonusNumber 클래스를 생성하는 테스트를 예외를 기준으로 작성한다.
 - [ ] test: 유효성 검사 함수 테스트 작성

@@ -64,7 +64,7 @@ describe('WinningNumbers 클래스 생성 테스트', () => {
     [[1, 10, 13, 14, 40, 41]],
     [[6, 22, 28, 31, 42, 44]],
     [[1, 4, 15, 27, 28, 39]],
-  ])('WinningNumbers 클래스 생성 테스트 당첨 번호: %p', (numbers) => {
+  ])('WinningNumbers 클래스 생성 테스트, 당첨 번호: %p', (numbers) => {
     const winningNumbers = new WinningNumbers(numbers);
 
     expect(winningNumbers.value).toEqual(numbers);
