@@ -1,4 +1,4 @@
-const { sortAscendingNumbers } = require("./utils");
+const { sortAscendingNumbers, addMoneyComma } = require("./utils");
 
 const ENTER_MESSAGE = {
   PURCHASE_AMOUT: "구입금액을 입력해 주세요.\n",
@@ -12,6 +12,16 @@ const PRINT_MESSAGE = {
     `[${sortAscendingNumbers(lottoNumbers).join(", ")}]`,
   PROFIT_RATE: (profitRate) => `총 수익률은 ${profitRate}%입니다.`,
   ERROR: (content) => `[ERROR] ${content}`,
+  WINNING_HISTORY: (winningHistory) =>
+    winningHistory.isBonusNumberMatch
+      ? `${
+          winningHistory.winningNumberMatch
+        }개 일치, 보너스 볼 일치 (${addMoneyComma(
+          winningHistory.prizeMoney
+        )}원) - ${winningHistory.count}개`
+      : `${winningHistory.winningNumberMatch}개 일치 (${addMoneyComma(
+          winningHistory.prizeMoney
+        )}원) - ${winningHistory.count}개`,
 };
 
 const winningRanking = [

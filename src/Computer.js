@@ -1,7 +1,7 @@
 const { Console } = require("@woowacourse/mission-utils");
 const Lotto = require("./Lotto");
-const { getIntersection, addMoneyComma } = require("./lib/utils");
-const { winningRanking } = require("./lib/constants");
+const { getIntersection } = require("./lib/utils");
+const { winningRanking, PRINT_MESSAGE } = require("./lib/constants");
 
 class Computer {
   winningNumbers;
@@ -44,22 +44,8 @@ class Computer {
   printWinningStatistics() {
     Console.print("당첨통계");
     Console.print("---");
-    winningRanking.forEach((element) => {
-      if (element.isBonusNumberMatch) {
-        Console.print(
-          `${
-            element.winningNumberMatch
-          }개 일치, 보너스 볼 일치 (${addMoneyComma(element.prizeMoney)}원) - ${
-            element.count
-          }개`
-        );
-      } else {
-        Console.print(
-          `${element.winningNumberMatch}개 일치 (${addMoneyComma(
-            element.prizeMoney
-          )}원) - ${element.count}개`
-        );
-      }
+    winningRanking.forEach((winningHistory) => {
+      Console.print(`${PRINT_MESSAGE.WINNING_HISTORY(winningHistory)}`);
     });
   }
 }

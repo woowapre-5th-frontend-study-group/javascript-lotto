@@ -31,17 +31,15 @@ class App {
   getBonusNumber() {
     Console.readLine(ENTER_MESSAGE.BONUS_NUMBER, (bonusNumber) => {
       this.computer.bonnusNumber = bonusNumber;
-      this.getUserNumbersMatch();
+
+      // 분리 가능
+      this.computer.getMatchs(this.userLotto.totalNumbers);
+      this.computer.getCount();
       this.computer.printWinningStatistics();
       this.getTotalRevenue();
       this.printProfitRate();
       Console.close();
     });
-  }
-
-  getUserNumbersMatch() {
-    this.computer.getMatchs(this.userLotto.totalNumbers);
-    this.computer.getCount();
   }
 
   getTotalRevenue() {
