@@ -15,30 +15,25 @@ class Computer {
 
   getMatchs(totalUserLottoNumbers) {
     totalUserLottoNumbers.forEach((userLottoNumbers) => {
-      const match = { winningNumberMatch: 0, isBonusNumberMatch: false };
-      match.winningNumberMatch = getIntersection(
+      const isBonusNumberMatch = userLottoNumbers.includes(this.bonusNumber);
+      const winningNumberMatch = getIntersection(
         this.winningNumbers,
         userLottoNumbers
       ).length;
-      if (match.winningNumberMatch < 3) {
+      if (winningNumberMatch < 3) {
         return;
       }
-      if (userLottoNumbers.includes(this.bonusNumber)) {
-        match.isBonusNumberMatch = true;
-      }
-      this.numbersMatch.push(match);
+      this.getCount({ winningNumberMatch, isBonusNumberMatch });
     });
   }
 
-  getCount() {
-    this.numbersMatch.forEach((match) => {
-      const index = winningRanking.findIndex(
-        (win) =>
-          win.winningNumberMatch === match.winningNumberMatch &&
-          win.isBonusNumberMatch === match.isBonusNumberMatch
-      );
-      winningRanking[index].count++;
-    });
+  getCount({ winningNumberMatch, isBonusNumberMatch }) {
+    const index = winningRanking.findIndex(
+      (win) =>
+        win.winningNumberMatch === winningNumberMatch &&
+        win.isBonusNumberMatch === isBonusNumberMatch
+    );
+    winningRanking[index].count++;
   }
 
   printWinningStatistics() {

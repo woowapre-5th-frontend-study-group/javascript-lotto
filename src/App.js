@@ -34,7 +34,6 @@ class App {
 
       // 분리 가능
       this.computer.getMatchs(this.userLotto.totalNumbers);
-      this.computer.getCount();
       this.computer.printWinningStatistics();
       this.getTotalRevenue();
       this.printProfitRate();
