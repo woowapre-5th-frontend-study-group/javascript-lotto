@@ -4,6 +4,7 @@ const Lotto = require("./Lotto");
 const NumbersMatch = require("./NumbersMatch");
 const ProfitRate = require("./ProfitRate");
 const UserLotto = require("./UserLotto");
+const { addMoneyComma } = require("./utils");
 
 class App {
   purchaseAmout;
@@ -72,11 +73,17 @@ class App {
     winningRanking.forEach((element) => {
       if (element.isBonusNumberMatch) {
         Console.print(
-          `${element.winningNumberMatch}개 일치, 보너스 볼 일치 (${element.prizeMoney}원) - ${element.count}개`
+          `${
+            element.winningNumberMatch
+          }개 일치, 보너스 볼 일치 (${addMoneyComma(element.prizeMoney)}원) - ${
+            element.count
+          }개`
         );
       } else {
         Console.print(
-          `${element.winningNumberMatch}개 일치 (${element.prizeMoney}원) - ${element.count}개`
+          `${element.winningNumberMatch}개 일치 (${addMoneyComma(
+            element.prizeMoney
+          )}원) - ${element.count}개`
         );
       }
     });
@@ -91,7 +98,7 @@ class App {
   }
 
   printProfitRate() {
-    Console.print(`총 수익률은 ${100 + this.profitRate}%입니다`);
+    Console.print(`총 수익률은 ${100 + this.profitRate}%입니다.`);
   }
 }
 
