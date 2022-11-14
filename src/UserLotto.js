@@ -4,7 +4,7 @@ const { PRINT_MESSAGE } = require("./lib/constants");
 class UserLotto {
   purchaseAmout;
   count;
-  numbers = [];
+  totalNumbers = [];
   constructor(purchaseAmout) {
     this.validate(purchaseAmout);
     this.getNumbers();
@@ -22,7 +22,7 @@ class UserLotto {
   getNumbers() {
     for (let count = 1; count <= this.count; count++) {
       const autoSelectLottoNumber = Random.pickUniqueNumbersInRange(1, 45, 6);
-      this.numbers.push(autoSelectLottoNumber);
+      this.totalNumbers.push(autoSelectLottoNumber);
     }
   }
 }

@@ -27,8 +27,8 @@ class App {
 
   printLottoCountNumbersMessage() {
     Console.print(PRINT_MESSAGE.PURCHASE_COUNT(this.userLotto.count));
-    this.userLotto.numbers.forEach((number) => {
-      Console.print(PRINT_MESSAGE.LOTTO_NUMBERS(number));
+    this.userLotto.totalNumbers.forEach((numbers) => {
+      Console.print(PRINT_MESSAGE.LOTTO_NUMBERS(numbers));
     });
   }
 
@@ -55,7 +55,7 @@ class App {
     const numbersMatch = new NumbersMatch(
       this.winningNumbers,
       this.bonnusNumber,
-      this.userLotto.numbers
+      this.userLotto.totalNumbers
     );
     this.userLottoNumbesMatch = numbersMatch.userLottoNumbesMatch;
     this.userLottoNumbesMatch.forEach((match) => {
