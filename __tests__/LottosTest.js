@@ -74,18 +74,18 @@ describe('로또결과 테스트', () => {
     const winningNumbers = [1, 5, 16, 20, 18, 28];
     const bonusNumber = 34;
 
-    const getResult = () => {
-      let lottoResults = [];
+    const getRanks = () => {
+      let lottoRanks = [];
 
       lottos.forEach((numbers) => {
         const lotto = new Lotto(numbers);
-        lottoResults.push(lotto.getRank(winningNumbers, bonusNumber));
+        lottoRanks.push(lotto.getRank(winningNumbers, bonusNumber));
       });
 
-      return lottoResults.filter((result) => result);
+      return lottoRanks.filter((rank) => rank <= 5);
     };
 
-    expect(getResult()).toEqual([5, 5]);
+    expect(getRanks()).toEqual([5, 5]);
   });
 
   test('실행 테스트 - 1등, 2등, 4등인 경우', () => {
@@ -100,18 +100,18 @@ describe('로또결과 테스트', () => {
     const winningNumbers = [1, 2, 4, 8, 23, 24];
     const bonusNumber = 42;
 
-    const getResult = () => {
-      let lottoResults = [];
+    const getRanks = () => {
+      let lottoRanks = [];
 
       lottos.forEach((numbers) => {
         const lotto = new Lotto(numbers);
-        lottoResults.push(lotto.getRank(winningNumbers, bonusNumber));
+        lottoRanks.push(lotto.getRank(winningNumbers, bonusNumber));
       });
 
-      return lottoResults.filter((result) => result);
+      return lottoRanks.filter((rank) => rank <= 5);
     };
 
-    expect(getResult()).toEqual([1, 2, 4]);
+    expect(getRanks()).toEqual([1, 2, 4]);
   });
 
   test('실행 테스트 - 낙첨인 경우', () => {
@@ -124,18 +124,18 @@ describe('로또결과 테스트', () => {
     const winningNumbers = [1, 2, 4, 8, 23, 24];
     const bonusNumber = 42;
 
-    const getResult = (winningNumbers, bonusNumber) => {
-      let lottoResults = [];
+    const getRanks = (winningNumbers, bonusNumber) => {
+      let lottoRanks = [];
 
       lottos.forEach((numbers) => {
         const lotto = new Lotto(numbers);
-        lottoResults.push(lotto.getRank(winningNumbers, bonusNumber));
+        lottoRanks.push(lotto.getRank(winningNumbers, bonusNumber));
       });
 
-      return lottoResults.filter((result) => result);
+      return lottoRanks.filter((rank) => rank <= 5);
     };
 
-    expect(getResult(winningNumbers, bonusNumber)).toEqual([]);
+    expect(getRanks(winningNumbers, bonusNumber)).toEqual([]);
   });
 });
 
@@ -148,21 +148,21 @@ describe('등수 별 당첨 개수 테스트', () => {
     [1, [1, 2, 4, 2, 2, 5], 4],
   ])(
     '등수 별 당첨 개수 테스트, (5 - %#)등: %d개',
-    (winningCount, lottosResults, idx) => {
-      const getWinningCount = (lottoResults, idx) => {
-        return lottoResults.filter((result) => result === 5 - idx).length;
+    (winningCount, lottoRanks, idx) => {
+      const getWinningCount = (lottoRanks, idx) => {
+        return lottoRanks.filter((result) => result === 5 - idx).length;
       };
 
-      expect(getWinningCount(lottosResults, idx)).toEqual(winningCount);
+      expect(getWinningCount(lottoRanks, idx)).toEqual(winningCount);
     }
   );
 });
 
 describe('수익률 계산 테스트', () => {
-  const calculateRate = (lottoResults, count) => {
+  const calculateRate = (lottoRanks, count) => {
     const lottePrizes = [5000, 50000, 1500000, 30000000, 2000000000];
     const finalPrize = lottePrizes.reduce((acc, cur, idx) => {
-      const winningCount = getWinningCount(lottoResults, idx);
+      const winningCount = getWinningCount(lottoRanks, idx);
 
       return acc + cur * winningCount;
     }, 0);
@@ -172,8 +172,8 @@ describe('수익률 계산 테스트', () => {
     return ((finalPrize / purchaseMoney) * 100).toFixed(1);
   };
 
-  const getWinningCount = (lottoResults, idx) => {
-    return lottoResults.filter((result) => result === 5 - idx).length;
+  const getWinningCount = (lottoRanks, idx) => {
+    return lottoRanks.filter((result) => result === 5 - idx).length;
   };
 
   test.each([
@@ -186,7 +186,7 @@ describe('수익률 계산 테스트', () => {
     [[5], 20, '25.0'],
     [[2], 5, '600000.0'],
     [[5, 1], 30, '6666683.3'],
-  ])('수익률 계산 테스트 calculateRate(%p)', (lottoResults, count, rate) => {
-    expect(calculateRate(lottoResults, count)).toEqual(rate);
+  ])('수익률 계산 테스트 calculateRate(%p)', (lottoRanks, count, rate) => {
+    expect(calculateRate(lottoRanks, count)).toEqual(rate);
   });
 });
