@@ -1,10 +1,12 @@
-const Utils = require('./Utils');
-
 const { Console, Random } = require('@woowacourse/mission-utils');
-const { VALIDATE_TYPE } = require('./Validation');
+
+const UserModels = require('./UserModels');
 
 const Lotto = require('./Lotto');
+const Validation = require('./Validation');
 const HandleException = require('./HandleException');
+
+const VALIDATE_TYPE = Validation.VALIDATE_TYPE;
 
 const QUESTION_MESSAGE = {
     [VALIDATE_TYPE.CACHE]: '구입금액을 입력해 주세요.\n',
@@ -12,64 +14,15 @@ const QUESTION_MESSAGE = {
     [VALIDATE_TYPE.BONUS]: '\n보너스 번호를 입력해 주세요.\n',
 };
 
+const handleException = new HandleException();
+const userModels = new UserModels();
+
 class App {
     constructor() {
-        this._userCache = null;
-        this._userLotto = null;
-        this._userBonus = null;
-        this._userLotteryList = null;
-
         this._callbackHandler = null;
     }
 
     /* #region Class Member getter/setter */
-    getUserCache() {
-        return this._userCache;
-    }
-
-    setUserCache(userCache) {
-        if (typeof userCache !== 'number') {
-            this._userCache = Utils.convertToNumber(userCache);
-            return;
-        }
-
-        this._userCache = userCache;
-    }
-
-    getUserLotto() {
-        return this._userLotto;
-    }
-
-    setUserLotto(userLotto) {
-        if (typeof userLotto === 'string') {
-            this._userLotto = Utils.convertToNumberArray(userLotto);
-            return;
-        }
-
-        this._userLotto = userLotto;
-    }
-
-    getUserLotteryList() {
-        return this._userLotteryList;
-    }
-
-    setUserLotteryList(userLottryList) {
-        this._userLotteryList = userLottryList;
-    }
-
-    getUserBonus() {
-        return this._userBonus;
-    }
-
-    setUserBonus(userBonus) {
-        if (typeof userBonus !== 'number') {
-            this._userBonus = Utils.convertToNumber(userBonus);
-            return;
-        }
-
-        this._userBonus = userBonus;
-    }
-
     setCallbackHandler(...callbackList) {
         this._callbackHandler = this.makeCallbackHandler(...callbackList);
     }
@@ -90,17 +43,13 @@ class App {
             {
                 callbackName: VALIDATE_TYPE.CACHE,
                 extraCallback: () => {
-                    this.buyLotteryTickets();
-                    this.printLotteryList();
+                    this.buyLottoTickets();
+                    this.printLottoList();
                 },
             },
             {
                 callbackName: VALIDATE_TYPE.LOTTO,
                 extraCallback: null,
-                extraOptions: {
-                    isInWinningNumber: this.isInWinningNumber(),
-                    // isInWinningNumber: false,
-                },
             },
             {
                 callbackName: VALIDATE_TYPE.BONUS,
@@ -128,13 +77,16 @@ class App {
             return;
         }
 
-        let { callbackName: questionType, extraCallback, extraOptions } = callbackResult.value;
+        let { callbackName: questionType, extraCallback } = callbackResult.value;
 
         Console.readLine(QUESTION_MESSAGE[questionType], (inputedValue) => {
-            const handleException = new HandleException();
-            handleException.tryValidate(inputedValue, questionType, extraOptions || null);
+            handleException.tryValidate(inputedValue, questionType);
 
-            this[`setUser${questionType}`](inputedValue);
+            if (questionType === VALIDATE_TYPE.LOTTO) {
+                inputedValue = new Lotto(inputedValue);
+            }
+
+            userModels[`setUser${questionType}`](inputedValue);
 
             if (extraCallback) {
                 extraCallback = extraCallback.bind(this);
@@ -151,29 +103,29 @@ class App {
     /* #endregion */
 
     /* #region  2. 구입한 로또 수량 및 번호 출력 */
-    buyLotteryTickets() {
-        const userCache = this.getUserCache();
-        const lotteryCount = userCache / 1000;
+    buyLottoTickets() {
+        const userCache = userModels.getUserCache();
+        const lottoCount = userCache / 1000;
 
-        let lotteryArray = [];
-        for (let i = 0; i < lotteryCount; i++) {
-            const lotteryNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
-            const sortedLotteryNumbers = lotteryNumbers.sort((a, b) => a - b);
-            const newLotto = new Lotto(sortedLotteryNumbers);
+        let lottoArray = [];
+        for (let i = 0; i < lottoCount; i++) {
+            const lottoNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
+            const sortedLottoNumbers = lottoNumbers.sort((a, b) => a - b);
+            const newLotto = new Lotto(sortedLottoNumbers);
 
-            lotteryArray.push(newLotto);
+            lottoArray.push(newLotto);
         }
 
-        this.setUserLotteryList(lotteryArray);
+        userModels.setUserLottoList(lottoArray);
     }
 
-    printLotteryList() {
-        const userLotteryList = this.getUserLotteryList();
-        const lotteryCount = userLotteryList.length;
+    printLottoList() {
+        const userLottoList = userModels.getUserLottoList();
+        const lottoCount = userLottoList.length;
 
-        Console.print(`\n${lotteryCount}개를 구매했습니다.`);
-        userLotteryList.forEach((userLottery) => {
-            userLottery.printLotto();
+        Console.print(`\n${lottoCount}개를 구매했습니다.`);
+        userLottoList.forEach((userLotto) => {
+            userLotto.printLotto();
         });
     }
     /* #endregion */
@@ -183,11 +135,7 @@ class App {
     /* #endregion */
 
     /* #region  4. 보너스 번호 입력 */
-    isInWinningNumber() {
-        const userLotto = this.getUserLotto();
-        const userBonus = this.getUserBonus();
-        return userLotto.includes(userBonus);
-    }
+    // No Needed extra callback function
     /* #endregion */
 
     /* #region  5. 당첨 내역 출력 */
@@ -214,19 +162,19 @@ class App {
     }
 
     compareNumbers() {
-        const userLotto = this.getUserLotto();
-        const userLotteryList = this.getUserLotteryList();
+        const userWinningLotto = userModels.getUserWinningLotto();
+        const userLottoList = userModels.getUserLottoList();
 
-        const matchCountList = userLotteryList.map((lotteryNumber) => {
-            return lotteryNumber.compareLotto(userLotto);
+        const matchCountList = userLottoList.map((userLotto) => {
+            return userLotto.compareLotto(userWinningLotto);
         });
 
         return matchCountList;
     }
 
     countWinningResult(matchResults) {
-        const userLotteryList = this.getUserLotteryList();
-        const userBonus = this.getUserBonus();
+        const userLottoList = userModels.getUserLottoList();
+        const userBonus = userModels.getUserBonus();
         let winningResults = {};
 
         matchResults.forEach((matchCount, index) => {
@@ -235,8 +183,8 @@ class App {
                 return false;
             }
 
-            const matchLottery = userLotteryList[index];
-            const hasUserBonus = matchLottery.includes(userBonus);
+            const matchLotto = userLottoList[index];
+            const hasUserBonus = matchLotto.hasNumber(userBonus);
             if (hasUserBonus) {
                 winningResults['bonus'] = (winningResults['bonus'] || 0) + 1;
             } else {
@@ -255,7 +203,7 @@ class App {
     }
 
     calculateRateOfReturn() {
-        const userCache = this.getUserCache();
+        const userCache = userModels.getUserCache();
         const winningResult = this.getWinningResult();
         const winningPrize =
             (winningResult['3개'] || 0) * 5000 +

@@ -3,7 +3,7 @@ function convertToNumber(source) {
 }
 
 function convertToNumberArray(numbers) {
-    if (!hasElement(numbers, ',')) {
+    if (typeof numbers === 'object') {
         return false;
     }
 
@@ -65,7 +65,7 @@ function canDivideBy(number, operand) {
         if (!isNumber(operand)) return false;
     }
 
-    return !!(number % operand);
+    return !!!(number % operand);
 }
 
 function isUnder(number, threshold) {

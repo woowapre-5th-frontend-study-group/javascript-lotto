@@ -1,11 +1,19 @@
 const Utils = require('./Utils');
 
+let instance = null;
+
 class UserModels {
     constructor() {
+        if (instance) {
+            return instance;
+        }
+
         this._userCache = null;
         this._userLottoList = null;
         this._userWinningLotto = null;
         this._userBonus = null;
+
+        instance = this;
     }
 
     getUserCache() {
@@ -22,7 +30,7 @@ class UserModels {
     }
 
     getUserLottoList() {
-        return this._useryLottoist;
+        return this._userLottoList;
     }
 
     setUserLottoList(userLottoList) {
@@ -34,11 +42,6 @@ class UserModels {
     }
 
     setUserWinningLotto(userWinningLotto) {
-        if (typeof userWinningLotto === 'string') {
-            this._userWinningLotto = Utils.convertToNumberArray(userWinningLotto);
-            return;
-        }
-
         this._userWinningLotto = userWinningLotto;
     }
 

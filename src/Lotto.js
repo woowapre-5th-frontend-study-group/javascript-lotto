@@ -1,6 +1,5 @@
 const { Console } = require('@woowacourse/mission-utils');
-const { VALIDATE_TYPE } = require('./Validation');
-
+const Utils = require('./Utils');
 const HandleException = require('./HandleException');
 
 class Lotto {
@@ -12,6 +11,11 @@ class Lotto {
     }
 
     setNumbers(numbers) {
+        if (typeof numbers === 'string') {
+            this.#numbers = Utils.convertToNumberArray(numbers);
+            return;
+        }
+
         this.#numbers = numbers;
     }
 
@@ -22,12 +26,12 @@ class Lotto {
     validate() {
         const numbers = this.getNumbers();
         const handleException = new HandleException();
-        handleException.tryValidate(numbers, VALIDATE_TYPE.LOTTO);
+        handleException.tryValidate(numbers, 'WinningLotto');
     }
 
     compareLotto(winningLotto) {
         const numbers = this.getNumbers();
-        const matchCount = numbers.filter((number) => winningLotto.includes(number)).length;
+        const matchCount = numbers.filter((number) => winningLotto.hasNumber(number)).length;
 
         return matchCount;
     }
