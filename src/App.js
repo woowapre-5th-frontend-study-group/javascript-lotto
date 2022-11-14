@@ -10,7 +10,6 @@ const UserLotto = require("./UserLotto");
 const { addMoneyComma, getProfitRate } = require("./lib/utils");
 
 class App {
-  purchaseAmout;
   userLotto;
   winningNumbers;
   bonnusNumber;
@@ -19,7 +18,6 @@ class App {
 
   play() {
     Console.readLine(ENTER_MESSAGE.PURCHASE_AMOUT, (purchaseAmout) => {
-      this.purchaseAmout = purchaseAmout;
       const userLotto = new UserLotto(purchaseAmout);
       this.userLotto = userLotto;
       this.printLottoCountNumbersMessage();
@@ -96,7 +94,7 @@ class App {
     const totalRevenue = winningRanking.reduce((acc, cur) => {
       return acc + cur.prizeMoney * cur.count;
     }, 0);
-    this.profitRate = getProfitRate(this.purchaseAmout, totalRevenue);
+    this.profitRate = getProfitRate(this.userLotto.purchaseAmout, totalRevenue);
   }
 
   printProfitRate() {

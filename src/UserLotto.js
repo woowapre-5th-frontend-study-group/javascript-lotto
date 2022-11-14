@@ -2,16 +2,18 @@ const { Random } = require("@woowacourse/mission-utils");
 const { PRINT_MESSAGE } = require("./lib/constants");
 
 class UserLotto {
+  purchaseAmout;
   count;
   numbers = [];
   constructor(purchaseAmout) {
     this.validate(purchaseAmout);
-    this.count = Number(purchaseAmout) / 1000;
     this.getNumbers();
   }
 
   validate(purchaseAmout) {
     if (!isNaN(purchaseAmout)) {
+      this.purchaseAmout = purchaseAmout;
+      this.count = Number(purchaseAmout) / 1000;
       return;
     }
     throw new Error(PRINT_MESSAGE.ERROR("올바른 숫자를 입력해주세요."));
