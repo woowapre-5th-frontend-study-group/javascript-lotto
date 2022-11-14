@@ -151,6 +151,7 @@
   - Lottos 클래스에서 발행된 로또개수를 테스트한다. - Lottos 인스턴스의 list 필드의 length
   - Lottos 클래스에서 로또의 결과를 테스트한다. - getResult() 테스트
   - Lottos 클래스에서 등수 별 당첨 개수를 테스트한다. - getWinningCount() 테스트
-- [ ] test: WinningNumbers 클래스 테스트 작성
+- [x] test: WinningNumbers 클래스 테스트 작성
+  - WinningNumbers 클래스를 생성하는 테스트를 예외사항을 기준으로 작성한다.
 - [ ] test: BonusNumber 클래스 테스트 작성
 - [ ] test: 유효성 검사 함수 테스트 작성

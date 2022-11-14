@@ -1,5 +1,4 @@
 const { describe, expect, test } = require('@jest/globals');
-const MissionUtils = require('@woowacourse/mission-utils');
 const Lotto = require('../src/Lotto');
 const Lottos = require('../src/Lottos');
 
