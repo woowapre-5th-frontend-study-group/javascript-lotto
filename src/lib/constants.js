@@ -12,16 +12,19 @@ const PRINT_MESSAGE = {
     `[${sortAscendingNumbers(lottoNumbers).join(", ")}]`,
   PROFIT_RATE: (profitRate) => `총 수익률은 ${profitRate}%입니다.`,
   ERROR: (content) => `[ERROR] ${content}`,
-  WINNING_HISTORY: (winningHistory) =>
-    winningHistory.isBonusNumberMatch
-      ? `${
-          winningHistory.winningNumberMatch
-        }개 일치, 보너스 볼 일치 (${addMoneyComma(
-          winningHistory.prizeMoney
-        )}원) - ${winningHistory.count}개`
-      : `${winningHistory.winningNumberMatch}개 일치 (${addMoneyComma(
-          winningHistory.prizeMoney
-        )}원) - ${winningHistory.count}개`,
+  WINNING_HISTORY: ({
+    isBonusNumberMatch,
+    winningNumberMatch,
+    prizeMoney,
+    count,
+  }) =>
+    isBonusNumberMatch
+      ? `${winningNumberMatch}개 일치, 보너스 볼 일치 (${addMoneyComma(
+          prizeMoney
+        )}원) - ${count}개`
+      : `${winningNumberMatch}개 일치 (${addMoneyComma(
+          prizeMoney
+        )}원) - ${count}개`,
 };
 
 const winningRanking = [
