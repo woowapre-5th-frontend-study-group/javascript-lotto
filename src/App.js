@@ -27,7 +27,7 @@ class App {
   printLottoCountNumbersMessage() {
     Console.print(`${this.userLotto.count}개를 구매했습니다.`);
     this.userLotto.numbers.forEach((number) => {
-      Console.print(number);
+      Console.print(`[${number.join(", ")}]`);
     });
   }
 
