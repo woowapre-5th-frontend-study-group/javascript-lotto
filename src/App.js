@@ -6,9 +6,8 @@ const {
 } = require("./lib/constants");
 const Lotto = require("./Lotto");
 const NumbersMatch = require("./NumbersMatch");
-const ProfitRate = require("./ProfitRate");
 const UserLotto = require("./UserLotto");
-const { addMoneyComma } = require("./lib/utils");
+const { addMoneyComma, getProfitRate } = require("./lib/utils");
 
 class App {
   purchaseAmout;
@@ -48,7 +47,7 @@ class App {
       this.bonnusNumber = bonusNumber;
       this.getUserNumbersMatch();
       this.printWinningStatistics();
-      this.getProfitRate();
+      this.getTotalRevenue();
       this.printProfitRate();
       Console.close();
     });
@@ -93,12 +92,11 @@ class App {
     });
   }
 
-  getProfitRate() {
+  getTotalRevenue() {
     const totalRevenue = winningRanking.reduce((acc, cur) => {
       return acc + cur.prizeMoney * cur.count;
     }, 0);
-    const profitRate = new ProfitRate(this.purchaseAmout, totalRevenue);
-    this.profitRate = profitRate.number;
+    this.profitRate = getProfitRate(this.purchaseAmout, totalRevenue);
   }
 
   printProfitRate() {

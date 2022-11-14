@@ -10,4 +10,13 @@ const addMoneyComma = (money) => {
   return money.toLocaleString();
 };
 
-module.exports = { sortAscendingNumbers, getIntersection, addMoneyComma };
+const getProfitRate = (purchaseAmout, totalRevenue) => {
+  return 100 + ((totalRevenue - purchaseAmout) / purchaseAmout) * 100;
+};
+
+module.exports = {
+  sortAscendingNumbers,
+  getIntersection,
+  addMoneyComma,
+  getProfitRate,
+};
