@@ -69,6 +69,12 @@ class Lottos {
   }
 
   printRate(lottoResults) {
+    const lottoRate = this.calculateRate(lottoResults);
+
+    Console.print(`총 수익률은 ${lottoRate}%입니다.`);
+  }
+
+  calculateRate(lottoResults) {
     const lottePrizes = [5000, 50000, 1500000, 30000000, 2000000000];
     const finalPrize = lottePrizes.reduce((acc, cur, idx) => {
       const winningCount = this.getWinningCount(lottoResults, idx);
@@ -77,9 +83,8 @@ class Lottos {
     }, 0);
 
     const purchaseMoney = this.count * 1000;
-    const lottoRate = ((finalPrize / purchaseMoney) * 100).toFixed(1);
 
-    Console.print(`총 수익률은 ${lottoRate}%입니다.`);
+    return ((finalPrize / purchaseMoney) * 100).toFixed(1);
   }
 
   getWinningCount(lottoResults, idx) {
