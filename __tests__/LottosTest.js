@@ -157,3 +157,36 @@ describe('등수 별 당첨 개수 테스트', () => {
     }
   );
 });
+
+describe('수익률 계산 테스트', () => {
+  const calculateRate = (lottoResults, count) => {
+    const lottePrizes = [5000, 50000, 1500000, 30000000, 2000000000];
+    const finalPrize = lottePrizes.reduce((acc, cur, idx) => {
+      const winningCount = getWinningCount(lottoResults, idx);
+
+      return acc + cur * winningCount;
+    }, 0);
+
+    const purchaseMoney = count * 1000;
+
+    return ((finalPrize / purchaseMoney) * 100).toFixed(1);
+  };
+
+  const getWinningCount = (lottoResults, idx) => {
+    return lottoResults.filter((result) => result === 5 - idx).length;
+  };
+
+  test.each([
+    [[], 10, '0.0'],
+    [[], 1, '0.0'],
+    [[5], 10, '50.0'],
+    [[5], 1, '500.0'],
+    [[5], 5, '100.0'],
+    [[5, 4, 4], 10, '1050.0'],
+    [[5], 20, '25.0'],
+    [[2], 5, '600000.0'],
+    [[5, 1], 30, '6666683.3'],
+  ])('수익률 계산 테스트 calculateRate(%p)', (lottoResults, count, rate) => {
+    expect(calculateRate(lottoResults, count)).toEqual(rate);
+  });
+});
