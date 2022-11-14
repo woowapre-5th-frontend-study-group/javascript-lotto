@@ -1,5 +1,5 @@
 const { Console } = require("@woowacourse/mission-utils");
-const { winningRanking } = require("./constants");
+const { winningRanking, ENTER_MESSAGE } = require("./constants");
 const Lotto = require("./Lotto");
 const NumbersMatch = require("./NumbersMatch");
 const ProfitRate = require("./ProfitRate");
@@ -15,7 +15,7 @@ class App {
   profitRate;
 
   play() {
-    Console.readLine("구입금액을 입력해 주세요.\n", async (purchaseAmout) => {
+    Console.readLine(ENTER_MESSAGE.PURCHASE_AMOUT, (purchaseAmout) => {
       this.purchaseAmout = purchaseAmout;
       const userLotto = new UserLotto(purchaseAmout);
       this.userLotto = userLotto;
@@ -32,7 +32,7 @@ class App {
   }
 
   getWinningNumbers() {
-    Console.readLine("당첨 번호를 입력해 주세요.\n", (winningNumbers) => {
+    Console.readLine(ENTER_MESSAGE.WINNING_NUMBERS, (winningNumbers) => {
       new Lotto(winningNumbers.split(","));
       this.winningNumbers = winningNumbers.split(",");
       this.getBonusNumber();
@@ -40,7 +40,7 @@ class App {
   }
 
   getBonusNumber() {
-    Console.readLine("보너스 번호를 입력해 주세요.\n", (bonusNumber) => {
+    Console.readLine(ENTER_MESSAGE.BONUS_NUMBER, (bonusNumber) => {
       this.bonnusNumber = bonusNumber;
       this.getUserNumbersMatch();
       this.printWinningStatistics();
