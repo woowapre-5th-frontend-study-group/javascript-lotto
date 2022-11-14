@@ -1,5 +1,5 @@
 const { Console } = require("@woowacourse/mission-utils");
-const { winningRanking, ENTER_MESSAGE } = require("./constants");
+const { winningRanking, ENTER_MESSAGE, PRINT_MESSAGE } = require("./constants");
 const Lotto = require("./Lotto");
 const NumbersMatch = require("./NumbersMatch");
 const ProfitRate = require("./ProfitRate");
@@ -25,9 +25,9 @@ class App {
   }
 
   printLottoCountNumbersMessage() {
-    Console.print(`${this.userLotto.count}개를 구매했습니다.`);
+    Console.print(PRINT_MESSAGE.PURCHASE_COUNT(this.userLotto.count));
     this.userLotto.numbers.forEach((number) => {
-      Console.print(`[${number.join(", ")}]`);
+      Console.print(PRINT_MESSAGE.LOTTO_NUMBERS(number));
     });
   }
 
@@ -98,7 +98,7 @@ class App {
   }
 
   printProfitRate() {
-    Console.print(`총 수익률은 ${100 + this.profitRate}%입니다.`);
+    Console.print(PRINT_MESSAGE.PROFIT_RATE(this.profitRate));
   }
 }
 
