@@ -1,7 +1,7 @@
 const { Console } = require('@woowacourse/mission-utils');
 const checkValue = require('./libs/checkValue');
 const exitWithError = require('./libs/exitWithError');
-const { LOTTO_NUMBER } = require('./libs/const');
+const { LOTTO_NUMBER, PLACE } = require('./libs/const');
 
 class Lotto {
   #numbers;
@@ -34,9 +34,9 @@ class Lotto {
       if (winningNumbers.includes(number)) count += 1;
     });
 
-    if (count === 6) return 1;
+    if (count === 6) return PLACE.FIRST;
 
-    if (count === 5 && this.#numbers.includes(bonusNumber)) return 2;
+    if (count === 5 && this.#numbers.includes(bonusNumber)) return PLACE.SECOND;
 
     return 8 - count;
   }

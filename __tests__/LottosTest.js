@@ -1,4 +1,5 @@
 const { describe, expect, test } = require('@jest/globals');
+const { MONEY, PRIZE, PLACE } = require('../src/libs/const');
 const Lotto = require('../src/Lotto');
 const Lottos = require('../src/Lottos');
 
@@ -132,7 +133,7 @@ describe('로또결과 테스트', () => {
         lottoRanks.push(lotto.getRank(winningNumbers, bonusNumber));
       });
 
-      return lottoRanks.filter((rank) => rank <= 5);
+      return lottoRanks.filter((rank) => rank <= PLACE.LAST);
     };
 
     expect(getRanks(winningNumbers, bonusNumber)).toEqual([]);
@@ -160,14 +161,20 @@ describe('등수 별 당첨 개수 테스트', () => {
 
 describe('수익률 계산 테스트', () => {
   const calculateRate = (lottoRanks, count) => {
-    const lottePrizes = [5000, 50000, 1500000, 30000000, 2000000000];
+    const lottePrizes = [
+      PRIZE.FIFTH,
+      PRIZE.FOURTH,
+      PRIZE.THIRD,
+      PRIZE.SECOND,
+      PRIZE.FIRST,
+    ];
     const finalPrize = lottePrizes.reduce((acc, cur, idx) => {
       const winningCount = getWinningCount(lottoRanks, idx);
 
       return acc + cur * winningCount;
     }, 0);
 
-    const purchaseMoney = count * 1000;
+    const purchaseMoney = count * MONEY.UNIT;
 
     return ((finalPrize / purchaseMoney) * 100).toFixed(1);
   };

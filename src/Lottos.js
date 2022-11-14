@@ -2,7 +2,7 @@ const { Console, Random } = require('@woowacourse/mission-utils');
 const Lotto = require('./Lotto');
 const checkValue = require('./libs/checkValue');
 const exitWithError = require('./libs/exitWithError');
-const { MONEY, LOTTO } = require('./libs/const');
+const { MONEY, LOTTO, PRIZE, WINNING_DETAIL, PLACE } = require('./libs/const');
 
 class Lottos {
   constructor(money) {
@@ -55,21 +55,21 @@ class Lottos {
       lottoRanks.push(lotto.getRank(winningNumbers, bonusNumber));
     });
 
-    return lottoRanks.filter((rank) => rank <= 5);
+    return lottoRanks.filter((rank) => rank <= PLACE.LAST);
   }
 
   printWinningDetails(lottoRanks) {
     const winningDetails = [
-      '3개 일치 (5,000원)',
-      '4개 일치 (50,000원)',
-      '5개 일치 (1,500,000원)',
-      '5개 일치, 보너스 볼 일치 (30,000,000원)',
-      '6개 일치 (2,000,000,000원)',
+      WINNING_DETAIL.FIFTH,
+      WINNING_DETAIL.FOURTH,
+      WINNING_DETAIL.THIRD,
+      WINNING_DETAIL.SECOND,
+      WINNING_DETAIL.FIRST,
     ];
-    winningDetails.forEach((winninHistory, idx) => {
+    winningDetails.forEach((winningDetail, idx) => {
       const winningCount = this.getWinningCount(lottoRanks, idx);
 
-      Console.print(`${winninHistory} - ${winningCount}개`);
+      Console.print(`${winningDetail} - ${winningCount}개`);
     });
   }
 
@@ -80,7 +80,13 @@ class Lottos {
   }
 
   calculateRate(lottoRanks) {
-    const lottePrizes = [5000, 50000, 1500000, 30000000, 2000000000];
+    const lottePrizes = [
+      PRIZE.FIFTH,
+      PRIZE.FOURTH,
+      PRIZE.THIRD,
+      PRIZE.SECOND,
+      PRIZE.FIRST,
+    ];
     const finalPrize = lottePrizes.reduce((acc, cur, idx) => {
       const winningCount = this.getWinningCount(lottoRanks, idx);
 
@@ -92,8 +98,8 @@ class Lottos {
     return ((finalPrize / purchaseMoney) * 100).toFixed(1);
   }
 
-  getWinningCount(lottoResults, idx) {
-    return lottoResults.filter((result) => result === 5 - idx).length;
+  getWinningCount(lottoRanks, idx) {
+    return lottoRanks.filter((rank) => rank === 5 - idx).length;
   }
 }
 
