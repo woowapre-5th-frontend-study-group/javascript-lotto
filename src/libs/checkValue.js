@@ -62,7 +62,7 @@ const createErrorMsg = {
   },
 
   length: (name) => {
-    return `'[ERROR] ${name}: 중복되지 않은 6개의 숫자로 이루어져야 합니다.'`;
+    return `[ERROR] ${name}: 중복되지 않은 6개의 숫자로 이루어져야 합니다.`;
   },
 };
 
