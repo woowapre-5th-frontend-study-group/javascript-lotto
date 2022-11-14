@@ -2,17 +2,20 @@ const { Console } = require("@woowacourse/mission-utils");
 const { winningRanking } = require("./constants");
 const Lotto = require("./Lotto");
 const NumbersMatch = require("./NumbersMatch");
+const ProfitRate = require("./ProfitRate");
 const UserLotto = require("./UserLotto");
 
 class App {
+  purchaseAmout;
   userLotto;
   winningNumbers;
   bonnusNumber;
   userLottoNumbesMatch;
+  profitRate;
 
   play() {
-    Console.print("구입금액을 입력해 주세요.");
-    Console.readLine("", async (purchaseAmout) => {
+    Console.readLine("구입금액을 입력해 주세요.\n", async (purchaseAmout) => {
+      this.purchaseAmout = purchaseAmout;
       const userLotto = new UserLotto(purchaseAmout);
       this.userLotto = userLotto;
       this.printLottoCountNumbersMessage();
@@ -28,8 +31,7 @@ class App {
   }
 
   getWinningNumbers() {
-    Console.print("당첨 번호를 입력해 주세요.");
-    Console.readLine("", (winningNumbers) => {
+    Console.readLine("당첨 번호를 입력해 주세요.\n", (winningNumbers) => {
       new Lotto(winningNumbers.split(","));
       this.winningNumbers = winningNumbers.split(",");
       this.getBonusNumber();
@@ -40,6 +42,10 @@ class App {
     Console.readLine("보너스 번호를 입력해 주세요.\n", (bonusNumber) => {
       this.bonnusNumber = bonusNumber;
       this.getUserNumbersMatch();
+      this.printWinningStatistics();
+      this.getProfitRate();
+      this.printProfitRate();
+      Console.close();
     });
   }
 
@@ -60,7 +66,27 @@ class App {
     });
   }
 
-  printWinningStatistics() {}
+  printWinningStatistics() {
+    Console.print("당첨통계");
+    Console.print("---");
+    winningRanking.forEach((element) => {
+      Console.print(
+        `${element.winningNumberMatch}개 일치 (${element.prizeMoney}원) - ${element.count}개`
+      );
+    });
+  }
+
+  getProfitRate() {
+    const totalRevenue = winningRanking.reduce((acc, cur) => {
+      return acc + cur.prizeMoney * cur.count;
+    }, 0);
+    const profitRate = new ProfitRate(this.purchaseAmout, totalRevenue);
+    this.profitRate = profitRate.number;
+  }
+
+  printProfitRate() {
+    Console.print(`총 수익률은 ${100 + this.profitRate}%입니다`);
+  }
 }
 
 const app = new App();
