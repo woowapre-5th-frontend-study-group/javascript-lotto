@@ -155,6 +155,7 @@
   - WinningNumbers 클래스를 생성하는 테스트를 예외를 기준으로 작성한다.
 - [x] test: BonusNumber 클래스 테스트 작성
   - BonusNumber 클래스를 생성하는 테스트를 예외를 기준으로 작성한다.
-- [ ] test: 유효성 검사 함수 테스트 작성
+- [x] test: 유효성 검사 함수 테스트 작성
   - checkValue.money() 함수 테스트를 예외를 기준으로 작성한다.
   - checkValue.numbers() 함수 테스트를 예외를 기준으로 작성한다.
+  - checkValue.bonusNumber() 함수 테스트를 예외를 기준으로 작성한다.

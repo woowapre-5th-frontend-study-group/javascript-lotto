@@ -90,3 +90,53 @@ describe('checkValue.numbers() 테스트', () => {
     }
   );
 });
+
+describe('checkValue.bonusNumber() 테스트', () => {
+  test.each([
+    ['one', [1, 2, 3, 4, 5, 6]],
+    ['1j', [1, 2, 3, 4, 5, 6]],
+  ])(
+    '숫자가 아닌 값을 첫번째 매개변수로 받으면 errorMsg의 값이 존재하는 객체를 반환한다. checkValue.bonusNumber(%s, %p)',
+    (number, winningNumbers) => {
+      expect(checkValue.bonusNumber(number, winningNumbers)).toEqual({
+        errorMsg: '[ERROR] 보너스 번호: 숫자만 입력할 수 있습니다.',
+      });
+    }
+  );
+
+  test.each([
+    [1, [1, 2, 3, 4, 5, 6]],
+    [20, [10, 20, 30, 40, 35, 36]],
+  ])(
+    '당첨 번호에 포함되어 있는 값을 첫번째 매개변수로 받으면 errorMsg의 값이 존재하는 객체를 반환한다. checkValue.bonusNumber(%s, %p)',
+    (number, winningNumbers) => {
+      expect(checkValue.bonusNumber(number, winningNumbers)).toEqual({
+        errorMsg: '[ERROR] 보너스 번호: 이미 당첨 번호에 포함되어 있습니다.',
+      });
+    }
+  );
+
+  test.each([
+    [-1, [1, 2, 3, 4, 5, 6]],
+    [50, [10, 20, 30, 40, 35, 36]],
+  ])(
+    '1~45의 범위를 벗어난 숫자을 첫번째 매개변수로 받으면 errorMsg의 값이 존재하는 객체를 반환한다. checkValue.bonusNumber(%s, %p)',
+    (number, winningNumbers) => {
+      expect(checkValue.bonusNumber(number, winningNumbers)).toEqual({
+        errorMsg: '[ERROR] 보너스 번호: 1~45 사이의 값만 입력할 수 있습니다.',
+      });
+    }
+  );
+
+  test.each([
+    [9, [1, 2, 3, 4, 5, 6]],
+    [15, [10, 20, 30, 40, 35, 36]],
+  ])(
+    '조건에 만족하는 값을 매개변수로 받으면 errorMsg의 값이 존재하는 객체를 반환한다. checkValue.bonusNumber(%s, %p)',
+    (number, winningNumbers) => {
+      expect(checkValue.bonusNumber(number, winningNumbers)).toEqual({
+        errorMsg: undefined,
+      });
+    }
+  );
+});
