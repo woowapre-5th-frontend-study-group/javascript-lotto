@@ -2,11 +2,12 @@ const { Console, Random } = require('@woowacourse/mission-utils');
 const Lotto = require('./Lotto');
 const checkValue = require('./libs/checkValue');
 const exitWithError = require('./libs/exitWithError');
+const { MONEY, LOTTO } = require('./libs/const');
 
 class Lottos {
   constructor(money) {
     this.validate(money);
-    this.count = money / 1000;
+    this.count = money / MONEY.UNIT;
     this.list = [];
     this.publish();
   }
@@ -28,7 +29,11 @@ class Lottos {
   }
 
   createNewLotto() {
-    const newNumbers = Random.pickUniqueNumbersInRange(1, 45, 6);
+    const newNumbers = Random.pickUniqueNumbersInRange(
+      LOTTO.MIN_NUMBER,
+      LOTTO.MAX_NUMBER,
+      LOTTO.NUMBERS_COUNT
+    );
 
     return new Lotto(newNumbers);
   }
@@ -82,7 +87,7 @@ class Lottos {
       return acc + cur * winningCount;
     }, 0);
 
-    const purchaseMoney = this.count * 1000;
+    const purchaseMoney = this.count * MONEY.UNIT;
 
     return ((finalPrize / purchaseMoney) * 100).toFixed(1);
   }

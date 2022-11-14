@@ -12,7 +12,18 @@ const MESSAGE = {
   WINNING_STATS: '\n당첨 통계\n---',
 };
 
-const MONEY = '구입금액';
+const MONEY = {
+  UNIT: 1000,
+  MIN: 1000,
+};
+
+const LOTTO = {
+  MIN_NUMBER: 1,
+  MAX_NUMBER: 45,
+  NUMBERS_COUNT: 6,
+};
+
+const PURCHASE_MONEY = '구입금액';
 const LOTTO_NUMBER = '로또 번호';
 const WINNING_NUMBER = '당첨 번호';
 const BONUS_NUMBER = '보너스 번호';
@@ -21,6 +32,8 @@ module.exports = {
   ERROR_MESSAGE,
   MESSAGE,
   MONEY,
+  LOTTO,
+  PURCHASE_MONEY,
   LOTTO_NUMBER,
   WINNING_NUMBER,
   BONUS_NUMBER,

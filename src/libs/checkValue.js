@@ -1,12 +1,18 @@
-const { ERROR_MESSAGE, MONEY, BONUS_NUMBER } = require('./const');
+const {
+  ERROR_MESSAGE,
+  BONUS_NUMBER,
+  PURCHASE_MONEY,
+  MONEY,
+  LOTTO,
+} = require('./const');
 
 const checkValue = {
   money(money) {
-    if (isNaN(money)) return { errorMsg: createErrorMsg.type(MONEY) };
+    if (isNaN(money)) return { errorMsg: createErrorMsg.type(PURCHASE_MONEY) };
 
-    if (money < 1000) return { errorMsg: ERROR_MESSAGE.MIN_MONEY };
+    if (money < MONEY.MIN) return { errorMsg: ERROR_MESSAGE.MIN_MONEY };
 
-    if (money % 1000) return { errorMsg: ERROR_MESSAGE.UNIT_MONEY };
+    if (money % MONEY.UNIT) return { errorMsg: ERROR_MESSAGE.UNIT_MONEY };
 
     return { errorMsg: undefined };
   },
@@ -14,7 +20,10 @@ const checkValue = {
   numbers(numbers, name) {
     if (!isNumberType(numbers)) return { errorMsg: createErrorMsg.type(name) };
 
-    if (numbers.length !== 6 || [...new Set(numbers)].length !== 6)
+    if (
+      numbers.length !== LOTTO.NUMBERS_COUNT ||
+      [...new Set(numbers)].length !== LOTTO.NUMBERS_COUNT
+    )
       return {
         errorMsg: createErrorMsg.length(name),
       };
@@ -35,7 +44,7 @@ const checkValue = {
         errorMsg: ERROR_MESSAGE.INCLUDE_WINNING_NUMBER,
       };
 
-    if (number > 45 || number < 1)
+    if (number > LOTTO.MAX_NUMBER || number < LOTTO.MIN_NUMBER)
       return {
         errorMsg: createErrorMsg.range(BONUS_NUMBER),
       };
@@ -49,12 +58,14 @@ const isNumberType = (numbers) => {
 };
 
 const isCorrectRange = (numbers) => {
-  return numbers.every((number) => number <= 45 && number >= 1);
+  return numbers.every(
+    (number) => number <= LOTTO.MAX_NUMBER && number >= LOTTO.MIN_NUMBER
+  );
 };
 
 const createErrorMsg = {
   range: (name) => {
-    return `[ERROR] ${name}: 1~45 사이의 값만 입력할 수 있습니다.`;
+    return `[ERROR] ${name}: ${LOTTO.MIN_NUMBER}~${LOTTO.MAX_NUMBER} 사이의 값만 입력할 수 있습니다.`;
   },
 
   type: (name) => {
@@ -62,7 +73,7 @@ const createErrorMsg = {
   },
 
   length: (name) => {
-    return `[ERROR] ${name}: 중복되지 않은 6개의 숫자로 이루어져야 합니다.`;
+    return `[ERROR] ${name}: 중복되지 않은 ${LOTTO.NUMBERS_COUNT}개의 숫자로 이루어져야 합니다.`;
   },
 };
 
