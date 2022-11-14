@@ -55,7 +55,7 @@ class Lottos {
       lottoResults.push(lotto.getRank(winningNumbers, bonusNumber));
     });
 
-    return lottoResults.filter((result) => result);
+    return lottoResults.filter((result) => result <= 5);
   }
 
   printWinningDetails(lottoResults) {

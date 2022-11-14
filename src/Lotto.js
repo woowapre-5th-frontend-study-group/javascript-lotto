@@ -34,8 +34,6 @@ class Lotto {
       if (winningNumbers.includes(number)) count += 1;
     });
 
-    if (count < 3) return null;
-
     if (count === 6) return 1;
 
     if (count === 5 && this.#numbers.includes(bonusNumber)) return 2;
