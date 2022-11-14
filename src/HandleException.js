@@ -1,13 +1,11 @@
-const { Console } = require('@woowacourse/mission-utils');
-const Validation = require('./Validation');
+const { Validation, Console } = require('./common');
 
 class HandleException {
-    tryValidate(inputValue, validateType, options = null) {
+    tryValidate(inputValue, validateType) {
         const myValidation = new Validation();
         const { isInvalidation, errorObject } = myValidation.invalidateValue(
             inputValue,
-            validateType,
-            options
+            validateType
         );
 
         if (isInvalidation) {

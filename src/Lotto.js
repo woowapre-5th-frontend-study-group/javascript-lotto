@@ -32,6 +32,11 @@ class Lotto {
         return matchCount;
     }
 
+    hasNumber(number) {
+        const numbers = this.getNumbers();
+        return numbers.includes(number);
+    }
+
     printLotto() {
         Console.print(`[${this.#numbers.join(', ')}]`);
     }

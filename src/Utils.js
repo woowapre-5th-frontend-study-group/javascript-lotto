@@ -3,28 +3,36 @@ function convertToNumber(source) {
 }
 
 function convertToNumberArray(numbers) {
-    return numbers.split(',').map((number) => +number);
+    if (!hasElement(numbers, ',')) {
+        return false;
+    }
+
+    const numberArray = numbers.split(',');
+    const hasNotNumber = numberArray.some((number) => !isNumber(number));
+    if (hasNotNumber) return false;
+
+    return numberArray.map((number) => +number);
 }
 
-function includeNeitherNumberNorComma(numbers) {
-    return [...numbers].some((number) => isNaN(+number) && number !== ',');
+function hasElement(source, ...elements) {
+    return [...source].some((item) => elements.includes(item));
 }
 
-function isNotInRange(numbers, [from, to]) {
+function isInRange(numbers, [from, to]) {
     let numberArray = numbers;
 
     if (typeof numbers === 'string') {
-        numberArray = numbers.split(',');
+        numberArray = convertToNumberArray(numbers);
     }
 
-    return numberArray.some((number) => isNaN(+number) || +number < from || +number > to);
+    return numberArray.every((number) => !isNaN(number) && number >= from && number <= to);
 }
 
 function hasDuplication(numbers) {
     let numberArray = numbers;
 
     if (typeof numbers === 'string') {
-        numberArray = numbers.split(',').map((number) => +number);
+        numberArray = numbers.split(',').map((number) => convertToNumber(number));
     }
 
     const newSetSize = new Set(numberArray).size;
@@ -32,34 +40,52 @@ function hasDuplication(numbers) {
     return newSetSize !== numbersSize;
 }
 
-function isNotLength(numbers, length) {
+function isLength(numbers, length) {
     if (typeof numbers === 'object') {
-        return numbers.length !== length;
+        return numbers.length === length;
     }
 
-    return numbers.split(',').length !== length;
+    return numbers.split(',').length === length;
 }
 
-function isNotNumber(source) {
-    return isNaN(+source);
+function isNumber(source) {
+    return !isNaN(+source);
 }
 
-function couldNotBeDevidedBy(number, operand) {
-    return !!(+number % operand);
+function canDivideBy(number, operand) {
+    if (typeof number === 'string') {
+        number = convertToNumber(number);
+
+        if (!isNumber(number)) return false;
+    }
+
+    if (typeof operand === 'string') {
+        operand = convertToNumber(operand);
+
+        if (!isNumber(operand)) return false;
+    }
+
+    return !!(number % operand);
 }
 
 function isUnder(number, threshold) {
-    return +number < threshold;
+    if (typeof number === 'string') {
+        number = convertToNumber(number);
+
+        if (!isNumber(number)) return false;
+    }
+
+    return number < threshold;
 }
 
 module.exports = {
     convertToNumber,
     convertToNumberArray,
-    includeNeitherNumberNorComma,
-    isNotInRange,
+    hasElement,
+    isInRange,
     hasDuplication,
-    isNotLength,
-    isNotNumber,
-    couldNotBeDevidedBy,
+    isLength,
+    isNumber,
+    canDivideBy,
     isUnder,
 };
