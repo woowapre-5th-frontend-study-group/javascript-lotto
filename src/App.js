@@ -155,13 +155,13 @@ class App {
     }
 
     getWinningResult() {
-        const matchResults = this.compareNumbers();
+        const matchResults = this.compareLottos();
         const winningResults = this.countWinningResult(matchResults);
 
         return winningResults;
     }
 
-    compareNumbers() {
+    compareLottos() {
         const userWinningLotto = userModels.getUserWinningLotto();
         const userLottoList = userModels.getUserLottoList();
 
