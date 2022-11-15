@@ -18,7 +18,7 @@ class Computer {
   setBonusNumber(bonusNumber) {
     Validate.isBonusNumberRange(bonusNumber);
     Validate.isUniqueBonusNumber(Number(bonusNumber), this.winningNumbers);
-    this.bonusNumber = bonusNumber;
+    this.bonusNumber = Number(bonusNumber);
   }
 
   changeWinningNumbers(winningNumbers) {
