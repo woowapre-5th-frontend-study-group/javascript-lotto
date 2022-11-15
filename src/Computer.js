@@ -6,11 +6,12 @@ const { winningRanking, PRINT_MESSAGE } = require("./lib/constants");
 class Computer {
   winningNumbers;
   bonusNumber;
-  numbersMatch = [];
+  winningRanking;
 
   constructor(winningNumbers) {
     new Lotto(winningNumbers.split(","));
     this.winningNumbers = winningNumbers.split(",");
+    this.winningRanking = winningRanking;
   }
 
   getMatchs(totalUserLottoNumbers) {
@@ -28,18 +29,24 @@ class Computer {
   }
 
   getCount({ winningNumberMatch, isBonusNumberMatch }) {
-    const index = winningRanking.findIndex(
+    const index = this.winningRanking.findIndex(
       (win) =>
         win.winningNumberMatch === winningNumberMatch &&
         win.isBonusNumberMatch === isBonusNumberMatch
     );
-    winningRanking[index].count++;
+    this.winningRanking[index].count++;
+  }
+
+  getTotalRevenue() {
+    return this.winningRanking.reduce((acc, cur) => {
+      return acc + cur.prizeMoney * cur.count;
+    }, 0);
   }
 
   printWinningStatistics() {
     Console.print("당첨통계");
     Console.print("---");
-    winningRanking.forEach((winningHistory) => {
+    this.winningRanking.forEach((winningHistory) => {
       Console.print(`${PRINT_MESSAGE.WINNING_HISTORY(winningHistory)}`);
     });
   }
