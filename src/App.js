@@ -218,6 +218,4 @@ class App {
     /* #endregion */
 }
 
-new App().play();
-
 module.exports = App;
