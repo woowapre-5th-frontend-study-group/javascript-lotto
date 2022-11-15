@@ -3,6 +3,7 @@ const UserLotto = require("./UserLotto");
 const Computer = require("./Computer");
 const { ENTER_MESSAGE } = require("./lib/constants");
 const ProfitRate = require("./ProfiRate");
+const View = require("./View");
 
 class App {
   userLotto;
@@ -12,8 +13,8 @@ class App {
   play() {
     Console.readLine(ENTER_MESSAGE.PURCHASE_AMOUT, (purchaseAmout) => {
       this.userLotto = new UserLotto(purchaseAmout);
-      this.userLotto.printLottoCount();
-      this.userLotto.printLottoNumbers();
+      View.lottoCount(this.userLotto.count);
+      View.lottoNumbers(this.userLotto.totalNumbers);
       this.getWinningNumbers();
     });
   }
@@ -29,13 +30,13 @@ class App {
     Console.readLine(ENTER_MESSAGE.BONUS_NUMBER, (bonusNumber) => {
       this.computer.bonnusNumber = bonusNumber;
       this.computer.getMatchs(this.userLotto.totalNumbers);
-      this.computer.printWinningStatistics();
+      View.winningStatistics(this.computer.winningRanking);
 
       this.profitRate = new ProfitRate(
         this.userLotto.purchaseAmout,
         this.computer.getTotalRevenue()
       );
-      this.profitRate.printProfitRate();
+      View.profitRate(this.profitRate.getProfitRate());
       Console.close();
     });
   }

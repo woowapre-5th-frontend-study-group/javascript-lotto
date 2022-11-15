@@ -1,7 +1,6 @@
-const { Console } = require("@woowacourse/mission-utils");
 const Lotto = require("./Lotto");
 const { getIntersection } = require("./lib/utils");
-const { winningRanking, PRINT_MESSAGE } = require("./lib/constants");
+const { winningRanking } = require("./lib/constants");
 
 class Computer {
   winningNumbers;
@@ -41,14 +40,6 @@ class Computer {
     return this.winningRanking.reduce((acc, cur) => {
       return acc + cur.prizeMoney * cur.count;
     }, 0);
-  }
-
-  printWinningStatistics() {
-    Console.print("당첨통계");
-    Console.print("---");
-    this.winningRanking.forEach((winningHistory) => {
-      Console.print(`${PRINT_MESSAGE.WINNING_HISTORY(winningHistory)}`);
-    });
   }
 }
 

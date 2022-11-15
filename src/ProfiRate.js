@@ -1,7 +1,3 @@
-const { Console } = require("@woowacourse/mission-utils");
-const { getProfitRate } = require("./lib/utils");
-const { PRINT_MESSAGE } = require("./lib/constants");
-
 class ProfitRate {
   totalRevenue;
   purchaseAmout;
@@ -11,10 +7,12 @@ class ProfitRate {
     this.totalRevenue = totalRevenue;
   }
 
-  printProfitRate() {
-    const profitRate = getProfitRate(this.purchaseAmout, this.totalRevenue);
-    Console.print(PRINT_MESSAGE.PROFIT_RATE(profitRate));
-  }
+  getProfitRate = () => {
+    return (
+      100 +
+      ((this.totalRevenue - this.purchaseAmout) / this.purchaseAmout) * 100
+    );
+  };
 }
 
 module.exports = ProfitRate;
