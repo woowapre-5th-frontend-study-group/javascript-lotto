@@ -29,7 +29,11 @@ class UserLotto {
 
   getTotalNumbers() {
     for (let count = 1; count <= this.count; count++) {
-      const autoSelectLottoNumber = Random.pickUniqueNumbersInRange(1, 45, 6);
+      const autoSelectLottoNumber = Random.pickUniqueNumbersInRange(
+        LOTTO.NUMBER_RANGE.START,
+        LOTTO.NUMBER_RANGE.END,
+        LOTTO.NUMBER_RANGE.COUNT
+      );
       this.totalNumbers.push(autoSelectLottoNumber);
     }
   }

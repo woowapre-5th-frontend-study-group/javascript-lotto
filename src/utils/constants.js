@@ -2,6 +2,11 @@ const { sortAscendingNumbers, addMoneyComma } = require("./utils");
 
 const LOTTO = {
   PURCHASE_UNIT: 1000,
+  NUMBER_RANGE: {
+    START: 1,
+    END: 45,
+    COUNT: 6,
+  },
 };
 
 const ENTER_MESSAGE = {
