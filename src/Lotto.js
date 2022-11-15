@@ -22,7 +22,9 @@ class Lotto {
     return deduplicationNumbers.size === 6;
   }
 
-  // TODO: 추가 기능 구현
+  getNumber() {
+    return this.#numbers;
+  }
 }
 
 module.exports = Lotto;

@@ -8,8 +8,9 @@ class Computer {
   winningRanking;
 
   constructor(winningNumbers) {
-    new Lotto(this.changeWinningNumbers(winningNumbers));
-    this.winningNumbers = this.changeWinningNumbers(winningNumbers);
+    this.winningNumbers = new Lotto(
+      this.changeWinningNumbers(winningNumbers)
+    ).getNumber();
     this.winningRanking = winningRanking;
   }
 

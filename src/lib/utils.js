@@ -10,8 +10,13 @@ const addMoneyComma = (money) => {
   return money.toLocaleString();
 };
 
+const getProfitRate = (purchaseAmout, totalRevenue) => {
+  return 100 + ((totalRevenue - purchaseAmout) / purchaseAmout) * 100;
+};
+
 module.exports = {
   sortAscendingNumbers,
   getIntersection,
   addMoneyComma,
+  getProfitRate,
 };

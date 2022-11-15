@@ -1,8 +1,6 @@
-const { THOUSAND } = require("./lib/constants");
-
 class Validate {
-  static isThousandUnit(number) {
-    return number % THOUSAND === 0;
+  static isMoneyUnit(money, unit) {
+    return money % unit === 0;
   }
 }
 

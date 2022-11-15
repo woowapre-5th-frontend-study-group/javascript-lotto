@@ -1,7 +1,6 @@
 const { Console } = require("@woowacourse/mission-utils");
 const UserLotto = require("./UserLotto");
 const Computer = require("./Computer");
-const ProfitRate = require("./ProfiRate");
 const View = require("./View");
 const { ENTER_MESSAGE } = require("./lib/constants");
 
@@ -13,8 +12,10 @@ class App {
   play() {
     Console.readLine(ENTER_MESSAGE.PURCHASE_AMOUT, (purchaseAmout) => {
       this.userLotto = new UserLotto(purchaseAmout);
+
       View.lottoCount(this.userLotto.count);
       View.lottoNumbers(this.userLotto.totalNumbers);
+
       this.getWinningNumbers();
     });
   }
@@ -22,6 +23,7 @@ class App {
   getWinningNumbers() {
     Console.readLine(ENTER_MESSAGE.WINNING_NUMBERS, (winningNumbers) => {
       this.computer = new Computer(winningNumbers);
+
       this.getBonusNumber();
     });
   }
@@ -30,13 +32,13 @@ class App {
     Console.readLine(ENTER_MESSAGE.BONUS_NUMBER, (bonusNumber) => {
       this.computer.bonnusNumber = bonusNumber;
       this.computer.getMatchs(this.userLotto.totalNumbers);
-      View.winningStatistics(this.computer.winningRanking);
 
-      this.profitRate = new ProfitRate(
+      View.winningStatistics(this.computer.winningRanking);
+      View.profitRate(
         this.userLotto.purchaseAmout,
         this.computer.getTotalRevenue()
       );
-      View.profitRate(this.profitRate.getProfitRate());
+
       Console.close();
     });
   }

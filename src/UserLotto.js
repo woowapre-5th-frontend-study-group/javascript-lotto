@@ -14,9 +14,13 @@ class UserLotto {
   }
 
   validate(purchaseAmout) {
-    if (isNaN(purchaseAmout) || !Validate.isThousandUnit(purchaseAmout)) {
-      throw new Error(PRINT_MESSAGE.ERROR("올바른 숫자를 입력해주세요."));
+    if (
+      !isNaN(purchaseAmout) &&
+      Validate.isMoneyUnit(purchaseAmout, THOUSAND)
+    ) {
+      return;
     }
+    throw new Error(PRINT_MESSAGE.ERROR("올바른 숫자를 입력해주세요."));
   }
 
   getCount() {
