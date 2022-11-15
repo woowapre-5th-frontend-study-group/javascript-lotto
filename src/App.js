@@ -19,19 +19,16 @@ const callbackHandler = new CallbackHandler();
 const HandleException = require('./HandleException');
 const handleException = new HandleException();
 
-    getCallbackHandler() {
-        return this._callbackHandler;
-    }
-
-    *makeCallbackHandler(...callbackList) {
-        for (let index = 0; index < callbackList.length; index++) {
-            yield callbackList[index];
-        }
-    }
-    /* #endregion */
+class App {
+    constructor() {}
 
     play() {
-        const callbackList = [
+        this.initializeCallback();
+        this.loopCallback();
+    }
+
+    initializeCallback() {
+        callbackHandler.addCallback(
             {
                 callbackName: VALIDATE_TYPE.CACHE,
                 extraCallback: () => {
@@ -49,15 +46,14 @@ const handleException = new HandleException();
                     this.printWinningResult();
                     this.printRateOfReturn();
                 },
-            },
-        ];
+            }
+        );
 
-        this.setCallbackHandler(...callbackList);
-        this.loopCallback();
+        callbackHandler.createCallbackHandler();
     }
 
     loopCallback() {
-        const nextCallback = this.getNextCallback();
+        const nextCallback = callbackHandler.getNextCallback();
         if (!nextCallback) {
             Console.close();
             return;
