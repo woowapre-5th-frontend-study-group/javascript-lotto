@@ -47,7 +47,7 @@ class Computer {
         win.winningNumberMatch === winningNumberMatch &&
         win.isBonusNumberMatch === isBonusNumberMatch
     );
-    this.winningRanking[rankingIndex].count++;
+    this.winningRanking[rankingIndex].count += 1;
   }
 
   getTotalRevenue() {
