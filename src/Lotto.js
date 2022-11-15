@@ -48,6 +48,10 @@ class Lotto {
     printLotto() {
         Console.print(`[${this.#numbers.join(', ')}]`);
     }
+
+    get [Symbol.toStringTag]() {
+        return 'Lotto';
+    }
 }
 
 module.exports = Lotto;
