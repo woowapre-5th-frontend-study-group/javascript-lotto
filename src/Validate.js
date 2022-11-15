@@ -49,6 +49,28 @@ class Validate {
       )
     );
   }
+
+  static isBonusNumberRange(bonusNumber) {
+    if (
+      LOTTO.NUMBER_RANGE.START <= bonusNumber &&
+      bonusNumber <= LOTTO.NUMBER_RANGE.END
+    ) {
+      return;
+    }
+    throw new Error(
+      PRINT_MESSAGE.ERROR(
+        `${LOTTO.NUMBER_RANGE.START}~${LOTTO.NUMBER_RANGE.END}범위 내의 로또 번호를 입력해주세요.`
+      )
+    );
+  }
+  static isUniqueBonusNumber(bonusNumber, winningNumbers) {
+    if (!winningNumbers.includes(bonusNumber)) {
+      return;
+    }
+    throw new Error(
+      PRINT_MESSAGE.ERROR(`당첨 번호와 겹치지 않는 숫자를 입력해주세요`)
+    );
+  }
 }
 
 module.exports = Validate;

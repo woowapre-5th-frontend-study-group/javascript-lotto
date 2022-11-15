@@ -1,6 +1,7 @@
 const Lotto = require("./Lotto");
 const { getNumberIntersection } = require("./utils/utils");
 const { winningRanking } = require("./utils/constants");
+const Validate = require("./Validate");
 
 class Computer {
   winningNumbers;
@@ -12,6 +13,12 @@ class Computer {
       this.changeWinningNumbers(winningNumbers)
     ).getNumber();
     this.winningRanking = winningRanking;
+  }
+
+  setBonusNumber(bonusNumber) {
+    Validate.isBonusNumberRange(bonusNumber);
+    Validate.isUniqueBonusNumber(Number(bonusNumber), this.winningNumbers);
+    this.bonusNumber = bonusNumber;
   }
 
   changeWinningNumbers(winningNumbers) {

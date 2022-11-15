@@ -30,7 +30,7 @@ class App {
 
   getBonusNumber() {
     Console.readLine(ENTER_MESSAGE.BONUS_NUMBER, (bonusNumber) => {
-      this.computer.bonnusNumber = bonusNumber;
+      this.computer.setBonusNumber(bonusNumber);
       this.computer.getMatchs(this.userLotto.totalNumbers);
 
       View.winningStatistics(this.computer.winningRanking);
