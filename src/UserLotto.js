@@ -1,5 +1,5 @@
 const { Random } = require("@woowacourse/mission-utils");
-const { PRINT_MESSAGE, THOUSAND } = require("./utils/constants");
+const { PRINT_MESSAGE, LOTTO } = require("./utils/constants");
 const Validate = require("./Validate");
 
 class UserLotto {
@@ -16,7 +16,7 @@ class UserLotto {
   validate(purchaseAmout) {
     if (
       !isNaN(purchaseAmout) &&
-      Validate.isMoneyUnit(purchaseAmout, THOUSAND)
+      Validate.isMoneyUnit(purchaseAmout, LOTTO.PURCHASE_UNIT)
     ) {
       return;
     }
@@ -24,7 +24,7 @@ class UserLotto {
   }
 
   getCount() {
-    this.count = Number(this.purchaseAmout) / THOUSAND;
+    this.count = Number(this.purchaseAmout) / LOTTO.PURCHASE_UNIT;
   }
 
   getTotalNumbers() {
