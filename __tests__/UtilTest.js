@@ -3,6 +3,7 @@ const {
   getNumberIntersection,
   addMoneyComma,
   getProfitRate,
+  roundingNumber,
 } = require("../src/utils/utils");
 
 describe("유틸 테스트", () => {
@@ -45,5 +46,11 @@ describe("유틸 테스트", () => {
       const totalRevenue = totalRevenues[index];
       expect(getProfitRate(purchaseAmout, totalRevenue)).toBe(profitRate);
     });
+  });
+
+  test("소수점 한자리로 반올림하기", () => {
+    expect(roundingNumber(1000.46)).toBe(1000.5);
+    expect(roundingNumber(1000.4612111)).toBe(1000.5);
+    expect(roundingNumber(1000.333333333)).toBe(1000.3);
   });
 });
