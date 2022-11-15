@@ -2,7 +2,7 @@ const { Console } = require("@woowacourse/mission-utils");
 const UserLotto = require("./UserLotto");
 const Computer = require("./Computer");
 const View = require("./View");
-const { ENTER_MESSAGE } = require("./lib/constants");
+const { ENTER_MESSAGE } = require("./utils/constants");
 
 class App {
   userLotto;

@@ -1,6 +1,6 @@
 const { Console } = require("@woowacourse/mission-utils");
-const { PRINT_MESSAGE } = require("./lib/constants");
-const { getProfitRate } = require("./lib/utils");
+const { PRINT_MESSAGE } = require("./utils/constants");
+const { getProfitRate } = require("./utils/utils");
 
 class View {
   static lottoCount(lottoCount) {

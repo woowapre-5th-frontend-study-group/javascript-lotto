@@ -3,8 +3,7 @@ const {
   getNumberIntersection,
   addMoneyComma,
   getProfitRate,
-} = require("../src/lib/utils");
-const { profitRate } = require("../src/View");
+} = require("../src/utils/utils");
 
 describe("유틸 테스트", () => {
   test("숫자를 오름차순으로 정렬한다", () => {

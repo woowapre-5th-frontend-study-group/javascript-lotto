@@ -1,5 +1,5 @@
 const { Random } = require("@woowacourse/mission-utils");
-const { PRINT_MESSAGE, THOUSAND } = require("./lib/constants");
+const { PRINT_MESSAGE, THOUSAND } = require("./utils/constants");
 const Validate = require("./Validate");
 
 class UserLotto {

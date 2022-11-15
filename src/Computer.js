@@ -1,6 +1,6 @@
 const Lotto = require("./Lotto");
-const { getNumberIntersection } = require("./lib/utils");
-const { winningRanking } = require("./lib/constants");
+const { getNumberIntersection } = require("./utils/utils");
+const { winningRanking } = require("./utils/constants");
 
 class Computer {
   winningNumbers;
