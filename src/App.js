@@ -39,7 +39,7 @@ class App {
     /* #endregion */
 
     play() {
-        const CALLBACK_LIST = [
+        const callbackList = [
             {
                 callbackName: VALIDATE_TYPE.CACHE,
                 extraCallback: () => {
@@ -60,24 +60,18 @@ class App {
             },
         ];
 
-        this.loopCallback(...CALLBACK_LIST);
+        this.setCallbackHandler(...callbackList);
+        this.loopCallback();
     }
 
-    loopCallback(...callbackList) {
-        const hasNoCallbackHandler = this.getCallbackHandler() === null;
-        if (hasNoCallbackHandler) {
-            this.setCallbackHandler(...callbackList);
-        }
-
-        const callbackHandler = this.getCallbackHandler();
-
-        let callbackResult = callbackHandler.next();
-        if (callbackResult.done) {
+    loopCallback() {
+        const nextCallback = this.getNextCallback();
+        if (!nextCallback) {
             Console.close();
             return;
         }
 
-        let { callbackName: questionType, extraCallback } = callbackResult.value;
+        let { callbackName: questionType, extraCallback } = nextCallback;
 
         Console.readLine(QUESTION_MESSAGE[questionType], (inputedValue) => {
             handleException.tryValidate(inputedValue, questionType);
@@ -93,7 +87,7 @@ class App {
                 extraCallback();
             }
 
-            this.loopCallback(...callbackList);
+            this.loopCallback();
         });
     }
 
