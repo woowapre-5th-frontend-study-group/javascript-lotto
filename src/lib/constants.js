@@ -1,5 +1,7 @@
 const { sortAscendingNumbers, addMoneyComma } = require("./utils");
 
+const THOUSAND = 1000;
+
 const ENTER_MESSAGE = {
   PURCHASE_AMOUT: "구입금액을 입력해 주세요.\n",
   WINNING_NUMBERS: "당첨 번호를 입력해 주세요.\n",
@@ -60,4 +62,4 @@ const winningRanking = [
   },
 ];
 
-module.exports = { winningRanking, ENTER_MESSAGE, PRINT_MESSAGE };
+module.exports = { winningRanking, ENTER_MESSAGE, PRINT_MESSAGE, THOUSAND };

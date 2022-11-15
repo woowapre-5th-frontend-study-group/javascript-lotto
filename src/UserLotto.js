@@ -1,5 +1,6 @@
 const { Random } = require("@woowacourse/mission-utils");
-const { PRINT_MESSAGE } = require("./lib/constants");
+const { PRINT_MESSAGE, THOUSAND } = require("./lib/constants");
+const Validate = require("./Validate");
 
 class UserLotto {
   purchaseAmout;
@@ -7,19 +8,22 @@ class UserLotto {
   totalNumbers = [];
   constructor(purchaseAmout) {
     this.validate(purchaseAmout);
-    this.getNumbers();
+    this.purchaseAmout = purchaseAmout;
+    this.getCount();
+    this.getTotalNumbers();
   }
 
   validate(purchaseAmout) {
-    if (!isNaN(purchaseAmout)) {
-      this.purchaseAmout = purchaseAmout;
-      this.count = Number(purchaseAmout) / 1000;
-      return;
+    if (isNaN(purchaseAmout) || !Validate.isThousandUnit(purchaseAmout)) {
+      throw new Error(PRINT_MESSAGE.ERROR("올바른 숫자를 입력해주세요."));
     }
-    throw new Error(PRINT_MESSAGE.ERROR("올바른 숫자를 입력해주세요."));
   }
 
-  getNumbers() {
+  getCount() {
+    this.count = Number(this.purchaseAmout) / THOUSAND;
+  }
+
+  getTotalNumbers() {
     for (let count = 1; count <= this.count; count++) {
       const autoSelectLottoNumber = Random.pickUniqueNumbersInRange(1, 45, 6);
       this.totalNumbers.push(autoSelectLottoNumber);
