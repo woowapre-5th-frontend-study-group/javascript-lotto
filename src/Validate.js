@@ -28,7 +28,6 @@ class Validate {
 
   static isUniqueLottoNumbers(lottoNumbers) {
     const deduplicationNumbers = new Set(lottoNumbers);
-    console.log(deduplicationNumbers);
     if (deduplicationNumbers.size === LOTTO.NUMBER_RANGE.COUNT) {
       return;
     }
