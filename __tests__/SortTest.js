@@ -1,4 +1,4 @@
-const { sortAscendingNumbers } = require("../src/utils");
+const { sortAscendingNumbers } = require("../src/lib/utils");
 
 describe("정렬 테스트", () => {
   test("숫자를 오름차순으로 정렬한다", () => {

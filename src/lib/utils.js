@@ -14,5 +14,4 @@ module.exports = {
   sortAscendingNumbers,
   getIntersection,
   addMoneyComma,
-  getProfitRate,
 };
