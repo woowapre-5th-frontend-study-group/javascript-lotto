@@ -20,14 +20,14 @@ class Computer {
 
   getMatchs(totalUserLottoNumbers) {
     totalUserLottoNumbers.forEach((userLottoNumbers) => {
-      const isBonusNumberMatch = userLottoNumbers.includes(this.bonusNumber);
       const winningNumberMatch = getNumberIntersection(
         this.winningNumbers,
         userLottoNumbers
       ).length;
-      if (winningNumberMatch < 3) {
+      if (winningNumberMatch < this.winningRanking[0].winningNumberMatch) {
         return;
       }
+      const isBonusNumberMatch = userLottoNumbers.includes(this.bonusNumber);
       this.getCount({ winningNumberMatch, isBonusNumberMatch });
     });
   }
