@@ -26,8 +26,11 @@ class UserLotto {
     }
   }
 
-  printLottoCountNumbersMessage() {
+  printLottoCount() {
     Console.print(PRINT_MESSAGE.PURCHASE_COUNT(this.count));
+  }
+
+  printLottoNumbers() {
     this.totalNumbers.forEach((numbers) => {
       Console.print(PRINT_MESSAGE.LOTTO_NUMBERS(numbers));
     });
