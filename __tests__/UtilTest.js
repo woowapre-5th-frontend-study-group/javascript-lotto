@@ -1,6 +1,7 @@
 const {
   sortAscendingNumbers,
   getNumberIntersection,
+  addMoneyComma,
 } = require("../src/lib/utils");
 
 describe("유틸 테스트", () => {
@@ -17,5 +18,11 @@ describe("유틸 테스트", () => {
     const arr2 = [5, 8, 9, 10];
 
     expect(getNumberIntersection(arr1, arr2)).toContain(5);
+  });
+  test("천원 단위로 콤마찍기", () => {
+    expect(addMoneyComma(1000)).toEqual(expect.stringContaining("1,000"));
+    expect(addMoneyComma(1999999)).toEqual(
+      expect.stringContaining("1,999,999")
+    );
   });
 });
