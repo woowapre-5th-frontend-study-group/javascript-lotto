@@ -164,3 +164,35 @@
   - checkValue.money() 함수 테스트를 예외를 기준으로 작성한다.
   - checkValue.numbers() 함수 테스트를 예외를 기준으로 작성한다.
   - checkValue.bonusNumber() 함수 테스트를 예외를 기준으로 작성한다.
+
+---
+
+## 🗂 디렉토리 구조
+
+```bash
+├── __test__
+│   ├── ApplicationTest.js
+│   ├── BonusNumberTest.js
+│   ├── CheckValueTest.js
+│   ├── LottosTest.js
+│   ├── LottoTest.js
+│   ├── WinningNumbersTest.js
+├── docs
+│   ├── README.md
+├── node_modules
+├── src
+│   ├── libs
+│   │   ├── checkValue.js
+│   │   ├── const.js
+│   │   ├── exitWithError.js
+│   ├── App.js
+│   ├── BonusNumber.js
+│   ├── Lotto.js
+│   ├── Lottos.js
+│   ├── WinningNumbers.js
+├── .gitignore
+├── .npmrc
+├── .package-lock.json
+├── package.json
+└── README.md
+```
