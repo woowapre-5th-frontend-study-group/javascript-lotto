@@ -23,7 +23,7 @@ class View {
 
   static profitRate(purchaseAmout, totalRevenue) {
     const profitRate = getProfitRate(purchaseAmout, totalRevenue);
-    Console.print(PRINT_MESSAGE.PROFIT_RATE(profitRate));
+    Console.print(PRINT_MESSAGE.PROFIT_RATE(profitRate.toFixed(1)));
   }
 }
 
