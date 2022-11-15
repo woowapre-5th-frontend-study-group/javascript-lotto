@@ -4,6 +4,7 @@ const {
   addMoneyComma,
   getProfitRate,
 } = require("../src/lib/utils");
+const { profitRate } = require("../src/View");
 
 describe("유틸 테스트", () => {
   test("숫자를 오름차순으로 정렬한다", () => {
@@ -31,6 +32,19 @@ describe("유틸 테스트", () => {
       expect(addMoneyComma(money)).toEqual(
         expect.stringContaining(addedMoneyComma)
       );
+    });
+  });
+
+  test("수익률 구하기", () => {
+    const purchaseAmouts = [1000, 1000, 1000, 1000, 4000];
+    const totalRevenues = [1000, 0, 12000, 1200, 5000];
+
+    const porfitRates = [100, 0, 1200, 120, 125];
+
+    porfitRates.forEach((profitRate, index) => {
+      const purchaseAmout = purchaseAmouts[index];
+      const totalRevenue = totalRevenues[index];
+      expect(getProfitRate(purchaseAmout, totalRevenue)).toBe(profitRate);
     });
   });
 });
