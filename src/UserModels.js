@@ -42,6 +42,13 @@ class UserModels {
     }
 
     setUserWinningLotto(userWinningLotto) {
+        const isNotLottoClass =
+            Object.prototype.toString.call(userWinningLotto) !== '[object Lotto]';
+
+        if (isNotLottoClass) {
+            return;
+        }
+
         this._userWinningLotto = userWinningLotto;
     }
 
