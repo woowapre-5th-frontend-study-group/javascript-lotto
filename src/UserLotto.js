@@ -1,5 +1,5 @@
 const { Random } = require("@woowacourse/mission-utils");
-const { PRINT_MESSAGE, LOTTO } = require("./utils/constants");
+const { LOTTO } = require("./utils/constants");
 const Validate = require("./Validate");
 
 class UserLotto {
@@ -14,13 +14,8 @@ class UserLotto {
   }
 
   validate(purchaseAmout) {
-    if (
-      !isNaN(purchaseAmout) &&
-      Validate.isMoneyUnit(purchaseAmout, LOTTO.PURCHASE_UNIT)
-    ) {
-      return;
-    }
-    throw new Error(PRINT_MESSAGE.ERROR("올바른 숫자를 입력해주세요."));
+    Validate.isNumber(purchaseAmout);
+    Validate.isMoneyUnit(purchaseAmout, LOTTO.PURCHASE_UNIT);
   }
 
   getCount() {
