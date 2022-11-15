@@ -24,7 +24,9 @@ class Computer {
         this.winningNumbers,
         userLottoNumbers
       ).length;
-      if (winningNumberMatch < this.winningRanking[0].winningNumberMatch) {
+      const minimumWinningNumbersMatch =
+        this.winningRanking[0].winningNumberMatch;
+      if (winningNumberMatch < minimumWinningNumbersMatch) {
         return;
       }
       const isBonusNumberMatch = userLottoNumbers.includes(this.bonusNumber);
@@ -33,17 +35,17 @@ class Computer {
   }
 
   getCount({ winningNumberMatch, isBonusNumberMatch }) {
-    const index = this.winningRanking.findIndex(
+    const rankingIndex = this.winningRanking.findIndex(
       (win) =>
         win.winningNumberMatch === winningNumberMatch &&
         win.isBonusNumberMatch === isBonusNumberMatch
     );
-    this.winningRanking[index].count++;
+    this.winningRanking[rankingIndex].count++;
   }
 
   getTotalRevenue() {
-    return this.winningRanking.reduce((acc, cur) => {
-      return acc + cur.prizeMoney * cur.count;
+    return this.winningRanking.reduce((totalRevenue, ranking) => {
+      return totalRevenue + ranking.prizeMoney * ranking.count;
     }, 0);
   }
 }
