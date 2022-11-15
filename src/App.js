@@ -177,11 +177,8 @@ class App {
 
             const matchLotto = userLottoList[index];
             const hasUserBonus = matchLotto.hasNumber(userBonus);
-            if (hasUserBonus) {
-                winningResults['bonus'] = (winningResults['bonus'] || 0) + 1;
-            } else {
-                winningResults['5개'] = (winningResults['5개'] || 0) + 1;
-            }
+            const matchKey = hasUserBonus ? 'bonus' : '5개';
+            winningResults[matchKey] = (winningResults[matchKey] || 0) + 1;
         });
 
         return winningResults;
@@ -195,7 +192,6 @@ class App {
     }
 
     calculateRateOfReturn() {
-        const userCache = userModels.getUserCache();
         const winningResult = this.getWinningResult();
         const winningPrize =
             (winningResult['3개'] || 0) * 5000 +
@@ -204,6 +200,7 @@ class App {
             (winningResult['bonus'] || 0) * 30000000 +
             (winningResult['6개'] || 0) * 2000000000;
 
+        const userCache = userModels.getUserCache();
         return ((winningPrize / userCache) * 100).toFixed(1);
     }
     /* #endregion */
