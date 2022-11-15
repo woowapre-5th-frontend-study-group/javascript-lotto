@@ -1,13 +1,6 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
-const Utils = require('./Utils');
-
-const UserModels = require('./UserModels');
-
-const Lotto = require('./Lotto');
-const Validation = require('./Validation');
-const HandleException = require('./HandleException');
-
-const VALIDATE_TYPE = Validation.VALIDATE_TYPE;
+const { convertToNumber } = require('./Utils');
+const { VALIDATE_TYPE } = require('./Validation');
 
 const QUESTION_MESSAGE = {
     [VALIDATE_TYPE.CACHE]: '구입금액을 입력해 주세요.\n',
@@ -15,18 +8,16 @@ const QUESTION_MESSAGE = {
     [VALIDATE_TYPE.BONUS]: '\n보너스 번호를 입력해 주세요.\n',
 };
 
-const handleException = new HandleException();
+const Lotto = require('./Lotto');
+
+const UserModels = require('./UserModels');
 const userModels = new UserModels();
 
-class App {
-    constructor() {
-        this._callbackHandler = null;
-    }
+const CallbackHandler = require('./CallbackHandler');
+const callbackHandler = new CallbackHandler();
 
-    /* #region Class Member getter/setter */
-    setCallbackHandler(...callbackList) {
-        this._callbackHandler = this.makeCallbackHandler(...callbackList);
-    }
+const HandleException = require('./HandleException');
+const handleException = new HandleException();
 
     getCallbackHandler() {
         return this._callbackHandler;
@@ -89,27 +80,16 @@ class App {
         });
     }
 
-    getNextCallback() {
-        const callbackHandler = this.getCallbackHandler();
-
-        let callbackResult = callbackHandler.next();
-        if (callbackResult.done) {
-            return null;
-        }
-
-        return callbackResult.value;
-    }
-
     convertToEachType(value, type) {
         switch (type) {
             case VALIDATE_TYPE.CACHE:
-                return Utils.convertToNumber(value);
+                return convertToNumber(value);
 
             case VALIDATE_TYPE.LOTTO:
                 return new Lotto(value);
 
             case VALIDATE_TYPE.BONUS:
-                return Utils.convertToNumber(value);
+                return convertToNumber(value);
         }
     }
 
