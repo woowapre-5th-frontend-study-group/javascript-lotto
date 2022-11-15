@@ -1,4 +1,5 @@
 const { Console, Random } = require('@woowacourse/mission-utils');
+const Utils = require('./Utils');
 
 const UserModels = require('./UserModels');
 
@@ -76,11 +77,8 @@ class App {
         Console.readLine(QUESTION_MESSAGE[questionType], (inputedValue) => {
             handleException.tryValidate(inputedValue, questionType);
 
-            if (questionType === VALIDATE_TYPE.LOTTO) {
-                inputedValue = new Lotto(inputedValue);
-            }
-
-            userModels[`setUser${questionType}`](inputedValue);
+            const convertedValue = this.convertToEachType(inputedValue, questionType);
+            userModels[`setUser${questionType}`](convertedValue);
 
             if (extraCallback) {
                 extraCallback = extraCallback.bind(this);
@@ -89,6 +87,30 @@ class App {
 
             this.loopCallback();
         });
+    }
+
+    getNextCallback() {
+        const callbackHandler = this.getCallbackHandler();
+
+        let callbackResult = callbackHandler.next();
+        if (callbackResult.done) {
+            return null;
+        }
+
+        return callbackResult.value;
+    }
+
+    convertToEachType(value, type) {
+        switch (type) {
+            case VALIDATE_TYPE.CACHE:
+                return Utils.convertToNumber(value);
+
+            case VALIDATE_TYPE.LOTTO:
+                return new Lotto(value);
+
+            case VALIDATE_TYPE.BONUS:
+                return Utils.convertToNumber(value);
+        }
     }
 
     /* #region Extra callback functions */
