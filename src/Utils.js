@@ -7,6 +7,10 @@ function convertToNumberArray(numbers) {
         return false;
     }
 
+    if (typeof numbers === 'number') {
+        return [numbers];
+    }
+
     const numberArray = numbers.split(',');
     const hasNotNumber = numberArray.some((number) => !isNumber(number));
     if (hasNotNumber) return false;
@@ -23,6 +27,10 @@ function isInRange(numbers, [from, to]) {
 
     if (typeof numbers === 'string') {
         numberArray = convertToNumberArray(numbers);
+    }
+
+    if (typeof numbers === 'number') {
+        return numbers >= from && numbers <= to;
     }
 
     return numberArray.every((number) => !isNaN(number) && number >= from && number <= to);
