@@ -37,6 +37,10 @@ class Lotto {
     }
 
     hasNumber(number) {
+        if (typeof number !== 'number') {
+            number = Utils.convertToNumber(number);
+        }
+
         const numbers = this.getNumbers();
         return numbers.includes(number);
     }
