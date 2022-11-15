@@ -1,5 +1,5 @@
 const Lotto = require("./Lotto");
-const { getIntersection } = require("./lib/utils");
+const { getNumberIntersection } = require("./lib/utils");
 const { winningRanking } = require("./lib/constants");
 
 class Computer {
@@ -21,7 +21,7 @@ class Computer {
   getMatchs(totalUserLottoNumbers) {
     totalUserLottoNumbers.forEach((userLottoNumbers) => {
       const isBonusNumberMatch = userLottoNumbers.includes(this.bonusNumber);
-      const winningNumberMatch = getIntersection(
+      const winningNumberMatch = getNumberIntersection(
         this.winningNumbers,
         userLottoNumbers
       ).length;
