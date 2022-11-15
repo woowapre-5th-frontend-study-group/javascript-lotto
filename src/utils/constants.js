@@ -19,7 +19,8 @@ const PRINT_MESSAGE = {
   PURCHASE_COUNT: (purchaseCount) => `${purchaseCount}개를 구매했습니다.`,
   LOTTO_NUMBERS: (lottoNumbers) =>
     `[${sortAscendingNumbers(lottoNumbers).join(", ")}]`,
-  PROFIT_RATE: (profitRate) => `총 수익률은 ${profitRate}%입니다.`,
+  PROFIT_RATE: (profitRate) =>
+    `총 수익률은 ${addMoneyComma(profitRate)}%입니다.`,
   ERROR: (content) => `[ERROR] ${content}`,
   WINNING_HISTORY: ({
     isBonusNumberMatch,

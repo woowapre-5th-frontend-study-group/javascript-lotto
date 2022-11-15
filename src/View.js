@@ -1,6 +1,6 @@
 const { Console } = require("@woowacourse/mission-utils");
 const { PRINT_MESSAGE } = require("./utils/constants");
-const { getProfitRate } = require("./utils/utils");
+const { getProfitRate, roundingNumber } = require("./utils/utils");
 
 class View {
   static lottoCount(lottoCount) {
@@ -23,7 +23,7 @@ class View {
 
   static profitRate(purchaseAmout, totalRevenue) {
     const profitRate = getProfitRate(purchaseAmout, totalRevenue);
-    Console.print(PRINT_MESSAGE.PROFIT_RATE(profitRate.toFixed(1)));
+    Console.print(PRINT_MESSAGE.PROFIT_RATE(roundingNumber(profitRate)));
   }
 }
 
