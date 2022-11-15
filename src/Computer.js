@@ -8,9 +8,13 @@ class Computer {
   winningRanking;
 
   constructor(winningNumbers) {
-    new Lotto(winningNumbers.split(","));
-    this.winningNumbers = winningNumbers.split(",");
+    new Lotto(this.changeWinningNumbers(winningNumbers));
+    this.winningNumbers = this.changeWinningNumbers(winningNumbers);
     this.winningRanking = winningRanking;
+  }
+
+  changeWinningNumbers(winningNumbers) {
+    return winningNumbers.split(",").map((number) => Number(number));
   }
 
   getMatchs(totalUserLottoNumbers) {
