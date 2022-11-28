@@ -1,6 +1,7 @@
 const Lottos = require('./Lottos');
 const WinningNumbers = require('./WinningNumbers');
 const BonusNumber = require('./BonusNumber');
+const InputView = require('./View/InputView');
 const { Console } = require('@woowacourse/mission-utils');
 const { MESSAGE } = require('./libs/const');
 
@@ -16,7 +17,7 @@ class App {
   }
 
   requestMoney() {
-    Console.readLine(MESSAGE.REQUEST_MONEY, (money) => {
+    InputView.readMoney((money) => {
       this.lottos = new Lottos(money);
 
       this.lottos.printCount();
@@ -27,7 +28,7 @@ class App {
   }
 
   requestWinningNumbers() {
-    Console.readLine(MESSAGE.REQUEST_WINNING_NUMBERS, (winningNumbers) => {
+    InputView.readWinningNumbers((winningNumbers) => {
       winningNumbers = winningNumbers.split(',').map((item) => Number(item));
 
       this.winningNumbers = new WinningNumbers(winningNumbers);
@@ -37,7 +38,7 @@ class App {
   }
 
   requestBonusNumber() {
-    Console.readLine(MESSAGE.REQUEST_BONUS_NUMBER, (bonusNumber) => {
+    InputView.readBonusNumber((bonusNumber) => {
       bonusNumber = Number(bonusNumber);
 
       this.bonusNumber = new BonusNumber(
