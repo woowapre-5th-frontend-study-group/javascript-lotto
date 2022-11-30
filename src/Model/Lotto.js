@@ -1,6 +1,6 @@
-const { LOTTO_NUMBER, PLACE } = require('./libs/const');
-const checkValue = require('./libs/checkValue');
-const exitWithError = require('./libs/exitWithError');
+const { LOTTO_NUMBER, PLACE } = require('../libs/const');
+const checkValue = require('../libs/checkValue');
+const exitWithError = require('../libs/exitWithError');
 
 class Lotto {
   #numbers;

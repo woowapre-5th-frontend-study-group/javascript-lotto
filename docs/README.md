@@ -206,6 +206,8 @@
   - OutputView 객체는 메시지 출력을 담당한다.
   - OutputView의 메서드둘은 게임의 흐름을 담당하는 곳에서 사용한다.
 - [ ] refactor: Model를 담당하는 클래스(또는 객체) 분리하기
+  - Lotto, Lottos를 Model 폴더로 이동
+  - Lottos 클래스를 PurchasedLottos 클래스로 이름 변경
 - [ ] refactor: Controller를 담당하는 클래스(또는 객체) 분리하기
 - [ ] refactor: 특정한 기능을 담당하는 객체 분리하기
 

@@ -1,4 +1,4 @@
-const Lottos = require('./Lottos');
+const PurchasedLottos = require('./Model/PurchasedLottos');
 const WinningNumbers = require('./WinningNumbers');
 const BonusNumber = require('./BonusNumber');
 const InputView = require('./View/InputView');
@@ -19,7 +19,7 @@ class App {
 
   requestMoney() {
     InputView.readMoney((money) => {
-      this.lottos = new Lottos(money);
+      this.lottos = new PurchasedLottos(money);
 
       OutputView.printLottosCount(money);
       OutputView.printLottos(this.lottos.getLottos());

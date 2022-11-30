@@ -1,11 +1,10 @@
 const Lotto = require('./Lotto');
-const OutputView = require('./View/OutputView');
-const checkValue = require('./libs/checkValue');
-const exitWithError = require('./libs/exitWithError');
+const checkValue = require('../libs/checkValue');
+const exitWithError = require('../libs/exitWithError');
 const { Random } = require('@woowacourse/mission-utils');
-const { MONEY, LOTTO, PRIZE, WINNING_DETAIL, PLACE } = require('./libs/const');
+const { MONEY, LOTTO, PRIZE, WINNING_DETAIL, PLACE } = require('../libs/const');
 
-class Lottos {
+class PurchasedLottos {
   constructor(money) {
     this.validate(money);
     this.count = money / MONEY.UNIT;
@@ -107,4 +106,4 @@ class Lottos {
   }
 }
 
-module.exports = Lottos;
+module.exports = PurchasedLottos;
