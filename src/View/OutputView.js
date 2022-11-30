@@ -6,8 +6,8 @@ const OutputView = {
     Console.print(message);
   },
 
-  printLottosCount(money) {
-    Console.print(`\n${money / MONEY.UNIT}개를 구매했습니다.`);
+  printLottosCount(count) {
+    Console.print(`\n${count}개를 구매했습니다.`);
   },
 
   printLottos(lottos) {

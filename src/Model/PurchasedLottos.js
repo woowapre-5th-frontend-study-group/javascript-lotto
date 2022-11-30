@@ -7,9 +7,8 @@ const { MONEY, LOTTO, PRIZE, WINNING_DETAIL, PLACE } = require('../libs/const');
 class PurchasedLottos {
   constructor(money) {
     this.validate(money);
-    this.count = money / MONEY.UNIT;
     this.list = [];
-    this.publish();
+    this.publish(money);
   }
 
   validate(money) {
@@ -21,8 +20,8 @@ class PurchasedLottos {
     }
   }
 
-  publish() {
-    for (let num = 0; num < this.count; num++) {
+  publish(money) {
+    for (let num = 0; num < money / MONEY.UNIT; num++) {
       const newLotto = this.createNewLotto();
       this.list.push(newLotto);
     }
@@ -43,7 +42,7 @@ class PurchasedLottos {
 
     this.list.forEach((lotto) => {
       const lottoNumbers = lotto.getNumbers();
-      console.log(lottoNumbers);
+
       lottos.push(lottoNumbers);
     });
 
@@ -96,13 +95,17 @@ class PurchasedLottos {
       return acc + cur * winningCount;
     }, 0);
 
-    const purchaseMoney = this.count * MONEY.UNIT;
+    const purchaseMoney = this.calculateCount() * MONEY.UNIT;
 
     return ((finalPrize / purchaseMoney) * 100).toFixed(1);
   }
 
   getWinningCount(lottoRanks, idx) {
     return lottoRanks.filter((rank) => rank === 5 - idx).length;
+  }
+
+  calculateCount() {
+    return this.list.length;
   }
 }
 

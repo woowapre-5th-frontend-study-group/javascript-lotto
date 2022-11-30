@@ -21,7 +21,7 @@ class App {
     InputView.readMoney((money) => {
       this.lottos = new PurchasedLottos(money);
 
-      OutputView.printLottosCount(money);
+      OutputView.printLottosCount(this.lottos.calculateCount());
       OutputView.printLottos(this.lottos.getLottos());
 
       this.requestWinningNumbers();
