@@ -1,6 +1,5 @@
 const { LOTTO_NUMBER, PLACE } = require('../libs/const');
-const checkValue = require('../libs/checkValue');
-const exitWithError = require('../libs/exitWithError');
+const Validator = require('../libs/Validator');
 
 class Lotto {
   #numbers;
@@ -11,9 +10,7 @@ class Lotto {
   }
 
   validate(numbers) {
-    const { errorMsg } = checkValue.numbers(numbers, LOTTO_NUMBER);
-
-    if (errorMsg) exitWithError(errorMsg);
+    Validator.numbers(numbers, LOTTO_NUMBER);
   }
 
   getNumbers() {

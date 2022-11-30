@@ -1,4 +1,4 @@
-const exitWithError = require('./exitWithError');
+const Quit = require('./Quit');
 const {
   ERROR_MESSAGE,
   BONUS_NUMBER,
@@ -9,34 +9,39 @@ const {
 
 const Validator = {
   money(money) {
-    if (isNaN(money)) return exitWithError(createErrorMsg.type(PURCHASE_MONEY));
+    if (isNaN(money))
+      return Quit.withErrorMessage(createErrorMsg.type(PURCHASE_MONEY));
 
-    if (money < MONEY.MIN) return exitWithError(ERROR_MESSAGE.MIN_MONEY);
+    if (money < MONEY.MIN)
+      return Quit.withErrorMessage(ERROR_MESSAGE.MIN_MONEY);
 
-    if (money % MONEY.UNIT) return exitWithError(ERROR_MESSAGE.UNIT_MONEY);
+    if (money % MONEY.UNIT)
+      return Quit.withErrorMessage(ERROR_MESSAGE.UNIT_MONEY);
   },
 
   numbers(numbers, name) {
-    if (!isNumberType(numbers)) return exitWithError(createErrorMsg.type(name));
+    if (!isNumberType(numbers))
+      return Quit.withErrorMessage(createErrorMsg.type(name));
 
     if (
       numbers.length !== LOTTO.NUMBERS_COUNT ||
       [...new Set(numbers)].length !== LOTTO.NUMBERS_COUNT
     )
-      return exitWithError(createErrorMsg.length(name));
+      return Quit.withErrorMessage(createErrorMsg.length(name));
 
     if (!isCorrectRange(numbers))
-      return exitWithError(createErrorMsg.range(name));
+      return Quit.withErrorMessage(createErrorMsg.range(name));
   },
 
   bonusNumber(number, winningNumbers) {
-    if (isNaN(number)) return exitWithError(createErrorMsg.type(BONUS_NUMBER));
+    if (isNaN(number))
+      return Quit.withErrorMessage(createErrorMsg.type(BONUS_NUMBER));
 
     if (winningNumbers.includes(number))
-      return exitWithError(ERROR_MESSAGE.INCLUDE_WINNING_NUMBER);
+      return Quit.withErrorMessage(ERROR_MESSAGE.INCLUDE_WINNING_NUMBER);
 
     if (number > LOTTO.MAX_NUMBER || number < LOTTO.MIN_NUMBER)
-      return exitWithError(createErrorMsg.range(BONUS_NUMBER));
+      return Quit.withErrorMessage(createErrorMsg.range(BONUS_NUMBER));
   },
 };
 

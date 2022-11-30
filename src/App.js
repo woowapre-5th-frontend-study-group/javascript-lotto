@@ -2,7 +2,7 @@ const PurchasedLottos = require('./Model/PurchasedLottos');
 const InputView = require('./View/InputView');
 const OutputView = require('./View/OutputView');
 const Validator = require('./libs/Validator');
-const { Console } = require('@woowacourse/mission-utils');
+const Quit = require('./libs/Quit');
 const { MESSAGE, WINNING_NUMBER } = require('./libs/const');
 
 class App {
@@ -64,11 +64,7 @@ class App {
     OutputView.printWinningDetails(this.lottos.getWinningDetails(lottoRanks));
     OutputView.printLottoRate(this.lottos.getLottoRate(lottoRanks));
 
-    this.end();
-  }
-
-  end() {
-    Console.close();
+    Quit.application();
   }
 }
 
