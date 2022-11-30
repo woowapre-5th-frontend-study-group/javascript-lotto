@@ -6,18 +6,8 @@ const { MONEY, LOTTO, PRIZE, WINNING_DETAIL, PLACE } = require('../libs/const');
 
 class PurchasedLottos {
   constructor(money) {
-    this.validate(money);
     this.list = [];
     this.publish(money);
-  }
-
-  validate(money) {
-    const { errorMsg } = checkValue.money(money);
-
-    if (errorMsg) {
-      exitWithError(errorMsg);
-      return;
-    }
   }
 
   publish(money) {

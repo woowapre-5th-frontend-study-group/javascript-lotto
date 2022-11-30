@@ -208,6 +208,7 @@
 - [ ] refactor: Model를 담당하는 클래스(또는 객체) 분리하기
   - Lotto, Lottos를 Model 폴더로 이동
   - Lottos 클래스를 PurchasedLottos 클래스로 이름 변경
+  - Validator 객체를 만들어 유효성 검사를 실시한다.
 - [ ] refactor: Controller를 담당하는 클래스(또는 객체) 분리하기
 - [ ] refactor: 특정한 기능을 담당하는 객체 분리하기
 

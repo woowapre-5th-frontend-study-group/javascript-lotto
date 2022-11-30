@@ -1,10 +1,9 @@
 const PurchasedLottos = require('./Model/PurchasedLottos');
-const WinningNumbers = require('./WinningNumbers');
-const BonusNumber = require('./BonusNumber');
 const InputView = require('./View/InputView');
-const { Console } = require('@woowacourse/mission-utils');
-const { MESSAGE } = require('./libs/const');
 const OutputView = require('./View/OutputView');
+const Validator = require('./Model/Validator');
+const { Console } = require('@woowacourse/mission-utils');
+const { MESSAGE, WINNING_NUMBER } = require('./libs/const');
 
 class App {
   constructor() {
@@ -19,6 +18,8 @@ class App {
 
   requestMoney() {
     InputView.readMoney((money) => {
+      Validator.money(money);
+
       this.lottos = new PurchasedLottos(money);
 
       OutputView.printLottosCount(this.lottos.calculateCount());
@@ -32,7 +33,9 @@ class App {
     InputView.readWinningNumbers((winningNumbers) => {
       winningNumbers = winningNumbers.split(',').map((item) => Number(item));
 
-      this.winningNumbers = new WinningNumbers(winningNumbers);
+      Validator.numbers(winningNumbers, WINNING_NUMBER);
+
+      this.winningNumbers = winningNumbers;
 
       this.requestBonusNumber();
     });
@@ -42,10 +45,9 @@ class App {
     InputView.readBonusNumber((bonusNumber) => {
       bonusNumber = Number(bonusNumber);
 
-      this.bonusNumber = new BonusNumber(
-        bonusNumber,
-        this.winningNumbers.value
-      );
+      Validator.bonusNumber(bonusNumber, this.winningNumbers);
+
+      this.bonusNumber = bonusNumber;
 
       this.printWinningStats();
     });
@@ -55,8 +57,8 @@ class App {
     OutputView.printMessage(MESSAGE.WINNING_STATS);
 
     const lottoRanks = this.lottos.getRanks(
-      this.winningNumbers.value,
-      this.bonusNumber.value
+      this.winningNumbers,
+      this.bonusNumber
     );
 
     OutputView.printWinningDetails(this.lottos.getWinningDetails(lottoRanks));

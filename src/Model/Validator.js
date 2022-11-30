@@ -1,55 +1,42 @@
+const exitWithError = require('../libs/exitWithError');
 const {
   ERROR_MESSAGE,
   BONUS_NUMBER,
   PURCHASE_MONEY,
   MONEY,
   LOTTO,
-} = require('./const');
+} = require('../libs/const');
 
-const checkValue = {
+const Validator = {
   money(money) {
-    if (isNaN(money)) return { errorMsg: createErrorMsg.type(PURCHASE_MONEY) };
+    if (isNaN(money)) return exitWithError(createErrorMsg.type(PURCHASE_MONEY));
 
-    if (money < MONEY.MIN) return { errorMsg: ERROR_MESSAGE.MIN_MONEY };
+    if (money < MONEY.MIN) return exitWithError(ERROR_MESSAGE.MIN_MONEY);
 
-    if (money % MONEY.UNIT) return { errorMsg: ERROR_MESSAGE.UNIT_MONEY };
-
-    return { errorMsg: undefined };
+    if (money % MONEY.UNIT) return exitWithError(ERROR_MESSAGE.UNIT_MONEY);
   },
 
   numbers(numbers, name) {
-    if (!isNumberType(numbers)) return { errorMsg: createErrorMsg.type(name) };
+    if (!isNumberType(numbers)) return exitWithError(createErrorMsg.type(name));
 
     if (
       numbers.length !== LOTTO.NUMBERS_COUNT ||
       [...new Set(numbers)].length !== LOTTO.NUMBERS_COUNT
     )
-      return {
-        errorMsg: createErrorMsg.length(name),
-      };
+      return exitWithError(createErrorMsg.length(name));
 
     if (!isCorrectRange(numbers))
-      return {
-        errorMsg: createErrorMsg.range(name),
-      };
-
-    return { errorMsg: undefined };
+      return exitWithError(createErrorMsg.range(name));
   },
 
   bonusNumber(number, winningNumbers) {
-    if (isNaN(number)) return { errorMsg: createErrorMsg.type(BONUS_NUMBER) };
+    if (isNaN(number)) return exitWithError(createErrorMsg.type(BONUS_NUMBER));
 
     if (winningNumbers.includes(number))
-      return {
-        errorMsg: ERROR_MESSAGE.INCLUDE_WINNING_NUMBER,
-      };
+      return exitWithError(ERROR_MESSAGE.INCLUDE_WINNING_NUMBER);
 
     if (number > LOTTO.MAX_NUMBER || number < LOTTO.MIN_NUMBER)
-      return {
-        errorMsg: createErrorMsg.range(BONUS_NUMBER),
-      };
-
-    return { errorMsg: undefined };
+      return exitWithError(createErrorMsg.range(BONUS_NUMBER));
   },
 };
 
@@ -77,4 +64,4 @@ const createErrorMsg = {
   },
 };
 
-module.exports = checkValue;
+module.exports = Validator;
