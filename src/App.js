@@ -4,6 +4,7 @@ const BonusNumber = require('./BonusNumber');
 const InputView = require('./View/InputView');
 const { Console } = require('@woowacourse/mission-utils');
 const { MESSAGE } = require('./libs/const');
+const OutputView = require('./View/OutputView');
 
 class App {
   constructor() {
@@ -20,8 +21,8 @@ class App {
     InputView.readMoney((money) => {
       this.lottos = new Lottos(money);
 
-      this.lottos.printCount();
-      this.lottos.printList();
+      OutputView.printLottosCount(money);
+      OutputView.printLottos(this.lottos.getLottos());
 
       this.requestWinningNumbers();
     });
@@ -51,15 +52,15 @@ class App {
   }
 
   printWinningStats() {
-    Console.print(MESSAGE.WINNING_STATS);
+    OutputView.printMessage(MESSAGE.WINNING_STATS);
 
     const lottoRanks = this.lottos.getRanks(
       this.winningNumbers.value,
       this.bonusNumber.value
     );
 
-    this.lottos.printWinningDetails(lottoRanks);
-    this.lottos.printRate(lottoRanks);
+    OutputView.printWinningDetails(this.lottos.getWinningDetails(lottoRanks));
+    OutputView.printLottoRate(this.lottos.getLottoRate(lottoRanks));
 
     this.end();
   }

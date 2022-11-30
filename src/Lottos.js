@@ -1,7 +1,8 @@
-const { Console, Random } = require('@woowacourse/mission-utils');
 const Lotto = require('./Lotto');
+const OutputView = require('./View/OutputView');
 const checkValue = require('./libs/checkValue');
 const exitWithError = require('./libs/exitWithError');
+const { Random } = require('@woowacourse/mission-utils');
 const { MONEY, LOTTO, PRIZE, WINNING_DETAIL, PLACE } = require('./libs/const');
 
 class Lottos {
@@ -38,14 +39,16 @@ class Lottos {
     return new Lotto(newNumbers);
   }
 
-  printCount() {
-    Console.print(`\n${this.count}개를 구매했습니다.`);
-  }
+  getLottos() {
+    const lottos = [];
 
-  printList() {
     this.list.forEach((lotto) => {
-      lotto.printNumbers();
+      const lottoNumbers = lotto.getNumbers();
+      console.log(lottoNumbers);
+      lottos.push(lottoNumbers);
     });
+
+    return lottos;
   }
 
   getRanks(winningNumbers, bonusNumber) {
@@ -58,7 +61,7 @@ class Lottos {
     return lottoRanks.filter((rank) => rank <= PLACE.LAST);
   }
 
-  printWinningDetails(lottoRanks) {
+  getWinningDetails(lottoRanks) {
     const winningDetails = [
       WINNING_DETAIL.FIFTH,
       WINNING_DETAIL.FOURTH,
@@ -66,17 +69,18 @@ class Lottos {
       WINNING_DETAIL.SECOND,
       WINNING_DETAIL.FIRST,
     ];
+
     winningDetails.forEach((winningDetail, idx) => {
       const winningCount = this.getWinningCount(lottoRanks, idx);
 
-      Console.print(`${winningDetail} - ${winningCount}개`);
+      winningDetails[idx] = `${winningDetail} - ${winningCount}개`;
     });
+
+    return winningDetails;
   }
 
-  printRate(lottoRanks) {
-    const lottoRate = this.calculateRate(lottoRanks);
-
-    Console.print(`총 수익률은 ${lottoRate}%입니다.`);
+  getLottoRate(lottoRanks) {
+    return this.calculateRate(lottoRanks);
   }
 
   calculateRate(lottoRanks) {

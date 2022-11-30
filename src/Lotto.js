@@ -1,7 +1,6 @@
-const { Console } = require('@woowacourse/mission-utils');
+const { LOTTO_NUMBER, PLACE } = require('./libs/const');
 const checkValue = require('./libs/checkValue');
 const exitWithError = require('./libs/exitWithError');
-const { LOTTO_NUMBER, PLACE } = require('./libs/const');
 
 class Lotto {
   #numbers;
@@ -17,14 +16,10 @@ class Lotto {
     if (errorMsg) exitWithError(errorMsg);
   }
 
-  printNumbers() {
-    this.sortNumbers();
-
-    Console.print(`[${this.#numbers.join(', ')}]`);
-  }
-
-  sortNumbers() {
+  getNumbers() {
     this.#numbers.sort((a, b) => a - b);
+
+    return `[${this.#numbers.join(', ')}]`;
   }
 
   getRank(winningNumbers, bonusNumber) {
