@@ -1,7 +1,7 @@
 const PurchasedLottos = require('./Model/PurchasedLottos');
 const InputView = require('./View/InputView');
 const OutputView = require('./View/OutputView');
-const Validator = require('./Model/Validator');
+const Validator = require('./libs/Validator');
 const { Console } = require('@woowacourse/mission-utils');
 const { MESSAGE, WINNING_NUMBER } = require('./libs/const');
 

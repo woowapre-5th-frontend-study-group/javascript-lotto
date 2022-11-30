@@ -1,6 +1,4 @@
 const Lotto = require('./Lotto');
-const checkValue = require('../libs/checkValue');
-const exitWithError = require('../libs/exitWithError');
 const { Random } = require('@woowacourse/mission-utils');
 const { MONEY, LOTTO, PRIZE, WINNING_DETAIL, PLACE } = require('../libs/const');
 

@@ -1,11 +1,11 @@
-const exitWithError = require('../libs/exitWithError');
+const exitWithError = require('./exitWithError');
 const {
   ERROR_MESSAGE,
   BONUS_NUMBER,
   PURCHASE_MONEY,
   MONEY,
   LOTTO,
-} = require('../libs/const');
+} = require('./const');
 
 const Validator = {
   money(money) {
