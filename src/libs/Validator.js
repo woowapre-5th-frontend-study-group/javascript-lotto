@@ -9,50 +9,85 @@ const {
 
 const Validator = {
   money(money) {
-    if (isNaN(money))
-      return Quit.withErrorMessage(createErrorMsg.type(PURCHASE_MONEY));
+    this.checkNumberType(money);
 
+    this.checkMoneyRange(money);
+
+    this.checkMoneyUnit(money);
+  },
+
+  numbers(numbers, name) {
+    this.checkNumbersType(numbers, name);
+
+    this.checkNumbersLength(numbers, name);
+
+    this.checkNumbersOverlap(numbers, name);
+
+    this.checkNumbersRange(numbers, name);
+  },
+
+  bonusNumber(number, winningNumbers) {
+    this.checkNumberType(number);
+
+    this.checkOverlapWithWinningNumbers(number, winningNumbers);
+
+    this.checkBonusNumberRange(number);
+  },
+
+  checkNumberType(money) {
+    if (Number.isNaN(money))
+      return Quit.withErrorMessage(createErrorMsg.type(PURCHASE_MONEY));
+  },
+
+  checkMoneyRange(money) {
     if (money < MONEY.MIN)
       return Quit.withErrorMessage(ERROR_MESSAGE.MIN_MONEY);
+  },
 
+  checkMoneyUnit(money) {
     if (money % MONEY.UNIT)
       return Quit.withErrorMessage(ERROR_MESSAGE.UNIT_MONEY);
   },
 
-  numbers(numbers, name) {
-    if (!isNumberType(numbers))
+  checkNumbersType(numbers, name) {
+    if (!this.isNumberType(numbers))
       return Quit.withErrorMessage(createErrorMsg.type(name));
+  },
 
-    if (
-      numbers.length !== LOTTO.NUMBERS_COUNT ||
-      [...new Set(numbers)].length !== LOTTO.NUMBERS_COUNT
-    )
+  checkNumbersLength(numbers, name) {
+    if (numbers.length !== LOTTO.NUMBERS_COUNT)
       return Quit.withErrorMessage(createErrorMsg.length(name));
+  },
 
-    if (!isCorrectRange(numbers))
+  checkNumbersOverlap(numbers, name) {
+    if ([...new Set(numbers)].length !== LOTTO.NUMBERS_COUNT)
+      return Quit.withErrorMessage(createErrorMsg.overlap(name));
+  },
+
+  checkNumbersRange(numbers, name) {
+    if (!this.isCorrectRange(numbers))
       return Quit.withErrorMessage(createErrorMsg.range(name));
   },
 
-  bonusNumber(number, winningNumbers) {
-    if (isNaN(number))
-      return Quit.withErrorMessage(createErrorMsg.type(BONUS_NUMBER));
-
+  checkOverlapWithWinningNumbers(number, winningNumbers) {
     if (winningNumbers.includes(number))
       return Quit.withErrorMessage(ERROR_MESSAGE.INCLUDE_WINNING_NUMBER);
+  },
 
+  checkBonusNumberRange(number) {
     if (number > LOTTO.MAX_NUMBER || number < LOTTO.MIN_NUMBER)
       return Quit.withErrorMessage(createErrorMsg.range(BONUS_NUMBER));
   },
-};
 
-const isNumberType = (numbers) => {
-  return numbers.every((number) => !isNaN(number));
-};
+  isNumberType(numbers) {
+    return numbers.every((number) => !Number.isNaN(number));
+  },
 
-const isCorrectRange = (numbers) => {
-  return numbers.every(
-    (number) => number <= LOTTO.MAX_NUMBER && number >= LOTTO.MIN_NUMBER
-  );
+  isCorrectRange(numbers) {
+    return numbers.every(
+      (number) => number <= LOTTO.MAX_NUMBER && number >= LOTTO.MIN_NUMBER
+    );
+  },
 };
 
 const createErrorMsg = {
@@ -65,7 +100,11 @@ const createErrorMsg = {
   },
 
   length: (name) => {
-    return `[ERROR] ${name}: 중복되지 않은 ${LOTTO.NUMBERS_COUNT}개의 숫자로 이루어져야 합니다.`;
+    return `[ERROR] ${name}: ${LOTTO.NUMBERS_COUNT}개의 숫자로 이루어져야 합니다.`;
+  },
+
+  overlap: (name) => {
+    return `[ERROR] ${name}: 중복되지 않는 숫자로 이루어져야 합니다.`;
   },
 };
 

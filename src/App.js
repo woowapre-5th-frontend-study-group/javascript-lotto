@@ -18,6 +18,8 @@ class App {
 
   requestMoney() {
     InputView.readMoney((money) => {
+      money = Number(money);
+
       Validator.money(money);
 
       this.lottos = new PurchasedLottos(money);
