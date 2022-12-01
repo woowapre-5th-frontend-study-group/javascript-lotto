@@ -87,8 +87,26 @@ class PurchasedLottos {
     }, 0);
 
     const purchaseMoney = this.calculateCount() * MONEY.UNIT;
+    return this.setNumberDigits(
+      String(((finalPrize / purchaseMoney) * 100).toFixed(1))
+    );
+  }
 
-    return ((finalPrize / purchaseMoney) * 100).toFixed(1);
+  setNumberDigits(rate) {
+    const integer = rate.slice(0, -2).split('').reverse();
+    const decimal = rate.slice(-2);
+
+    let newInteger = [];
+    integer.forEach((num, idx) => {
+      newInteger.push(num);
+      if (this.isPutComma(integer, idx)) newInteger.push(',');
+    });
+
+    return newInteger.reverse().join('') + decimal;
+  }
+
+  isPutComma(integer, idx) {
+    return idx !== integer.length - 1 && (idx + 1) % 3 === 0;
   }
 
   getWinningCount(lottoRanks, idx) {
