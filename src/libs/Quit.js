@@ -1,4 +1,5 @@
 const { Console } = require('@woowacourse/mission-utils');
+const { ERROR_HEADING } = require('./const');
 
 const Quit = {
   application() {
@@ -8,7 +9,7 @@ const Quit = {
   withErrorMessage(errorMsg) {
     Console.close();
 
-    throw new Error(errorMsg);
+    throw new Error(`${ERROR_HEADING} ${errorMsg}`);
   },
 };
 

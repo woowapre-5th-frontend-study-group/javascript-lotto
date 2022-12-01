@@ -1,8 +1,9 @@
+const ERROR_HEADING = '[ERROR]';
+
 const ERROR_MESSAGE = {
-  MIN_MONEY: '[ERROR] 구입금액: 1000 이상 입력할 수 있습니다.',
-  UNIT_MONEY: '[ERROR] 구입금액: 1000 단위로 로또를 구입해야 합니다.',
-  INCLUDE_WINNING_NUMBER:
-    '[ERROR] 보너스 번호: 이미 당첨 번호에 포함되어 있습니다.',
+  MIN_MONEY: '구입금액: 1000 이상 입력할 수 있습니다.',
+  UNIT_MONEY: '구입금액: 1000 단위로 로또를 구입해야 합니다.',
+  INCLUDE_WINNING_NUMBER: '보너스 번호: 이미 당첨 번호에 포함되어 있습니다.',
 };
 
 const MESSAGE = {
@@ -51,6 +52,7 @@ const WINNING_NUMBER = '당첨 번호';
 const BONUS_NUMBER = '보너스 번호';
 
 module.exports = {
+  ERROR_HEADING,
   ERROR_MESSAGE,
   MESSAGE,
   MONEY,
