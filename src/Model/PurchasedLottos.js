@@ -3,8 +3,25 @@ const { Random } = require('@woowacourse/mission-utils');
 const { MONEY, LOTTO, PRIZE, WINNING_DETAIL, PLACE } = require('../libs/const');
 
 class PurchasedLottos {
+  #winningPhrases = [
+    WINNING_DETAIL.FIFTH,
+    WINNING_DETAIL.FOURTH,
+    WINNING_DETAIL.THIRD,
+    WINNING_DETAIL.SECOND,
+    WINNING_DETAIL.FIRST,
+  ];
+
+  #lottoPrizes = [
+    PRIZE.FIFTH,
+    PRIZE.FOURTH,
+    PRIZE.THIRD,
+    PRIZE.SECOND,
+    PRIZE.FIRST,
+  ];
+
   constructor(money) {
     this.list = [];
+
     this.publish(money);
   }
 
@@ -48,18 +65,11 @@ class PurchasedLottos {
   }
 
   getWinningDetails(lottoRanks) {
-    const winningDetails = [
-      WINNING_DETAIL.FIFTH,
-      WINNING_DETAIL.FOURTH,
-      WINNING_DETAIL.THIRD,
-      WINNING_DETAIL.SECOND,
-      WINNING_DETAIL.FIRST,
-    ];
-
-    winningDetails.forEach((winningDetail, idx) => {
+    const winningDetails = [];
+    this.#winningPhrases.forEach((winningDetail, idx) => {
       const winningCount = this.getWinningCount(lottoRanks, idx);
 
-      winningDetails[idx] = `${winningDetail} - ${winningCount}개`;
+      winningDetails.push(`${winningDetail} - ${winningCount}개`);
     });
 
     return winningDetails;
@@ -70,14 +80,7 @@ class PurchasedLottos {
   }
 
   calculateRate(lottoRanks) {
-    const lottePrizes = [
-      PRIZE.FIFTH,
-      PRIZE.FOURTH,
-      PRIZE.THIRD,
-      PRIZE.SECOND,
-      PRIZE.FIRST,
-    ];
-    const finalPrize = lottePrizes.reduce((acc, cur, idx) => {
+    const finalPrize = this.#lottoPrizes.reduce((acc, cur, idx) => {
       const winningCount = this.getWinningCount(lottoRanks, idx);
 
       return acc + cur * winningCount;
