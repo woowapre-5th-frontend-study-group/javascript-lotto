@@ -1,7 +1,7 @@
 const { Random } = require('@woowacourse/mission-utils');
 const Lotto = require('./Lotto');
 
-class PurchasedLottos {
+class PlayerLottos {
   #list = [];
 
   constructor(money) {
@@ -41,4 +41,4 @@ class PurchasedLottos {
   }
 }
 
-module.exports = PurchasedLottos;
+module.exports = PlayerLottos;

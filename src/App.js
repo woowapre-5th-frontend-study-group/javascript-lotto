@@ -1,10 +1,10 @@
 const validation = require('./libs/validation');
-const PurchasedLottos = require('./models/PurchasedLottos');
+const PlayerLottos = require('./models/PlayerLottos');
 const InputView = require('./views/InputView');
 const OutputView = require('./views/OutputView');
 
 class App {
-  #purchasedLottos;
+  #playerLottos;
   #winningNumbers;
   #bonusNumber;
 
@@ -19,15 +19,15 @@ class App {
   handleReadMoney(money) {
     validation.money(money);
 
-    this.#purchasedLottos = new PurchasedLottos(money);
+    this.#playerLottos = new PlayerLottos(money);
 
     this.actionAboutRequestMoney();
   }
 
   actionAboutRequestMoney() {
     OutputView.printPurchasedLottos(
-      this.#purchasedLottos.getCount(),
-      this.#purchasedLottos.getLottosNumbers()
+      this.#playerLottos.getCount(),
+      this.#playerLottos.getLottosNumbers()
     );
 
     this.requestWinningNumbers();
@@ -63,12 +63,12 @@ class App {
   }
 
   printPurchasedLottosResult() {
-    const lottoResult = this.#purchasedLottos.getResult(
+    const lottoResult = this.#playerLottos.getResult(
       this.#winningNumbers,
       this.#bonusNumber
     );
 
-    OutputView.printReuslt(lottoResult, this.#purchasedLottos.getCount());
+    OutputView.printReuslt(lottoResult, this.#playerLottos.getCount());
   }
 }
 
