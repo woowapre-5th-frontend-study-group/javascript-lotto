@@ -1,13 +1,13 @@
 //입력 메시지
 const INPUT_MESSAGE = {
     PURCHASE: "구입금액을 입력해 주세요.",
-    ANSWER: "당첨 번호를 입력해 주세요.",
+    GUESS: "당첨 번호를 입력해 주세요.",
     BONUS: "보너스 번호를 입력해 주세요."
 }
 
 //출력 메시지
 const PURCHASE_RESULT_MESSAGE = '개를 구매했습니다.\n';
-const GAME_STATISTICS = '당첨 통계\n---\n';
+const GAME_STATISTICS = '\n당첨 통계\n---\n';
 
 //에러 메시지
 const BASE_MESSAGE = "[ERROR] ";

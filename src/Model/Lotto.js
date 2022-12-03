@@ -1,18 +1,20 @@
 class Lotto {
-  #numbers;
-
-  constructor(numbers) {
-    this.validate(numbers);
-    this.#numbers = numbers;
-  }
-
-  validate(numbers) {
-    if (numbers.length !== 6) {
-      throw new Error("[ERROR] 로또 번호는 6개여야 합니다.");
+    //#numbers;
+    //prefix 안됨..ㅜㅜ bonus도 prefix로!
+    constructor(numbers) {
+        //validation 다른 파일에서... 
+        //this.#numbers = numbers;
+        this.guessNums = numbers;
+        this.bonus = 0;
     }
-  }
+    getGuess() {
 
-  // TODO: 추가 기능 구현
+    }
+    getBonus() {
+
+    }
+
+
 }
 
 module.exports = Lotto;
