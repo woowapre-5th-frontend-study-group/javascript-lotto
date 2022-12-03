@@ -8,6 +8,7 @@ const OutputView = {
     '5개 일치, 보너스 볼 일치 (30,000,000원)',
     '6개 일치 (2,000,000,000원)',
   ],
+
   lottoPrizes: [5000, 50000, 1500000, 30000000, 2000000000],
 
   printPurchasedLottos(lottosCount, lottosNumbers) {
