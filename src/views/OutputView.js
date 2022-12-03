@@ -11,16 +11,16 @@ const OutputView = {
 
   lottoPrizes: [5000, 50000, 1500000, 30000000, 2000000000],
 
-  printPurchasedLottos(lottosCount, lottosNumbers) {
-    this.printPurchasedLottosCount(lottosCount);
-    this.printPurchasedLottosNumbers(lottosNumbers);
+  printPlayerLottos(lottosCount, lottosNumbers) {
+    this.printPlayerLottosCount(lottosCount);
+    this.printPlayerLottosNumbers(lottosNumbers);
   },
 
-  printPurchasedLottosCount(lottosCount) {
+  printPlayerLottosCount(lottosCount) {
     Console.print(`\n${lottosCount}개를 구매했습니다.`);
   },
 
-  printPurchasedLottosNumbers(lottosNumbers) {
+  printPlayerLottosNumbers(lottosNumbers) {
     lottosNumbers.forEach((lottoNumbers) => {
       Console.print(lottoNumbers);
     });

@@ -25,7 +25,7 @@ class App {
   }
 
   actionAboutRequestMoney() {
-    OutputView.printPurchasedLottos(
+    OutputView.printPlayerLottos(
       this.#playerLottos.getCount(),
       this.#playerLottos.getLottosNumbers()
     );
@@ -59,10 +59,10 @@ class App {
 
     this.#bonusNumber = bonusNumber;
 
-    this.printPurchasedLottosResult();
+    this.printPlayerLottosResult();
   }
 
-  printPurchasedLottosResult() {
+  printPlayerLottosResult() {
     const lottoResult = this.#playerLottos.getResult(
       this.#winningNumbers,
       this.#bonusNumber
