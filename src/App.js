@@ -23,7 +23,7 @@ class App {
 
     this.#playerLottos = new PlayerLottos(money);
 
-    OutputView.printLottosCount(this.#playerLottos.calculateCount());
+    OutputView.printLottosCount(this.#playerLottos.getCount());
     OutputView.printLottos(this.#playerLottos.getLottos());
 
     this.requestWinningNumbers();
@@ -58,21 +58,16 @@ class App {
 
     this.#bonusNumber = bonusNumber;
 
-    this.printWinningStats();
+    this.printPlayerLottosResult();
   }
 
-  printWinningStats() {
-    OutputView.printMessage(MESSAGE.WINNING_STATS);
-
+  printPlayerLottosResult() {
     const lottoRanks = this.#playerLottos.getRanks(
       this.#winningNumbers,
       this.#bonusNumber
     );
 
-    OutputView.printWinningDetails(
-      this.#playerLottos.getWinningDetails(lottoRanks)
-    );
-    OutputView.printLottoRate(this.#playerLottos.getLottoRate(lottoRanks));
+    OutputView.printLottosResult(lottoRanks, this.#playerLottos.getCount());
 
     Quit.application();
   }
