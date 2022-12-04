@@ -1,9 +1,7 @@
 const PlayerLottos = require('./Model/PlayerLottos');
-const InputView = require('./View/InputView');
-const OutputView = require('./View/OutputView');
 const Validator = require('./libs/Validator');
-const Quit = require('./libs/Quit');
 const { MESSAGE, WINNING_NUMBER } = require('./libs/const');
+const { OutputView, InputView, Quit } = require('./View/IOView');
 
 class App {
   #playerLottos;
@@ -53,7 +51,7 @@ class App {
     );
   }
 
-  handleReadBonusNumber() {
+  handleReadBonusNumber(bonusNumber) {
     bonusNumber = Number(bonusNumber);
 
     Validator.bonusNumber(bonusNumber, this.#winningNumbers);

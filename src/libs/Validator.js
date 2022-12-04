@@ -1,4 +1,4 @@
-const Quit = require('./Quit');
+const { Quit } = require('../View/IOView');
 const {
   ERROR_MESSAGE,
   BONUS_NUMBER,

@@ -1,5 +1,4 @@
 const { Console } = require('@woowacourse/mission-utils');
-const { MONEY } = require('../libs/const');
 
 const OutputView = {
   printMessage(message) {
