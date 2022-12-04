@@ -43,7 +43,6 @@ const PRIZE = {
 const PLACE = {
   FIRST: 1,
   SECOND: 2,
-  LAST: 5,
 };
 
 const PURCHASE_MONEY = '구입금액';

@@ -49,7 +49,7 @@ class PlayerLottos {
       lottoRanks.push(lotto.getRank(winningNumbers, bonusNumber));
     });
 
-    return lottoRanks.filter((rank) => rank <= PLACE.LAST);
+    return lottoRanks;
   }
 }
 

@@ -26,6 +26,8 @@ class Lotto {
       if (winningNumbers.includes(number)) count += 1;
     });
 
+    if (count < 3) return;
+
     if (count === 6) return PLACE.FIRST;
 
     if (count === 5 && this.#numbers.includes(bonusNumber)) return PLACE.SECOND;
