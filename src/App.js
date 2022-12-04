@@ -1,12 +1,16 @@
 const PlayerLottos = require('./Model/PlayerLottos');
 const Validator = require('./libs/Validator');
-const { MESSAGE, WINNING_NUMBER } = require('./libs/const');
+const { WINNING_NUMBER } = require('./libs/const');
 const { OutputView, InputView, Quit } = require('./View/IOView');
 
 class App {
   #playerLottos;
   #winningNumbers;
   #bonusNumber;
+
+  constructor() {
+    this.#playerLottos = new PlayerLottos();
+  }
 
   play() {
     this.requestMoney();
@@ -21,7 +25,7 @@ class App {
 
     Validator.money(money);
 
-    this.#playerLottos = new PlayerLottos(money);
+    this.#playerLottos.publish(money);
 
     OutputView.printLottosCount(this.#playerLottos.getCount());
     OutputView.printLottos(this.#playerLottos.getLottos());

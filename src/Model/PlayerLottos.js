@@ -3,16 +3,16 @@ const { Random } = require('@woowacourse/mission-utils');
 const { MONEY, LOTTO, PLACE } = require('../libs/const');
 
 class PlayerLottos {
-  constructor(money) {
-    this.list = [];
+  #list;
 
-    this.publish(money);
+  constructor() {
+    this.#list = [];
   }
 
   publish(money) {
     for (let num = 0; num < money / MONEY.UNIT; num++) {
       const newLotto = this.createNewLotto();
-      this.list.push(newLotto);
+      this.#list.push(newLotto);
     }
   }
 
@@ -27,13 +27,13 @@ class PlayerLottos {
   }
 
   getCount() {
-    return this.list.length;
+    return this.#list.length;
   }
 
   getLottos() {
     const lottos = [];
 
-    this.list.forEach((lotto) => {
+    this.#list.forEach((lotto) => {
       const lottoNumbers = lotto.getNumbers();
 
       lottos.push(lottoNumbers);
@@ -45,7 +45,7 @@ class PlayerLottos {
   getRanks(winningNumbers, bonusNumber) {
     let lottoRanks = [];
 
-    this.list.forEach((lotto) => {
+    this.#list.forEach((lotto) => {
       lottoRanks.push(lotto.getRank(winningNumbers, bonusNumber));
     });
 
