@@ -2,7 +2,7 @@ const Lotto = require('./Lotto');
 const { Random } = require('@woowacourse/mission-utils');
 const { MONEY, LOTTO, PRIZE, WINNING_DETAIL, PLACE } = require('../libs/const');
 
-class PurchasedLottos {
+class PlayerLottos {
   #winningPhrases = [
     WINNING_DETAIL.FIFTH,
     WINNING_DETAIL.FOURTH,
@@ -118,4 +118,4 @@ class PurchasedLottos {
   }
 }
 
-module.exports = PurchasedLottos;
+module.exports = PlayerLottos;
