@@ -1,8 +1,9 @@
-const LottoController = require("./Controller/LottoController");
+const ControllerHandler = require("./Controller");
 
 class App {
   play() {
-    LottoController.start();
+    ControllerHandler.initializeHandler();
+    ControllerHandler.startService();
   }
 }
 
