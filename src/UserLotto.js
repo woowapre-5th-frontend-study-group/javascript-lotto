@@ -8,7 +8,7 @@ class UserLotto {
   constructor(purchaseAmout) {
     this.validate(purchaseAmout);
     this.purchaseAmout = purchaseAmout;
-    this.getTotalNumbers();
+    this.#setTotalNumbers();
   }
 
   validate(purchaseAmout) {
@@ -20,7 +20,7 @@ class UserLotto {
     return Number(this.purchaseAmout) / LOTTO.PURCHASE_UNIT;
   }
 
-  getTotalNumbers() {
+  #setTotalNumbers() {
     for (let count = 1; count <= this.getCount(); count++) {
       const autoSelectLottoNumber = Random.pickUniqueNumbersInRange(
         LOTTO.NUMBER_RANGE.START,
