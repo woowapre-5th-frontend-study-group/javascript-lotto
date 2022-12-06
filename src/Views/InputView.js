@@ -1,16 +1,20 @@
-const { Console } = require("@woowacourse/mission-utils");
+/** IMPORT UTILS */
+const { Console } = require('@woowacourse/mission-utils');
+
+/** IMPORT CONSTANTS */
+const { QUESTION } = require('../Constants');
 
 const InputView = {
   readUserCache(nextCallback) {
-    Console.readLine("구입금액을 입력해 주세요.\n", nextCallback);
+    Console.readLine(QUESTION.USER_CACHE, nextCallback);
   },
 
   readWinningNumbers(nextCallback) {
-    Console.readLine("당첨 번호를 입력해 주세요.\n", nextCallback);
+    Console.readLine(QUESTION.WINNING_NUMBER, nextCallback);
   },
 
   readBonusNumber(nextCallback) {
-    Console.readLine("보너스 번호를 입력해 주세요.\n", nextCallback);
+    Console.readLine(QUESTION.BONUS_NUMBER, nextCallback);
   },
 };
 

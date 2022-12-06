@@ -1,6 +1,13 @@
-const Validator = require('../Lib/Validator');
+/** IMPORT VIEW */
 const { OutputView } = require('../Views/IOView');
 
+/** IMPORT UTILS */
+const Validator = require('../Lib/Validator');
+
+/** IMPORT CONSTANTS */
+const { LOTTO, VALIDATION } = require('../Constants');
+
+/** 예외 책임 핸들러 */
 const ExceptionHandler = {
   /**
    * 입력받은 금액에 대한 유효성 검사를 진행합니다.
@@ -14,13 +21,13 @@ const ExceptionHandler = {
     try {
       new Validator(userCache)
         .shouldBeNotNull()
-        .withMessage('값을 입력해주세요~')
+        .withMessage(VALIDATION.MESSAGE.NULL)
         .shouldBeNumberic()
-        .withMessage('숫자여야 합니다~')
-        .shouldBeNotUnder(1000)
-        .withMessage('1,000원 이상은 구매하셔야 해요~')
-        .shouldBeDividedBy(1000)
-        .withMessage('1,000원 단위로만 입력해주세요~');
+        .withMessage(VALIDATION.MESSAGE.NOT_NUMBERIC)
+        .shouldBeNotUnder(LOTTO.CAHCE.MINIMUM)
+        .withMessage(VALIDATION.MESSAGE.UNDER_THOUSAND)
+        .shouldBeDividedBy(LOTTO.CAHCE.BASE_UNIT)
+        .withMessage(VALIDATION.MESSAGE.NOT_DIVIDED_THOUSAND);
     } catch (error) {
       OutputView.printError(error);
       return false;
@@ -38,20 +45,22 @@ const ExceptionHandler = {
    * @returns {boolean}
    */
   validateWinningNumbers(winningNumbers) {
+    const { INCLUSIVE_LOWER_NUMBER, INCLUSIVE_UPPER_NUMBER } = LOTTO;
+
     try {
       new Validator(winningNumbers)
         .shouldBeNotNull()
-        .withMessage('값을 입력해주세요~')
+        .withMessage(VALIDATION.MESSAGE.NULL)
         .shouldBeFormatted()
-        .withMessage('숫자와 쉼표(,)로만 입력해주세요~')
-        .shouldBeLength(6)
-        .withMessage('6개의 숫자를 입력해주세용')
+        .withMessage(VALIDATION.MESSAGE.NOT_FORMATTED)
+        .shouldBeLength(LOTTO.NUMBER_COUNT)
+        .withMessage(VALIDATION.MESSAGE.NOT_SIX_LENGTH)
         .shouldBeNumbericArray()
-        .withMessage('숫자가 아닌 번호가 있습니당')
-        .shouldBeInRangeArray(1, 45)
-        .withMessage('1부터 45의 숫자가 아닌 번호가 있습니다.')
+        .withMessage(VALIDATION.MESSAGE.INCLUDED_NOT_NUMBER)
+        .shouldBeInRangeArray(INCLUSIVE_LOWER_NUMBER, INCLUSIVE_UPPER_NUMBER)
+        .withMessage(VALIDATION.MESSAGE.NOT_IN_RANGE_ARRAY)
         .shouldNotDuplicate()
-        .withMessage('중복 없이 입력해주세요');
+        .withMessage(VALIDATION.MESSAGE.HAS_DUPLICATION);
     } catch (error) {
       OutputView.printError(error);
       return false;
@@ -70,16 +79,18 @@ const ExceptionHandler = {
    * @returns {boolean}
    */
   validateBonusNumber(winningNumbers, bonusNumber) {
+    const { INCLUSIVE_LOWER_NUMBER, INCLUSIVE_UPPER_NUMBER } = LOTTO;
+
     try {
       new Validator(bonusNumber)
         .shouldBeNotNull()
-        .withMessage('값을 입력해주세요~')
+        .withMessage(VALIDATION.MESSAGE.NULL)
         .shouldBeNumberic()
-        .withMessage('숫자여야 합니다~')
-        .shouldBeInRange(1, 45)
-        .withMessage('1부터 45의 숫자여야 합니다.')
+        .withMessage(VALIDATION.MESSAGE.NOT_NUMBERIC)
+        .shouldBeInRange(INCLUSIVE_LOWER_NUMBER, INCLUSIVE_UPPER_NUMBER)
+        .withMessage(VALIDATION.MESSAGE.NOT_IN_RANGE)
         .shouldNotInclude(winningNumbers)
-        .withMessage('당첨 번호에 없는 번호여야 합니다.');
+        .withMessage(VALIDATION.MESSAGE.INCLUDED_WINNING_NUMBER);
     } catch (error) {
       OutputView.printError(error);
       return false;

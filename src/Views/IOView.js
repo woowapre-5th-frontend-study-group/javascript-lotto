@@ -1,7 +1,9 @@
-const { Console } = require("@woowacourse/mission-utils");
+/** IMPORT VIEW */
+const InputView = require('./InputView');
+const OutputView = require('./OutputView');
 
-const InputView = require("./InputView");
-const OutputView = require("./OutputView");
+/** IMPORT UTILS */
+const { Console } = require('@woowacourse/mission-utils');
 
 const IOView = {
   InputView,

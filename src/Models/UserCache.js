@@ -1,3 +1,7 @@
+/** IMPORT CONSTANTS */
+const { LOTTO } = require('../Constants');
+
+/** PRIVATE FIELD */
 let _userCache = 0;
 
 const UserCache = {
@@ -10,7 +14,7 @@ const UserCache = {
   },
 
   getCount() {
-    return _userCache / 1000;
+    return _userCache / LOTTO.CAHCE.BASE_UNIT;
   },
 };
 

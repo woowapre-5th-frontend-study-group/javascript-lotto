@@ -1,14 +1,19 @@
-const IOView = require("../Views/IOView");
+/** IMPORT VIEW */
+const IOView = require('../Views/IOView');
 
-const Lotto = require("../Models/Lotto");
-const UserCache = require("../Models/UserCache");
-const UserLottos = require("../Models/UserLottos");
+/** IMPORT MODELS */
+const Lotto = require('../Models/Lotto');
+const UserCache = require('../Models/UserCache');
+const UserLottos = require('../Models/UserLottos');
 
-const ExceptionHandler = require("../Lib/ExceptionHandler");
-const { convertToNumber } = require("../Lib/Utils");
+/** IMPORT UTILS */
+const ExceptionHandler = require('../Lib/ExceptionHandler');
+const { convertToNumber } = require('../Lib/Utils');
 
+/** PUBLISH를 위한 LISTENER */
 let _changeListener = null;
 
+/** 금액을 관리하는 컨트롤러 */
 const UserCacheController = {
   subscribe(callbackFunction) {
     _changeListener = callbackFunction;

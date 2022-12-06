@@ -1,8 +1,12 @@
+/** IMPORT UTILS */
 const { Console } = require('@woowacourse/mission-utils');
+
+/** IMPORT CONSTANTS */
+const CONSTANTS = require('../Constants');
 
 const OutputView = {
   printUserLottoInfo(userLottoCount, userLottos) {
-    Console.print(`${userLottoCount}개를 구매했습니다.`);
+    Console.print(`${userLottoCount}${CONSTANTS.OUTPUT.MESSAGE.LOTTO_COUNT}`);
 
     userLottos.forEach((userLotto) => {
       const userLottoString = userLotto.toString();
@@ -13,31 +17,26 @@ const OutputView = {
   },
 
   printMatchResult(matchResult) {
-    const printMessage = [
-      '당첨 통계',
-      '---',
-      `3개 일치 (5,000원) - ${matchResult['3'] || 0}개`,
-      `4개 일치 (50,000원) - ${matchResult['4'] || 0}개`,
-      `5개 일치 (1,500,000원) - ${matchResult['5'] || 0}개`,
-      `5개 일치, 보너스 볼 일치 (30,000,000원) - ${
-        matchResult['5_bonus'] || 0
-      }개`,
-      `6개 일치 (2,000,000,000원) - ${matchResult['6'] || 0}개`,
-      `총 수익률은 ${matchResult['RateOfReturn']}%입니다.`,
-    ];
+    const printMessage = CONSTANTS.replaceParam(
+      CONSTANTS.OUTPUT.MESSAGE.RESULT,
+      matchResult['3'] || 0,
+      matchResult['4'] || 0,
+      matchResult['5'] || 0,
+      matchResult['5_bonus'] || 0,
+      matchResult['6'] || 0,
+      matchResult['RateOfReturn']
+    );
 
-    printMessage.forEach((message) => {
-      Console.print(message);
-    });
+    Console.print(printMessage);
   },
 
   printError(errorMesassge) {
-    Console.print(`[ERROR] ${errorMesassge}`);
+    Console.print(`${CONSTANTS.ERROR.HEADING} ${errorMesassge}`);
     OutputView.addNewLine();
   },
 
   addNewLine() {
-    Console.print('');
+    Console.print(CONSTANTS.OUTPUT.NULL);
   },
 };
 

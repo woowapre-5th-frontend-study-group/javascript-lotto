@@ -1,9 +1,12 @@
-const IOView = require("../Views/IOView");
+/** IMPORT VIEW */
+const IOView = require('../Views/IOView');
 
-const UserCacheController = require("./UserCacheController");
-const WinningLottoController = require("./WinningLottoController");
-const StatisticsController = require("./StatisticsController");
+/** IMPORT CONTROLLER */
+const UserCacheController = require('./UserCacheController');
+const WinningLottoController = require('./WinningLottoController');
+const StatisticsController = require('./StatisticsController');
 
+/** 컨트롤러를 관리하는 핸들러 */
 const ControllerHandler = {
   initializeHandler() {
     UserCacheController.subscribe(WinningLottoController.start);

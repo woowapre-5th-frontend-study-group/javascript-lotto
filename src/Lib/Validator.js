@@ -1,4 +1,8 @@
+/** IMPORT UTILS */
 const { convertToNumberArray } = require('../Lib/Utils');
+
+/** IMPORT CONSTANTS */
+const { VALIDATION } = require('../Constants');
 
 /**
  *
@@ -21,7 +25,7 @@ function isNumberic(source) {
  * @returns {boolean}
  */
 function isNumbericArray(source) {
-  const numbericArray = source.split(',');
+  const numbericArray = source.split(VALIDATION.DELIMITER);
 
   return numbericArray.every((number) => isNumberic(number));
 }
@@ -32,7 +36,7 @@ function isNumbericArray(source) {
  * @returns {boolean}
  */
 function isNull(source) {
-  return source === '';
+  return source === VALIDATION.NULL;
 }
 
 /**
@@ -76,6 +80,7 @@ function isInRange(source, inclusiveLower, inclusiveUppper) {
   return inclusiveLower <= Number(source) && Number(source) <= inclusiveUppper;
 }
 
+/** 유효성 검사를 하는 클래스 */
 class Validator {
   /** @type {string} */
   #data;
@@ -120,6 +125,11 @@ class Validator {
     return this;
   }
 
+  /**
+   *
+   * @param {number} threshold
+   * @returns
+   */
   shouldBeNotUnder(threshold) {
     if (isUnder(this.#data, threshold)) {
       this.#causeErrorFlag();
@@ -128,6 +138,11 @@ class Validator {
     return this;
   }
 
+  /**
+   *
+   * @param {number} operand
+   * @returns
+   */
   shouldBeDividedBy(operand) {
     if (!canDivide(this.#data, operand)) {
       this.#causeErrorFlag();
@@ -136,14 +151,27 @@ class Validator {
     return this;
   }
 
+  /**
+   *
+   * @param {number} length
+   * @returns
+   */
   shouldBeLength(length) {
-    if (!isLength(this.#data.split(','), length)) {
+    const dataArray = this.#data.split(VALIDATION.DELIMITER);
+
+    if (!isLength(dataArray, length)) {
       this.#causeErrorFlag();
     }
 
     return this;
   }
 
+  /**
+   *
+   * @param {number} inclusiveLower
+   * @param {number} inclusiveUppper
+   * @returns
+   */
   shouldBeInRange(inclusiveLower, inclusiveUppper) {
     if (!isInRange(this.#data, inclusiveLower, inclusiveUppper)) {
       this.#causeErrorFlag();
@@ -152,10 +180,16 @@ class Validator {
     return this;
   }
 
-  shouldBeInRangeArray(inclusiveLower, inclusidveUppper) {
-    const numberArray = this.#data.split(',');
+  /**
+   *
+   * @param {number} inclusiveLower
+   * @param {number} inclusiveUppper
+   * @returns
+   */
+  shouldBeInRangeArray(inclusiveLower, inclusiveUppper) {
+    const numberArray = this.#data.split(VALIDATION.DELIMITER);
     const hasError = numberArray.some(
-      (number) => !isInRange(number, inclusiveLower, inclusidveUppper)
+      (number) => !isInRange(number, inclusiveLower, inclusiveUppper)
     );
 
     if (hasError) {
@@ -166,7 +200,7 @@ class Validator {
   }
 
   shouldBeFormatted() {
-    if (!this.#data.includes(',')) {
+    if (!this.#data.includes(VALIDATION.DELIMITER)) {
       this.#causeErrorFlag();
     }
 
@@ -184,6 +218,11 @@ class Validator {
     return this;
   }
 
+  /**
+   *
+   * @param {Array<T>} array
+   * @returns
+   */
   shouldNotInclude(array) {
     const hasNumber = array.some((number) => number === Number(this.#data));
     if (hasNumber) {
@@ -193,6 +232,11 @@ class Validator {
     return this;
   }
 
+  /**
+   *
+   * @param {string} message
+   * @returns
+   */
   withMessage(message) {
     if (this.#error) {
       throw message;

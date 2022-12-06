@@ -1,12 +1,17 @@
-const IOView = require("../Views/IOView");
+/** IMPORT VIEW */
+const IOView = require('../Views/IOView');
 
-const WinningLotto = require("../Models/WinningLotto");
+/** IMPORT MODELS */
+const WinningLotto = require('../Models/WinningLotto');
 
-const ExceptionHandler = require("../Lib/ExceptionHandler");
-const { convertToNumber, convertToNumberArray } = require("../Lib/Utils");
+/** IMPORT UTILS */
+const ExceptionHandler = require('../Lib/ExceptionHandler');
+const { convertToNumber, convertToNumberArray } = require('../Lib/Utils');
 
+/** PUBLISH를 위한 LISTENER */
 let _changeListener = null;
 
+/** 당첨 로또(당첨 번호, 보너스 번호)를 관리하는 컨트롤러 */
 const WinningLottoController = {
   subscribe(callbackFunction) {
     _changeListener = callbackFunction;
@@ -50,6 +55,7 @@ const WinningLottoController = {
       winningNumbers,
       inputedValue
     );
+
     if (!validateResult) {
       WinningLottoController.questionBonusNumber();
       return;

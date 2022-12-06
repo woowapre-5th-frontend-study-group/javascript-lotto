@@ -1,3 +1,4 @@
+/** PRIVATE FIELD */
 let _userLottos = [];
 
 const UserLottos = {

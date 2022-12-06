@@ -1,5 +1,7 @@
-const Lotto = require("../Models/Lotto");
+/** IMPORT MODELS */
+const Lotto = require('../Models/Lotto');
 
+/** PRIVATE FIELD */
 let _winningNumbers = [];
 let _bonusNumber = null;
 let _winningLotto = null;

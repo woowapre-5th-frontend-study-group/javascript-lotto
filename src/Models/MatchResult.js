@@ -1,3 +1,7 @@
+/** IMPORT CONSTANTS */
+const { LOTTO } = require('../Constants');
+
+/** 결과 도출을 위한 객체 */
 const _resultObject = {};
 
 const MatchResult = {
@@ -7,7 +11,7 @@ const MatchResult = {
 
       if (compareResult === 5) {
         const hasBonusNumber = userLotto.includeNumber(bonusNumber);
-        const newKeyName = `${compareResult}${hasBonusNumber ? "_bonus" : ""}`;
+        const newKeyName = `${compareResult}${hasBonusNumber ? '_bonus' : ''}`;
 
         _resultObject[newKeyName] = _resultObject[newKeyName] + 1 || 1;
         continue;
@@ -20,19 +24,22 @@ const MatchResult = {
   },
 
   calcuateRateOfReturn(userLottoCount) {
-    const allReturn =
-      (_resultObject["3"] || 0) * 5_000 +
-      (_resultObject["4"] || 0) * 50_000 +
-      (_resultObject["5"] || 0) * 1_500_000 +
-      (_resultObject["5_bonus"] || 0) * 30_000_000 +
-      (_resultObject["6"] || 0) * 2_000_000_000;
+    const { FIFTH, FOURTH, THIRD, SECOND, FIRST } = LOTTO.WINNING_PRICE;
+    const { BASE_UNIT } = LOTTO.CAHCE;
 
-    const rateOfReturn = (allReturn / (userLottoCount * 1_000)) * 100;
+    const allReturn =
+      (_resultObject['3'] || 0) * FIFTH +
+      (_resultObject['4'] || 0) * FOURTH +
+      (_resultObject['5'] || 0) * THIRD +
+      (_resultObject['5_bonus'] || 0) * SECOND +
+      (_resultObject['6'] || 0) * FIRST;
+
+    const rateOfReturn = (allReturn / (userLottoCount * BASE_UNIT)) * 100;
     const formatString = rateOfReturn.toLocaleString(undefined, {
       minimumFractionDigits: 2,
     });
 
-    _resultObject["RateOfReturn"] = formatString;
+    _resultObject['RateOfReturn'] = formatString;
   },
 
   getMatchResult() {

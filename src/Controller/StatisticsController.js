@@ -1,11 +1,15 @@
-const IOView = require("../Views/IOView");
+/** IMPORT VIEW */
+const IOView = require('../Views/IOView');
 
-const UserLottos = require("../Models/UserLottos");
-const WinningLotto = require("../Models/WinningLotto");
-const MatchResult = require("../Models/MatchResult");
+/** IMPORT MODELS */
+const UserLottos = require('../Models/UserLottos');
+const WinningLotto = require('../Models/WinningLotto');
+const MatchResult = require('../Models/MatchResult');
 
+/** PUBLISH를 위한 LISTENER */
 let _changeListener = null;
 
+/** 통계를 관리하는 컨트롤러 */
 const StatisticsController = {
   subscribe(callbackFunction) {
     _changeListener = callbackFunction;
