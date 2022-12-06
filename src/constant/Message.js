@@ -1,5 +1,5 @@
 const Message = {
-  inputPurchaseAmout: "구입금액을 입력해주세요.",
+  inputPurchaseAmount: "구입금액을 입력해주세요.\n",
 };
 
 module.exports = Message;
