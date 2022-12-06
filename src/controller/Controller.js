@@ -5,9 +5,14 @@ const OutputView = require("../view/OutputView");
 
 const Bonus = require("../model/Bonus");
 const Lotto = require("../model/Lotto");
+const Stastic = require("../model/Stastic");
 
 class Controller {
-  #lotto;
+  #purchaseAmount;
+  #userLotto = [];
+  #winningLotto;
+  #bonus;
+
   startGame() {
     this.inputPurchaseAmount();
   }
@@ -19,6 +24,7 @@ class Controller {
   printPurchaseQuantity(purchaseAmount) {
     const purchaseQuantity = Calculator.purchaseQuantity(purchaseAmount);
     OutputView.purchaseQuantity(purchaseQuantity);
+    this.#purchaseAmount = purchaseAmount;
 
     this.printUserLotto(purchaseQuantity);
   }
@@ -27,6 +33,8 @@ class Controller {
     //여기서 for문을 쓰는게 맞는지...
     for (let i = 0; i < purchaseQuantity; i++) {
       const lottoNumber = LottoMachine.lottoNumber();
+      this.#userLotto.push(lottoNumber);
+
       OutputView.lottoNumber(lottoNumber);
     }
 
@@ -39,6 +47,7 @@ class Controller {
 
   checkWinningLotto(numbers) {
     new Lotto(numbers);
+    this.#winningLotto = numbers;
 
     this.inputBonusNumber();
   }
@@ -49,6 +58,25 @@ class Controller {
 
   checkBonusNumber(number) {
     new Bonus(number);
+    this.#bonus = number;
+
+    this.getStastic();
+  }
+
+  getStastic() {
+    const stastic = new Stastic();
+
+    const arr = stastic.getCoincidence(
+      this.#userLotto,
+      this.#winningLotto,
+      this.#bonus
+    );
+
+    this.printStastic(arr);
+  }
+
+  printStastic(arr) {
+    OutputView.stastic(arr, 0);
   }
 }
 
