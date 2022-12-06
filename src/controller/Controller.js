@@ -3,9 +3,11 @@ const InputView = require("../view/InputView");
 const LottoMachine = require("../util/LottoMachine");
 const OutputView = require("../view/OutputView");
 
+const Bonus = require("../model/Bonus");
 const Lotto = require("../model/Lotto");
 
 class Controller {
+  #lotto;
   startGame() {
     this.inputPurchaseAmount();
   }
@@ -37,6 +39,16 @@ class Controller {
 
   checkWinningLotto(numbers) {
     new Lotto(numbers);
+
+    this.inputBonusNumber();
+  }
+
+  inputBonusNumber() {
+    InputView.inputBonusNumber(this.checkBonusNumber.bind(this));
+  }
+
+  checkBonusNumber(number) {
+    new Bonus(number);
   }
 }
 

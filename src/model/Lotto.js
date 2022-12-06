@@ -12,7 +12,11 @@ class Lotto {
     }
   }
 
-  // TODO: 추가 기능 구현
+  bonusNumberValidate(number) {
+    if (isNaN(number)) {
+      throw new Error("[ERROR] 보너스 번호는 숫자이어야 합니다.");
+    }
+  }
 }
 
 module.exports = Lotto;
