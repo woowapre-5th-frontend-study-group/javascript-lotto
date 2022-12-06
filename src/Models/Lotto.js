@@ -1,16 +1,11 @@
-const { Random } = require("@woowacourse/mission-utils");
+const { Random } = require('@woowacourse/mission-utils');
 
 class Lotto {
   #number;
 
   constructor(lottoNumbers) {
-    this.validate(lottoNumbers);
     this.#number = lottoNumbers;
     this.#sortNumber();
-  }
-
-  validate(lottoNumbers) {
-    // TODO Validate
   }
 
   #sortNumber() {
@@ -37,7 +32,7 @@ class Lotto {
   }
 
   toString() {
-    return `[${this.#number.join(", ")}]`;
+    return `[${this.#number.join(', ')}]`;
   }
 
   static createRandomLotto() {
