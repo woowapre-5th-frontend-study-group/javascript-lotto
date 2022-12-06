@@ -4,12 +4,10 @@ const Validate = require("./Validate");
 
 class UserLotto {
   purchaseAmout;
-  count;
   totalNumbers = [];
   constructor(purchaseAmout) {
     this.validate(purchaseAmout);
     this.purchaseAmout = purchaseAmout;
-    this.getCount();
     this.getTotalNumbers();
   }
 
@@ -19,11 +17,11 @@ class UserLotto {
   }
 
   getCount() {
-    this.count = Number(this.purchaseAmout) / LOTTO.PURCHASE_UNIT;
+    return Number(this.purchaseAmout) / LOTTO.PURCHASE_UNIT;
   }
 
   getTotalNumbers() {
-    for (let count = 1; count <= this.count; count++) {
+    for (let count = 1; count <= this.getCount(); count++) {
       const autoSelectLottoNumber = Random.pickUniqueNumbersInRange(
         LOTTO.NUMBER_RANGE.START,
         LOTTO.NUMBER_RANGE.END,

@@ -21,7 +21,6 @@ describe("유저 로또 클래스 테스트", () => {
 
   test("로또 구입 금액에 따른 구매 수량", () => {
     const userLotto = new UserLotto("5000");
-    userLotto.getCount();
-    expect(userLotto.count).toBe(5);
+    expect(userLotto.getCount()).toBe(5);
   });
 });

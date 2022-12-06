@@ -13,7 +13,7 @@ class App {
     Console.readLine(ENTER_MESSAGE.PURCHASE_AMOUT, (purchaseAmout) => {
       this.userLotto = new UserLotto(purchaseAmout);
 
-      OutputView.printLottoCount(this.userLotto.count);
+      OutputView.printLottoCount(this.userLotto.getCount());
       OutputView.printLottoNumbers(this.userLotto.totalNumbers);
 
       this.getWinningNumbers();
