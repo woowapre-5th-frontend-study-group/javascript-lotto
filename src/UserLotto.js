@@ -3,11 +3,12 @@ const { LOTTO } = require("./utils/constants");
 const Validate = require("./Validate");
 
 class UserLotto {
-  purchaseAmout;
-  totalNumbers = [];
+  #purchaseAmout;
+  #totalNumbers = [];
+
   constructor(purchaseAmout) {
     this.validate(purchaseAmout);
-    this.purchaseAmout = purchaseAmout;
+    this.#purchaseAmout = purchaseAmout;
     this.#setTotalNumbers();
   }
 
@@ -16,8 +17,16 @@ class UserLotto {
     Validate.isMoneyUnit(purchaseAmout, LOTTO.PURCHASE_UNIT);
   }
 
+  getTotalNumbers() {
+    return this.#totalNumbers;
+  }
+
+  getPurchaseAmout() {
+    return this.#purchaseAmout;
+  }
+
   getCount() {
-    return Number(this.purchaseAmout) / LOTTO.PURCHASE_UNIT;
+    return Number(this.#purchaseAmout) / LOTTO.PURCHASE_UNIT;
   }
 
   #setTotalNumbers() {
@@ -27,7 +36,7 @@ class UserLotto {
         LOTTO.NUMBER_RANGE.END,
         LOTTO.NUMBER_RANGE.COUNT
       );
-      this.totalNumbers.push(autoSelectLottoNumber);
+      this.#totalNumbers.push(autoSelectLottoNumber);
     }
   }
 }

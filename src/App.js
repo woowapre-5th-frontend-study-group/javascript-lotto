@@ -5,16 +5,12 @@ const { ENTER_MESSAGE } = require("./utils/constants");
 const OutputView = require("./view/OutputView");
 
 class App {
-  userLotto;
-  computer;
-  profitRate;
-
   play() {
     Console.readLine(ENTER_MESSAGE.PURCHASE_AMOUT, (purchaseAmout) => {
       this.userLotto = new UserLotto(purchaseAmout);
 
       OutputView.printLottoCount(this.userLotto.getCount());
-      OutputView.printLottoNumbers(this.userLotto.totalNumbers);
+      OutputView.printLottoNumbers(this.userLotto.getTotalNumbers());
 
       this.getWinningNumbers();
     });
@@ -31,11 +27,11 @@ class App {
   getBonusNumber() {
     Console.readLine(ENTER_MESSAGE.BONUS_NUMBER, (bonusNumber) => {
       this.computer.setBonusNumber(bonusNumber);
-      this.computer.getMatchs(this.userLotto.totalNumbers);
+      this.computer.getMatchs(this.userLotto.getTotalNumbers());
 
-      OutputView.printWinningStatistics(this.computer.winningRanking);
+      OutputView.printWinningStatistics(this.computer.getWinningRanking());
       OutputView.printProfitRate(
-        this.userLotto.purchaseAmout,
+        this.userLotto.getPurchaseAmout(),
         this.computer.getTotalRevenue()
       );
 

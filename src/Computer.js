@@ -4,54 +4,57 @@ const { winningRanking } = require("./utils/data");
 const Validate = require("./Validate");
 
 class Computer {
-  winningNumbers;
-  bonusNumber;
-  winningRanking;
+  #winningNumbers;
+  #bonusNumber;
+  #winningRanking = [...winningRanking];
 
   constructor(winningNumbers) {
-    this.winningNumbers = new Lotto(
+    this.#winningNumbers = new Lotto(
       this.changeWinningNumbers(winningNumbers)
     ).getNumber();
-    this.winningRanking = winningRanking;
+  }
+
+  getWinningRanking() {
+    return this.#winningRanking;
   }
 
   setBonusNumber(bonusNumber) {
     Validate.isBonusNumberRange(bonusNumber);
-    Validate.isUniqueBonusNumber(Number(bonusNumber), this.winningNumbers);
-    this.bonusNumber = Number(bonusNumber);
+    Validate.isUniqueBonusNumber(Number(bonusNumber), this.#winningNumbers);
+    this.#bonusNumber = Number(bonusNumber);
   }
 
   changeWinningNumbers(winningNumbers) {
-    return winningNumbers.split(",").map((number) => Number(number));
+    return winningNumbers.split(",").map(Number);
   }
 
   getMatchs(totalUserLottoNumbers) {
     totalUserLottoNumbers.forEach((userLottoNumbers) => {
       const winningNumberMatch = getNumberIntersection(
-        this.winningNumbers,
+        this.#winningNumbers,
         userLottoNumbers
       ).length;
       const minimumWinningNumbersMatch =
-        this.winningRanking[0].winningNumberMatch;
+        this.#winningRanking[0].winningNumberMatch;
       if (winningNumberMatch < minimumWinningNumbersMatch) {
         return;
       }
-      const isBonusNumberMatch = userLottoNumbers.includes(this.bonusNumber);
-      this.getCount({ winningNumberMatch, isBonusNumberMatch });
+      const isBonusNumberMatch = userLottoNumbers.includes(this.#bonusNumber);
+      this.#getCount({ winningNumberMatch, isBonusNumberMatch });
     });
   }
 
-  getCount({ winningNumberMatch, isBonusNumberMatch }) {
-    const rankingIndex = this.winningRanking.findIndex(
+  #getCount({ winningNumberMatch, isBonusNumberMatch }) {
+    const rankingIndex = this.#winningRanking.findIndex(
       (win) =>
         win.winningNumberMatch === winningNumberMatch &&
         win.isBonusNumberMatch === isBonusNumberMatch
     );
-    this.winningRanking[rankingIndex].count += 1;
+    this.#winningRanking[rankingIndex].count += 1;
   }
 
   getTotalRevenue() {
-    return this.winningRanking.reduce((totalRevenue, ranking) => {
+    return this.#winningRanking.reduce((totalRevenue, ranking) => {
       return totalRevenue + ranking.prizeMoney * ranking.count;
     }, 0);
   }
