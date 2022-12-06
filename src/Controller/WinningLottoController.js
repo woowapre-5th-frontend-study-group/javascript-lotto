@@ -45,7 +45,11 @@ const WinningLottoController = {
   },
 
   bonusNumberCallback(inputedValue) {
-    const validateResult = ExceptionHandler.validateBonusNumber(inputedValue);
+    const winningNumbers = WinningLotto.getWinningNumbers();
+    const validateResult = ExceptionHandler.validateBonusNumber(
+      winningNumbers,
+      inputedValue
+    );
     if (!validateResult) {
       WinningLottoController.questionBonusNumber();
       return;
