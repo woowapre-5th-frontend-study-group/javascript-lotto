@@ -3,8 +3,10 @@ const MissionUtils = require("@woowacourse/mission-utils");
 const Message = require("../constant/Message");
 
 const InputView = {
-  inputPrice(fn) {
-    MissionUtils.Console.readLine(Message.inputPrice, (price) => fn(price));
+  inputPurchaseAmout(fn) {
+    MissionUtils.Console.readLine(Message.inputPurchaseAmout, (price) =>
+      fn(price)
+    );
   },
 };
 

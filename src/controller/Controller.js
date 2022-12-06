@@ -1,16 +1,20 @@
+const Calculator = require("../util/Calculator");
 const InputView = require("../view/InputView");
 const OutputView = require("../view/OutputView");
 
 class Controller {
   startGame() {
-    this.inputPrice();
+    this.inputPurchaseAmout();
   }
 
-  inputPrice() {
-    InputView.inputPrice(this.showPurchaseAmount.bind(this));
+  inputPurchaseAmout() {
+    InputView.inputPurchaseAmout(this.printPurchaseQuantity.bind(this));
   }
 
-  showPurchaseAmount() {}
+  printPurchaseQuantity(purchaseAmount) {
+    const purchaseQuantity = Calculator.purchaseQuantity(purchaseAmount);
+    OutputView.purchaseQuantity(purchaseQuantity);
+  }
 }
 
 const controller = new Controller();
