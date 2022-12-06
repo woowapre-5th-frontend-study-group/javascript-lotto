@@ -8,6 +8,12 @@ const InputView = {
       fn(price)
     );
   },
+
+  inputWinningLotto(fn) {
+    MissionUtils.Console.readLine(Message.inputWinningLotto, (string) =>
+      fn(string.split(",").map(Number))
+    );
+  },
 };
 
 module.exports = InputView;

@@ -3,6 +3,8 @@ const InputView = require("../view/InputView");
 const LottoMachine = require("../util/LottoMachine");
 const OutputView = require("../view/OutputView");
 
+const Lotto = require("../model/Lotto");
+
 class Controller {
   startGame() {
     this.inputPurchaseAmount();
@@ -25,6 +27,16 @@ class Controller {
       const lottoNumber = LottoMachine.lottoNumber();
       OutputView.lottoNumber(lottoNumber);
     }
+
+    this.inputWinningLotto();
+  }
+
+  inputWinningLotto() {
+    InputView.inputWinningLotto(this.checkWinningLotto.bind(this));
+  }
+
+  checkWinningLotto(numbers) {
+    new Lotto(numbers);
   }
 }
 
