@@ -1,5 +1,10 @@
+const ControllerHandler = require("./Controller");
+
 class App {
-  play() {}
+  play() {
+    ControllerHandler.initializeHandler();
+    ControllerHandler.startService();
+  }
 }
 
 module.exports = App;
