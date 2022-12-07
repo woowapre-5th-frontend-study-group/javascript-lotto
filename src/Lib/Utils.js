@@ -1,5 +1,5 @@
 /** IMPORT CONSTANTS */
-const { DELIMITER } = require('../Constants');
+const { VALIDATION } = require('../Constants');
 
 /**
  * 숫자 타입으로 형변환합니다.
@@ -18,7 +18,7 @@ function convertToNumber(value) {
  * @returns
  */
 function convertToNumberArray(value) {
-  return value.split(DELIMITER).map(convertToNumber);
+  return value.split(VALIDATION.DELIMITER).map(convertToNumber);
 }
 
 const exportedUtils = {
