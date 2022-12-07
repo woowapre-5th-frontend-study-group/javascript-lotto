@@ -1,142 +1,135 @@
-const { Console } = require('@woowacourse/mission-utils');
-const UserModels = require('../src/UserModels');
-const Lotto = require('../src/Lotto');
-const HandleException = require('../src/HandleException');
-const Validation = require('../src/Validation');
+const ExceptionHandler = require('../src/Lib/ExceptionHandler');
+const Validator = require('../src/Lib/Validator');
 
-describe('UserModels 클래스 테스트', () => {
-    test('싱글톤 패턴이 적용되어 있는가?', () => {
-        const instanceA = new UserModels();
-        const instanceB = new UserModels();
+describe('ExceptionHandler 클래스 테스트', () => {
+  test.each(['', 'a', '500', '1100'])(
+    '금액에 대한 유효성 검사(Expected return: false): validateUserCache(%s)',
+    (param) => {
+      expect(ExceptionHandler.validateUserCache(param)).toBeFalsy();
+    }
+  );
 
-        expect(instanceA === instanceB).toBe(true);
-    });
+  test.each([
+    '',
+    '123456',
+    '1,2,3',
+    'a,1,2,3,4,5',
+    '0,1,2,3,4,5',
+    '1,1,2,3,4,5',
+  ])(
+    '당첨 번호에 대한 유효성 검사(Expected return: false): validateWinningNumbers(%s)',
+    (param) => {
+      expect(ExceptionHandler.validateWinningNumbers(param)).toBeFalsy();
+    }
+  );
 
-    test('userCache가 string으로 들어오면 변환해서 저장', () => {
-        const userModels = new UserModels();
-        userModels.setUserCache('8000');
-
-        expect(userModels.getUserCache()).toBe(8000);
-    });
-
-    test('userWinningLotto의 인자가 Lotto Class가 아니면 값 저장X', () => {
-        const userModels = new UserModels();
-        userModels.setUserWinningLotto('안녕하세요');
-
-        expect(userModels.getUserWinningLotto()).toBe(null);
-
-        const testLotto = new Lotto([1, 2, 3, 4, 5, 6]);
-        userModels.setUserWinningLotto(testLotto);
-        const result = userModels.getUserWinningLotto();
-
-        expect(Object.prototype.toString.call(result)).toBe('[object Lotto]');
-    });
-
-    test('userBonus가 string으로 들어오면 변환해서 저장', () => {
-        const userModels = new UserModels();
-        userModels.setUserBonus('7');
-
-        expect(userModels.getUserBonus()).toBe(7);
-    });
+  test.each(['', 'a', '0', '46', '1'])(
+    '보너스 번호에 대한 유효성 검사(Expected return: false): validateWinningNumbers(%s)',
+    (param) => {
+      expect(
+        ExceptionHandler.validateBonusNumber([1, 2, 3, 4, 5, 6], param)
+      ).toBeFalsy();
+    }
+  );
 });
 
-describe('HandleException 클래스 테스트', () => {
-    test('싱글톤 패턴이 적용되어 있는가?', () => {
-        const instanceA = new HandleException();
-        const instanceB = new HandleException();
+describe('Validator 클래스 테스트', () => {
+  test.each(['', ' ', '\n'])(
+    '빈 값이 아니어야 한다(throw if not): shouldBeNotNull(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldBeNotNull().withMessage('빈값');
+      }).toThrow();
+    }
+  );
 
-        expect(instanceA === instanceB).toBe(true);
-    });
+  test.each(['a', '+', '가'])(
+    '숫자여야 한다(throw if not): shouldBeNumberic(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldBeNumberic().withMessage();
+      }).toThrow();
+    }
+  );
 
-    test('tryValidate에서 invalidation 하다면 메시지 출력 후 예외 발생', () => {
-        const handleException = new HandleException();
+  test.each(['ㅁ,1,2,3,4,5', 'a,b,1,2,3,4', '+,1,a,2,3,4'])(
+    '숫자 어레이여야 한다(throw if not): shouldBeNumbericArray(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldBeNumbericArray().withMessage();
+      }).toThrow();
+    }
+  );
 
-        const logSpy = jest.spyOn(Console, 'print');
+  test.each(['0', '500', '999'])(
+    '1000 이상이여야 한다(throw if not): shouldBeNotUnder(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldBeNotUnder(1000).withMessage();
+      }).toThrow();
+    }
+  );
 
-        expect(() => {
-            handleException.tryValidate('a', 'Cache');
-        }).toThrow('[ERROR]');
+  test.each(['1001', '1100', '8050'])(
+    '1000으로 나뉘어 질 수 있어야 한다(throw if not): shouldBeDividedBy(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldBeDividedBy(1000).withMessage();
+      }).toThrow();
+    }
+  );
 
-        expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('[ERROR]'));
-    });
-});
+  test.each(['1,2,3,4,5', '1,2,3,', '1,2,3,4,5,6,7,8,9'])(
+    '6개여야 한다(throw if not): shouldBeLength(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldBeLength(6).withMessage();
+      }).toThrow();
+    }
+  );
 
-describe('Validation 클래스 테스트', () => {
-    test('싱글톤 패턴이 적용되어 있는가?', () => {
-        const instanceA = new Validation();
-        const instanceB = new Validation();
+  test.each(['0', '46,'])(
+    '1부터 45 사이여야 한다(throw if not): shouldBeInRange(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldBeInRange(1, 45).withMessage();
+      }).toThrow();
+    }
+  );
 
-        expect(instanceA === instanceB).toBe(true);
-    });
+  test.each(['0,1,2,3,4,5', '1,2,3,4,5,46'])(
+    '1부터 45 사이인 어레이여야 한다(throw if not): shouldBeInRangeArray(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldBeInRangeArray(1, 45).withMessage();
+      }).toThrow();
+    }
+  );
 
-    describe('각 입력 단계에서 발생할 수 있는 예외 조건 탐지', () => {
-        describe('금액을 입력할 시', () => {
-            test('숫자가 아닐 시 NOT_NUMBER: true', () => {
-                const myValidation = new Validation();
-                const result = myValidation.getValidateCondition('a', 'Cache');
-                expect(result).toHaveProperty('NOT_NUMBER', true);
-            });
+  test.each(['123456', '1/2/3/4/5/6'])(
+    '형식(,이 들어간)이 맞춰진 입력이여야 한다(throw if not): shouldBeFormatted(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldBeFormatted().withMessage();
+      }).toThrow();
+    }
+  );
 
-            test('로또를 구매할 수 없을 시(1000원 이하 입력) COULD_NOT_BUY: true', () => {
-                const myValidation = new Validation();
-                const result = myValidation.getValidateCondition(800, 'Cache');
-                expect(result).toHaveProperty('COULD_NOT_BUY', true);
-            });
+  test.each(['1,1,2,3,4,5', '1,1,1,1,1,1'])(
+    '중복이 없어야 한다(throw if not): shouldNotDuplicate(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldNotDuplicate().withMessage();
+      }).toThrow();
+    }
+  );
 
-            test('1,000원 단위가 아닐 시 COULD_NOT_BE_DEVIDED_BY_THOUSAND: true', () => {
-                const myValidation = new Validation();
-                const result = myValidation.getValidateCondition(8100, 'Cache');
-                expect(result).toHaveProperty('COULD_NOT_BE_DEVIDED_BY_THOUSAND', true);
-            });
-        });
-
-        describe('당첨 번호를 입력 시', () => {
-            test('6자리가 아닐 시 NOT_SIX_LENGTH: true', () => {
-                const myValidation = new Validation();
-                const result = myValidation.getValidateCondition('1,2,3,4,5', 'WinningLotto');
-                expect(result).toHaveProperty('NOT_SIX_LENGTH', true);
-            });
-
-            test('숫자나 쉼표(,) 이외의 문자가 입력될 시 INCLUDE_NEITHER_NUMBER_NOR_COMMA: true', () => {
-                const myValidation = new Validation();
-                const result = myValidation.getValidateCondition('1,a,2,3,4', 'WinningLotto');
-                expect(result).toHaveProperty('INCLUDE_NEITHER_NUMBER_NOR_COMMA', true);
-            });
-
-            test('1부터 45 사이 숫자가 아닐 시 NOT_RANGE_FROM_ONE_TO_FORTYFIVE: true', () => {
-                const myValidation = new Validation();
-                const result = myValidation.getValidateCondition('1,2,3,4,46', 'WinningLotto');
-                expect(result).toHaveProperty('NOT_RANGE_FROM_ONE_TO_FORTYFIVE', true);
-            });
-
-            test('중복된 숫자가 있을 시 DUPLICATED_NUMBER: true', () => {
-                const myValidation = new Validation();
-                const result = myValidation.getValidateCondition('1,2,3,4,4', 'WinningLotto');
-                expect(result).toHaveProperty('DUPLICATED_NUMBER', true);
-            });
-        });
-
-        describe('보너스 번호를 입력할 시', () => {
-            test('숫자가 아닐 시 NOT_NUMBER: true', () => {
-                const myValidation = new Validation();
-                const result = myValidation.getValidateCondition('a', 'Bonus');
-                expect(result).toHaveProperty('NOT_NUMBER', true);
-            });
-
-            test('1부터 45 사이 숫자가 아닐 시 NOT_RANGE_FROM_ONE_TO_FORTYFIVE: true', () => {
-                const myValidation = new Validation();
-                const result = myValidation.getValidateCondition('46', 'Bonus');
-                expect(result).toHaveProperty('NOT_RANGE_FROM_ONE_TO_FORTYFIVE', true);
-            });
-
-            test('당첨 번호에 있는 숫자일 시 IN_WINNING_NUMBER: true', () => {
-                const myValidation = new Validation();
-                const userModels = new UserModels();
-                userModels.setUserWinningLotto(new Lotto([1, 2, 3, 4, 5, 6]));
-
-                const result = myValidation.getValidateCondition('6', 'Bonus');
-                expect(result).toHaveProperty('IN_WINNING_NUMBER', true);
-            });
-        });
-    });
+  test.each(['1', '2', '3', '4', '5', '6'])(
+    '주어진 어레이의 번호가 없어야 한다(throw if not): shouldNotInclude(%s)',
+    (param) => {
+      expect(() => {
+        new Validator(param).shouldNotInclude([1, 2, 3, 4, 5, 6]).withMessage();
+      }).toThrow();
+    }
+  );
 });
