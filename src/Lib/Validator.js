@@ -101,6 +101,10 @@ class Validator {
     this.#error = true;
   }
 
+  getErrorFlag() {
+    return this.#error;
+  }
+
   shouldBeNotNull() {
     if (isNull(this.#data)) {
       this.#causeErrorFlag();
