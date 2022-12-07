@@ -36,7 +36,7 @@ const MatchResult = {
 
     const rateOfReturn = (allReturn / (userLottoCount * BASE_UNIT)) * 100;
     const formatString = rateOfReturn.toLocaleString(undefined, {
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 1,
     });
 
     _resultObject['RateOfReturn'] = formatString;
