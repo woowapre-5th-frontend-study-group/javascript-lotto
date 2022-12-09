@@ -35,7 +35,8 @@ const Validator = {
   },
 
   checkNumberType(money) {
-    if (Number.isNaN(money))
+    const regExp = /^[0-9]+$/;
+    if (!regExp.test(money))
       return Quit.withErrorMessage(createErrorMsg.type(PURCHASE_MONEY));
   },
 
@@ -80,7 +81,8 @@ const Validator = {
   },
 
   isNumberType(numbers) {
-    return numbers.every((number) => !Number.isNaN(number));
+    const regExp = /^[0-9]+$/;
+    return numbers.every((number) => regExp.test(number));
   },
 
   isCorrectRange(numbers) {

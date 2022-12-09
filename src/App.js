@@ -21,8 +21,6 @@ class App {
   }
 
   handleReadMoney(money) {
-    money = Number(money);
-
     Validator.money(money);
 
     this.#playerLottos.publish(money);
