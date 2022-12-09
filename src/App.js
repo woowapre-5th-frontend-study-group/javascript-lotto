@@ -25,10 +25,13 @@ class App {
 
     this.#playerLottos.publish(money);
 
+    this.printPlayerLottos();
+    this.requestWinningNumbers();
+  }
+
+  printPlayerLottos() {
     OutputView.printLottosCount(this.#playerLottos.getCount());
     OutputView.printLottos(this.#playerLottos.getLottos());
-
-    this.requestWinningNumbers();
   }
 
   requestWinningNumbers() {
