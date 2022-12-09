@@ -31,13 +31,21 @@ class Lotto {
       if (winningNumbers.has(number)) count += 1;
     });
 
+    return this.calRank(count, bonusNumber);
+  }
+
+  calRank(count, bonusNumber) {
     if (count < 3) return;
 
     if (count === 6) return PLACE.FIRST;
 
-    if (count === 5 && this.#numbers.includes(bonusNumber)) return PLACE.SECOND;
+    if (count === 5 && hasBonusNumber(bonusNumber)) return PLACE.SECOND;
 
     return 8 - count;
+  }
+
+  hasBonusNumber(bonusNumber) {
+    return this.#numbers.includes(bonusNumber);
   }
 }
 
