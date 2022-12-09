@@ -31,25 +31,13 @@ class PlayerLottos {
   }
 
   getLottos() {
-    const lottos = [];
-
-    this.#list.forEach((lotto) => {
-      const lottoNumbers = lotto.getNumbers();
-
-      lottos.push(lottoNumbers);
-    });
-
-    return lottos;
+    return this.#list.map((lotto) => lotto.getNumbers());
   }
 
   getRanks(winningNumbers, bonusNumber) {
-    let lottoRanks = [];
-
-    this.#list.forEach((lotto) => {
-      lottoRanks.push(lotto.getRank(winningNumbers, bonusNumber));
-    });
-
-    return lottoRanks;
+    return this.#list.map((lotto) =>
+      lotto.getRank(winningNumbers, bonusNumber)
+    );
   }
 }
 
