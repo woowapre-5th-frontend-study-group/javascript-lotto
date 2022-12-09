@@ -24,10 +24,11 @@ class Lotto {
   }
 
   getRank(winningNumbers, bonusNumber) {
+    winningNumbers = new Set(winningNumbers);
     let count = 0;
 
     this.#numbers.forEach((number) => {
-      if (winningNumbers.includes(number)) count += 1;
+      if (winningNumbers.has(number)) count += 1;
     });
 
     if (count < 3) return;
