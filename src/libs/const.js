@@ -52,6 +52,9 @@ const BONUS_NUMBER = '보너스 번호';
 
 const SEPARATOR = {
   winningNumber: ',',
+  lottoNumber: ', ',
+  lottoStart: '[',
+  lottoEnd: ']',
 };
 
 module.exports = {

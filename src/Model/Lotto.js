@@ -1,4 +1,4 @@
-const { LOTTO_NUMBER, PLACE } = require('../libs/const');
+const { LOTTO_NUMBER, PLACE, SEPARATOR } = require('../libs/const');
 const Validator = require('../libs/Validator');
 
 class Lotto {
@@ -16,7 +16,11 @@ class Lotto {
   getNumbers() {
     this.#numbers.sort((a, b) => a - b);
 
-    return `[${this.#numbers.join(', ')}]`;
+    return (
+      SEPARATOR.lottoStart +
+      this.#numbers.join(SEPARATOR.lottoNumber) +
+      SEPARATOR.lottoEnd
+    );
   }
 
   getRank(winningNumbers, bonusNumber) {
