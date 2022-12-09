@@ -50,6 +50,10 @@ const LOTTO_NUMBER = '로또 번호';
 const WINNING_NUMBER = '당첨 번호';
 const BONUS_NUMBER = '보너스 번호';
 
+const SEPARATOR = {
+  winningNumber: ',',
+};
+
 module.exports = {
   ERROR_HEADING,
   ERROR_MESSAGE,
@@ -63,4 +67,5 @@ module.exports = {
   LOTTO_NUMBER,
   WINNING_NUMBER,
   BONUS_NUMBER,
+  SEPARATOR,
 };

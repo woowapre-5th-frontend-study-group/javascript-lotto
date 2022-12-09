@@ -1,6 +1,6 @@
 const PlayerLottos = require('./Model/PlayerLottos');
 const Validator = require('./libs/Validator');
-const { WINNING_NUMBER } = require('./libs/const');
+const { WINNING_NUMBER, SEPARATOR } = require('./libs/const');
 const { OutputView, InputView, Quit } = require('./View/IOView');
 
 class App {
@@ -41,11 +41,13 @@ class App {
   }
 
   handleWinningNumbers(winningNumbers) {
-    winningNumbers = winningNumbers.split(',').map((item) => Number(item));
+    winningNumbers = winningNumbers.split(SEPARATOR.winningNumber);
 
     Validator.numbers(winningNumbers, WINNING_NUMBER);
 
-    this.#winningNumbers = winningNumbers;
+    this.#winningNumbers = winningNumbers.map((winningNumber) =>
+      Number(winningNumber)
+    );
 
     this.requestBonusNumber();
   }
@@ -57,11 +59,9 @@ class App {
   }
 
   handleReadBonusNumber(bonusNumber) {
-    bonusNumber = Number(bonusNumber);
-
     Validator.bonusNumber(bonusNumber, this.#winningNumbers);
 
-    this.#bonusNumber = bonusNumber;
+    this.#bonusNumber = Number(bonusNumber);
 
     this.printPlayerLottosResult();
   }
