@@ -63,17 +63,21 @@ const OutputView = {
   },
 
   getRate(lottosRank, lottoCount) {
-    const finalPrize = this.lottoPrizes.reduce((acc, cur, idx) => {
-      const winningCount = this.calculateWinningCount(lottosRank, idx);
-
-      return acc + cur * winningCount;
-    }, 0);
+    const finalPrize = this.calculateFinalPrize(lottosRank);
 
     const purchaseMoney = lottoCount * MONEY.UNIT;
 
     return this.setNumberDigits(
       String(((finalPrize / purchaseMoney) * 100).toFixed(1))
     );
+  },
+
+  calculateFinalPrize(lottosRank) {
+    return this.lottoPrizes.reduce((acc, cur, idx) => {
+      const winningCount = this.calculateWinningCount(lottosRank, idx);
+
+      return acc + cur * winningCount;
+    }, 0);
   },
 
   setNumberDigits(rate) {
