@@ -39,7 +39,7 @@ class Lotto {
 
     if (count === 6) return PLACE.FIRST;
 
-    if (count === 5 && hasBonusNumber(bonusNumber)) return PLACE.SECOND;
+    if (count === 5 && this.hasBonusNumber(bonusNumber)) return PLACE.SECOND;
 
     return 8 - count;
   }

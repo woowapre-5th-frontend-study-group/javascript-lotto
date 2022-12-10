@@ -93,19 +93,19 @@ const Validator = {
 };
 
 const createErrorMsg = {
-  range: (name) => {
+  range(name) {
     return `${name}: ${LOTTO.MIN_NUMBER}~${LOTTO.MAX_NUMBER} 사이의 값만 입력할 수 있습니다.`;
   },
 
-  type: (name) => {
+  type(name) {
     return `${name}: 숫자만 입력할 수 있습니다.`;
   },
 
-  length: (name) => {
+  length(name) {
     return `${name}: ${LOTTO.NUMBERS_COUNT}개의 숫자로 이루어져야 합니다.`;
   },
 
-  overlap: (name) => {
+  overlap(name) {
     return `${name}: 중복되지 않는 숫자로 이루어져야 합니다.`;
   },
 };
