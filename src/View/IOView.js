@@ -1,7 +1,7 @@
 const InputView = require('./InputView');
 const OutputView = require('./OutputView');
+const errorHandler = require('../libs/errorHandler');
 const { Console } = require('@woowacourse/mission-utils');
-const { ERROR_HEADING } = require('../libs/const');
 
 const IOView = {
   InputView,
@@ -15,7 +15,7 @@ const IOView = {
     withErrorMessage(errorMsg) {
       Console.close();
 
-      throw new Error(`${ERROR_HEADING} ${errorMsg}`);
+      errorHandler(errorMsg);
     },
   },
 };
