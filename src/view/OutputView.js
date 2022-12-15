@@ -8,6 +8,12 @@ const OutputView = {
   printPurchaseQuantity(quantity) {
     MissionUtils.Console.print(`${quantity}개를 구매했습니다.`);
   },
+
+  printIssuedLottos(lottos) {
+    lottos.forEach((lotto) => {
+      MissionUtils.Console.print(lotto);
+    });
+  },
 };
 
 module.exports = OutputView;

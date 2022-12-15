@@ -22,6 +22,13 @@ class App {
 
     OutputView.printEmptyLine();
     OutputView.printPurchaseQuantity(purchaseQuantity);
+    this.printIssuedLottos(purchaseQuantity);
+  }
+
+  printIssuedLottos() {
+    const issuedLottos = this.#lottoMachine.makeLottos();
+
+    OutputView.printIssuedLottos(issuedLottos);
   }
 }
 
