@@ -1,3 +1,4 @@
+const Bonus = require("./Bonus");
 const Lotto = require("./Lotto");
 const LottoMachine = require("./LottoMachine");
 
@@ -7,6 +8,7 @@ const OutputView = require("./view/OutputView");
 class App {
   #lottoMachine;
   #winningLottoManager;
+  #bonusNumberManager;
 
   play() {
     this.readPurchaseAmount();
@@ -40,6 +42,18 @@ class App {
 
   validateWinningLotto(numbers) {
     this.#winningLottoManager = new Lotto(numbers.split(","));
+
+    OutputView.printEmptyLine();
+
+    this.readBonusNumber();
+  }
+
+  readBonusNumber() {
+    InputView.readBonusNumber(this.validateBonusNumber.bind(this));
+  }
+
+  validateBonusNumber(number) {
+    this.#bonusNumberManager = new Bonus(number);
   }
 }
 
