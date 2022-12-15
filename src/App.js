@@ -6,7 +6,7 @@ const OutputView = require("./view/OutputView");
 
 class App {
   #lottoMachine;
-  #lottoGame;
+  #winningLottoManager;
 
   play() {
     this.readPurchaseAmount();
@@ -29,6 +29,17 @@ class App {
     const issuedLottos = this.#lottoMachine.makeLottos();
 
     OutputView.printIssuedLottos(issuedLottos);
+    OutputView.printEmptyLine();
+
+    this.readWinningLotto();
+  }
+
+  readWinningLotto() {
+    InputView.readWinningLotto(this.validateWinningLotto.bind(this));
+  }
+
+  validateWinningLotto(numbers) {
+    this.#winningLottoManager = new Lotto(numbers.split(","));
   }
 }
 
