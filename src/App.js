@@ -55,7 +55,8 @@ class App {
   }
 
   validateBonusNumber(number) {
-    this.#bonusNumberManager = new Bonus(Number(number));
+    const winningLotto = this.#winningLottoManager.getWinningLotto();
+    this.#bonusNumberManager = new Bonus(Number(number), winningLotto);
 
     OutputView.printEmptyLine();
 
