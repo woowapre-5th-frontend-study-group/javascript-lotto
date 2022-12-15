@@ -6,6 +6,10 @@ class Bonus {
     this.#number = number;
   }
 
+  getBonusNumber() {
+    return this.#number;
+  }
+
   validate(number) {
     if (isNaN(number)) {
       throw new Error("[ERROR] 보너스 번호는 숫자이어야 합니다.");

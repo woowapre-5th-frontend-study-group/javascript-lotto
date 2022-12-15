@@ -1,6 +1,7 @@
 const Bonus = require("./Bonus");
 const Lotto = require("./Lotto");
 const LottoMachine = require("./LottoMachine");
+const Stastic = require("./Stastic");
 
 const InputView = require("./view/InputView");
 const OutputView = require("./view/OutputView");
@@ -9,6 +10,7 @@ class App {
   #lottoMachine;
   #winningLottoManager;
   #bonusNumberManager;
+  #stasticManager;
 
   play() {
     this.readPurchaseAmount();
@@ -28,7 +30,7 @@ class App {
   }
 
   printIssuedLottos() {
-    const issuedLottos = this.#lottoMachine.makeLottos();
+    const issuedLottos = this.#lottoMachine.getIssuedLottos();
 
     OutputView.printIssuedLottos(issuedLottos);
     OutputView.printEmptyLine();
@@ -41,7 +43,7 @@ class App {
   }
 
   validateWinningLotto(numbers) {
-    this.#winningLottoManager = new Lotto(numbers.split(","));
+    this.#winningLottoManager = new Lotto(numbers.split(",").map(Number));
 
     OutputView.printEmptyLine();
 
@@ -53,7 +55,29 @@ class App {
   }
 
   validateBonusNumber(number) {
-    this.#bonusNumberManager = new Bonus(number);
+    this.#bonusNumberManager = new Bonus(Number(number));
+
+    OutputView.printEmptyLine();
+
+    this.makeStastic();
+  }
+
+  makeStastic() {
+    const issuedLottos = this.#lottoMachine.getIssuedLottos();
+    const winningLotto = this.#winningLottoManager.getWinningLotto();
+    const bonusNumber = this.#bonusNumberManager.getBonusNumber();
+    const purchaseAmount = this.#lottoMachine.money;
+
+    this.#stasticManager = new Stastic(issuedLottos, winningLotto, bonusNumber);
+
+    const winnerData = this.#stasticManager.getWinnerData();
+    const returnRate = this.#stasticManager.getReturnRate(purchaseAmount);
+
+    this.printStastic(winnerData, returnRate);
+  }
+
+  printStastic(winnerData, returnRate) {
+    OutputView.printStastic(winnerData, returnRate);
   }
 }
 

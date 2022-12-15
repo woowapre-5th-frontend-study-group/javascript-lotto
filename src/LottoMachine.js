@@ -1,8 +1,16 @@
 const MissionUtils = require("@woowacourse/mission-utils");
 
 class LottoMachine {
+  #issuedLottos;
+
   constructor(money) {
+    this.money = money;
     this.quantity = this.getQuantity(money);
+    this.#issuedLottos = this.makeLottos();
+  }
+
+  getIssuedLottos() {
+    return this.#issuedLottos;
   }
 
   getQuantity(money) {
