@@ -8,14 +8,14 @@ class Stastic {
   };
 
   constructor(issuedLottos, winningLotto, bonusNumber) {
-    this.matchData = this.getMatchData(issuedLottos, winningLotto, bonusNumber);
+    this.makeMatchData(issuedLottos, winningLotto, bonusNumber);
   }
 
   getWinnerData() {
     return this.#winnerData;
   }
 
-  getMatchData(issuedLottos, winningLotto, bonusNumber) {
+  makeMatchData(issuedLottos, winningLotto, bonusNumber) {
     issuedLottos.forEach((issuedLotto) => {
       let winningLottoMatchCount = this.getMatchCount(
         issuedLotto,
