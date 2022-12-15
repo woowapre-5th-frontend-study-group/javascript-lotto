@@ -4,9 +4,22 @@ class LottoMachine {
   #issuedLottos;
 
   constructor(money) {
+    this.validate(money);
     this.money = money;
     this.quantity = this.getQuantity(money);
     this.#issuedLottos = this.makeLottos();
+  }
+
+  validate(money) {
+    if (isNaN(money)) {
+      throw new Error("[ERROR] 구매 금액은 숫자이어야 합니다.");
+    }
+    if (money < 1000) {
+      throw new Error("[ERROR] 구매 금액은 1000원 이상이어야 합니다.");
+    }
+    if (money % 1000) {
+      throw new Error("[ERROR] 구매 금액의 단위는 1000원입니다.");
+    }
   }
 
   getIssuedLottos() {
