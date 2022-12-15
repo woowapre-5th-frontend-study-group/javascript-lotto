@@ -63,17 +63,25 @@ class App {
   }
 
   makeStastic() {
+    const winnerData = this.getWinnerData();
+    const returnRate = this.getReturnRate();
+
+    this.printStastic(winnerData, returnRate);
+  }
+  getWinnerData() {
     const issuedLottos = this.#lottoMachine.getIssuedLottos();
     const winningLotto = this.#winningLottoManager.getWinningLotto();
     const bonusNumber = this.#bonusNumberManager.getBonusNumber();
-    const purchaseAmount = this.#lottoMachine.money;
-
     this.#stasticManager = new Stastic(issuedLottos, winningLotto, bonusNumber);
-
     const winnerData = this.#stasticManager.getWinnerData();
+
+    return winnerData;
+  }
+  getReturnRate() {
+    const purchaseAmount = this.#lottoMachine.money;
     const returnRate = this.#stasticManager.getReturnRate(purchaseAmount);
 
-    this.printStastic(winnerData, returnRate);
+    return returnRate;
   }
 
   printStastic(winnerData, returnRate) {
