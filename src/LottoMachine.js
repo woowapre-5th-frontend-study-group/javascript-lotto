@@ -1,12 +1,14 @@
 const MissionUtils = require("@woowacourse/mission-utils");
 
 class LottoMachine {
+  #purchaseAmount;
   #issuedLottos;
+  #quantity;
 
   constructor(money) {
     this.validate(money);
-    this.money = money;
-    this.quantity = this.getQuantity(money);
+    this.#purchaseAmount = money;
+    this.#quantity = this.computeQuantity(money);
     this.#issuedLottos = this.makeLottos();
   }
 
@@ -22,18 +24,26 @@ class LottoMachine {
     }
   }
 
+  getPurchaseAmount() {
+    return this.#purchaseAmount;
+  }
+
   getIssuedLottos() {
     return this.#issuedLottos;
   }
 
-  getQuantity(money) {
-    const quantity = money / 1000;
+  getQuantity() {
+    return this.#quantity;
+  }
+
+  computeQuantity() {
+    const quantity = this.#purchaseAmount / 1000;
     return quantity;
   }
 
   makeLottos() {
     let lottos = [];
-    for (let i = 0; i < this.quantity; i++) {
+    for (let i = 0; i < this.#quantity; i++) {
       const numbers = MissionUtils.Random.pickUniqueNumbersInRange(1, 45, 6);
       numbers.sort((a, b) => a - b);
       lottos.push(numbers);

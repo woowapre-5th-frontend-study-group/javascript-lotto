@@ -1,3 +1,5 @@
+const MissionUtils = require("@woowacourse/mission-utils");
+
 const Bonus = require("./Bonus");
 const Lotto = require("./Lotto");
 const LottoMachine = require("./LottoMachine");
@@ -22,7 +24,7 @@ class App {
 
   printQuantity(money) {
     this.#lottoMachine = new LottoMachine(Number(money));
-    const purchaseQuantity = this.#lottoMachine.quantity;
+    const purchaseQuantity = this.#lottoMachine.getQuantity();
 
     OutputView.printEmptyLine();
     OutputView.printPurchaseQuantity(purchaseQuantity);
@@ -79,7 +81,7 @@ class App {
     return winnerData;
   }
   getReturnRate() {
-    const purchaseAmount = this.#lottoMachine.money;
+    const purchaseAmount = this.#lottoMachine.getPurchaseAmount();
     const returnRate = this.#stasticManager.getReturnRate(purchaseAmount);
 
     return returnRate;
@@ -87,6 +89,12 @@ class App {
 
   printStastic(winnerData, returnRate) {
     OutputView.printStastic(winnerData, returnRate);
+
+    this.quit();
+  }
+
+  quit() {
+    MissionUtils.Console.close();
   }
 }
 
