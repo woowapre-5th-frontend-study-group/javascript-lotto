@@ -1,4 +1,5 @@
-const { PRIZE, getPrize } = require("../utils/constants");
+const { Console } = require("@woowacourse/mission-utils");
+const { PRIZE } = require("../utils/constants");
 const InputView = require("../View/InputView");
 const OutputView = require("../View/OutputView");
 
@@ -36,7 +37,6 @@ class GameController {
     askGuess() {
         InputView.readGuess((guessNums) => {
             let guess = guessNums.split(',');
-            InputValidation.isValidGuess(guess);
             guess = guess.map((number) => parseInt(number));
             this.lotto = new Lotto(guess)
             //console.log(this.lotto.getGuess());
@@ -46,17 +46,20 @@ class GameController {
 
     askBonus(guess) {
         InputView.readBonus((bonus) => {
+            bonus = parseInt(bonus);
             InputValidation.isValidBonus(bonus, guess);
             //console.log(bonus);
-            this.lotto.setBonus(parseInt(bonus));
-            this.showGameResult(guess, parseInt(bonus));
+            this.lotto.setBonus(bonus);
+            this.showGameResult(guess, bonus);
         });
     }
 
     showGameResult(guess) {
         this.compareWithAnswer(guess);
-        OutputView.printGamePrize(this.isBonus, this.rank);
+        OutputView.printGamePrize(this.rank);
         OutputView.printProfitRate(this.getProfit());
+
+        return Console.close();
     }
 
     compareWithAnswer(guessNums) {
@@ -90,7 +93,6 @@ class GameController {
         const profitRate = ((profit / this.inputMoney) * 100).toFixed(1);
         return profitRate; 
     }
-
     
 }
 

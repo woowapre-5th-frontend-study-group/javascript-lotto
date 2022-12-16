@@ -38,6 +38,15 @@ const PRIZE = {
     FIFTH: 5000
 }
 
+const RESULT_MESSAGE = Object.freeze({
+    RANK_FIVE: "3개 일치 (5,000원) - ",
+    RANK_FOUR: "4개 일치 (50,000원) - ",
+    RANK_THREE: "5개 일치 (1,500,000원) - ",
+    RANK_TWO: "5개 일치, 보너스 볼 일치 (30,000,000원) - ",
+    YOU_WIN: "6개 일치 (2,000,000,000원) - "
+});
+
+
 const getPrize = (matchCount, isBonusIncluded) => {
     if(matchCount == 3) return PRIZE.FIFTH;
     if(matchCount == 4) return PRIZE.FOURTH;
@@ -46,4 +55,4 @@ const getPrize = (matchCount, isBonusIncluded) => {
     if(matchCount == 6) return PRIZE.FIRST; 
 }
 
-module.exports = { INPUT_MESSAGE, PURCHASE_RESULT_MESSAGE, GAME_STATISTICS, ERROR_MESSAGE, NUM_RANGE, MONEY_UNIT, PRIZE, getPrize }
+module.exports = { INPUT_MESSAGE, PURCHASE_RESULT_MESSAGE, GAME_STATISTICS, ERROR_MESSAGE, NUM_RANGE, MONEY_UNIT, PRIZE, getPrize, RESULT_MESSAGE }
