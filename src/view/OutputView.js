@@ -11,7 +11,8 @@ const OutputView = {
 
   printIssuedLottos(lottos) {
     lottos.forEach((lotto) => {
-      MissionUtils.Console.print(`[${lotto.join(", ")}]`);
+      // MissionUtils.Console.print(lotto); //[1,2,3,4,5,6]
+      MissionUtils.Console.print(`[${lotto.join(", ")}]`); //[1,2,3,4,5,6]
     });
   },
 
